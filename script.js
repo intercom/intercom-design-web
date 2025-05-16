@@ -10,6 +10,13 @@ import { createModal } from './utils/createModal.js';
 const canvas = document.getElementById('canvas');
 const canvasContainer = document.getElementById('canvas-container');
 
+// Create and append logo
+const logo = document.createElement('img');
+logo.id = 'center-logo';
+logo.src = 'assets/logo/Intercom design.png';
+logo.alt = 'Intercom Design';
+canvas.appendChild(logo);
+
 // Canvas movement variables
 let scrollX = 0;
 let scrollY = 0;
@@ -25,8 +32,8 @@ const cards = [
     // Image Cards
     { 
         type: 'image', 
-        top: '5%', 
-        left: '5%', 
+        top: '0%', 
+        left: '0%', 
         src: 'https://picsum.photos/400/300?random=1', 
         link: 'https://www.intercom.com/design', 
         label: 'DESIGN SYSTEM' 
@@ -61,8 +68,8 @@ const cards = [
         type: 'youtube', 
         top: '12%', 
         left: '22%', 
-        embedId: 'dQw4w9WgXcQ', 
-        label: 'DESIGN TALK' 
+        embedId: 'I8hMPj3AD34',
+        label: 'FEATURED VIDEO' 
     },
     { 
         type: 'youtube', 
@@ -75,14 +82,14 @@ const cards = [
     // Spotify Cards
     { 
         type: 'spotify', 
-        top: '22%', 
+        top: '30%', 
         left: '30%', 
         embedId: 'show/5QhB5qCYiPxbRzaeaN44Bk', 
         label: 'DESIGN PODCAST' 
     },
     { 
         type: 'spotify', 
-        top: '42%', 
+        top: '48%', 
         left: '52%', 
         embedId: 'show/5QhB5qCYiPxbRzaeaN44Bk', 
         label: 'PRODUCT PODCAST' 
@@ -142,6 +149,55 @@ const cards = [
     }
 ];
 
+// Minimap constants
+const scale = 10;
+const canvasWidth = 3600;
+const canvasHeight = 2200;
+
+// Create minimap dots for each card
+function renderMinimapDots() {
+  const minimap = document.getElementById('minimap');
+  // Remove old dots
+  minimap.querySelectorAll('.minimap-dot').forEach(dot => dot.remove());
+
+  cards.forEach(card => {
+    // Parse percentage or pixel values
+    let top = parseFloat(card.top) / 100 * canvasHeight;
+    let left = parseFloat(card.left) / 100 * canvasWidth;
+    // If value is in px, use as is
+    if (card.top && card.top.includes('px')) top = parseFloat(card.top);
+    if (card.left && card.left.includes('px')) left = parseFloat(card.left);
+
+    // Create dot
+    const dot = document.createElement('div');
+    dot.className = 'minimap-dot';
+    dot.style.left = (left / scale - 4) + 'px'; // center dot
+    dot.style.top = (top / scale - 4) + 'px';
+    minimap.appendChild(dot);
+  });
+}
+
+// Update viewport rectangle
+function updateViewportBox() {
+  const viewportBox = document.getElementById('map-viewport');
+  viewportBox.style.width = window.innerWidth / scale + 'px';
+  viewportBox.style.height = window.innerHeight / scale + 'px';
+
+  // Calculate scroll position relative to canvas
+  const scrollLeft = canvasContainer.scrollLeft;
+  const scrollTop = canvasContainer.scrollTop;
+  viewportBox.style.left = scrollLeft / scale + 'px';
+  viewportBox.style.top = scrollTop / scale + 'px';
+}
+
+// Call after cards are initialized
+window.addEventListener('DOMContentLoaded', () => {
+  renderMinimapDots();
+  updateViewportBox();
+});
+window.addEventListener('scroll', updateViewportBox);
+window.addEventListener('resize', updateViewportBox);
+
 // Initialize modal
 const modal = createModal();
 
@@ -184,6 +240,14 @@ function handleScroll() {
     targetX = Math.max(-MAX_MOVEMENT, Math.min(MAX_MOVEMENT, -scrollLeft));
     targetY = Math.max(-MAX_MOVEMENT, Math.min(MAX_MOVEMENT, -scrollTop));
     
+    // Update viewport position in minimap
+    updateViewportBox();
+    
+    // Update logo visibility based on scroll
+    const distance = Math.sqrt(scrollLeft * scrollLeft + scrollTop * scrollTop);
+    const threshold = 100;
+    logo.style.opacity = distance < threshold ? '1' : '0';
+    
     // Start animation if not already running
     if (!isAnimating) {
         isAnimating = true;
@@ -191,11 +255,20 @@ function handleScroll() {
     }
 }
 
+// Easing function for smooth animation
+function easeOutCubic(x) {
+    return 1 - Math.pow(1 - x, 3);
+}
+
 // Animation function
 function animate() {
-    // Smoothly interpolate current position to target position
-    scrollX += (targetX - scrollX) * 0.1;
-    scrollY += (targetY - scrollY) * 0.1;
+    // Calculate progress (0 to 1)
+    const progress = 0.01; // Base speed
+    const easedProgress = easeOutCubic(progress);
+
+    // Smoothly interpolate current position to target position with easing
+    scrollX += (targetX - scrollX) * easedProgress;
+    scrollY += (targetY - scrollY) * easedProgress;
 
     // Calculate boundaries
     const minX = Math.min(0, window.innerWidth - 3600);
@@ -233,7 +306,24 @@ function init() {
 
     // Create cards
     initializeCards();
+    
+    // Ensure logo is visible initially
+    logo.style.opacity = '1';
 }
 
 // Start the application
-init(); 
+init();
+
+const recenterBtn = document.getElementById('recenter-btn');
+if (recenterBtn) {
+  recenterBtn.addEventListener('click', () => {
+    // Calculate the center position
+    const centerX = (3600 - window.innerWidth) / 2;
+    const centerY = (2200 - window.innerHeight) / 2;
+    canvasContainer.scrollTo({
+      left: centerX,
+      top: centerY,
+      behavior: 'smooth'
+    });
+  });
+} 

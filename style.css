@@ -82,6 +82,29 @@ body {
     
 }
 
+#logo {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 5.5rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+    color: #000000 !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    text-transform: none !important;
+    pointer-events: auto !important;
+    z-index: -10 !important;
+}
+
+
+#logo a {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+
 /* Modal styles */
 .modal {
     display: none;

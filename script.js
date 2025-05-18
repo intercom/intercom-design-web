@@ -20,8 +20,8 @@ let offsetY = 0;
 let scrollTween = { x: 0, y: 0 };
 
 // Canvas dimensions - now responsive
-const MIN_CANVAS_WIDTH = 3600;
-const MIN_CANVAS_HEIGHT = 2200;
+const MIN_CANVAS_WIDTH = 4320;
+const MIN_CANVAS_HEIGHT = 2640;
 const ASPECT_RATIO = MIN_CANVAS_WIDTH / MIN_CANVAS_HEIGHT;
 
 // Function to calculate responsive canvas dimensions
@@ -54,21 +54,116 @@ function updateCanvasSize() {
 
 // Card data
 const cards = [
-  { type: 'image', top: '0%', left: '0%', src: 'https://picsum.photos/400/300?random=1', link: 'https://www.intercom.com/design', label: 'DESIGN SYSTEM' },
-  { type: 'image', top: '8%', left: '52%', src: 'https://picsum.photos/400/300?random=2', link: 'https://www.intercom.com/blog', label: 'BLOG POST' },
-  { type: 'image', top: '65%', left: '10%', src: 'https://picsum.photos/400/300?random=3', link: 'https://www.intercom.com/careers', label: 'CAREERS' },
-  { type: 'image', top: '75%', left: '82%', src: 'https://picsum.photos/400/300?random=4', link: 'https://www.intercom.com/podcast', label: 'PODCAST' },
-  { type: 'youtube', top: '12%', left: '22%', embedId: 'I8hMPj3AD34', label: 'FEATURED VIDEO' },
-  { type: 'youtube', top: '35%', left: '82%', embedId: 'jNQXAC9IVRw', label: 'PRODUCT WALKTHROUGH' },
-  { type: 'spotify', top: '30%', left: '30%', embedId: 'show/5QhB5qCYiPxbRzaeaN44Bk', label: 'DESIGN PODCAST' },
-  { type: 'spotify', top: '48%', left: '52%', embedId: 'show/5QhB5qCYiPxbRzaeaN44Bk', label: 'PRODUCT PODCAST' },
-  { type: 'text', top: '28%', left: '10%', text: 'DESIGN SYSTEM DOCS', link: 'https://www.intercom.com/design-system' },
-  { type: 'text', top: '55%', left: '62%', text: 'DESIGN BLOG', link: 'https://www.intercom.com/blog/design' },
-  { type: 'text', top: '62%', left: '30%', text: 'FOLLOW US ON TWITTER', link: 'https://twitter.com/intercom' },
-  { type: 'folder', top: '2%', left: '82%', title: 'DESIGN DIGEST', content: 'Our monthly design newsletter...' },
-  { type: 'folder', top: '38%', left: '32%', title: 'CAREERS', content: 'Join our design team!...' },
-  { type: 'folder', top: '30%', left: '63%', title: 'BLOG', content: 'Read our latest articles...' },
-  { type: 'folder', top: '80%', left: '80%', title: 'PODCASTS', content: 'Listen to our podcasts...' }
+  { 
+    type: 'image', 
+    top: '0%', 
+    left: '0%', 
+    src: 'https://picsum.photos/400/300?random=1', 
+    link: 'https://www.intercom.com/design', 
+    label: 'DESIGN SYSTEM' 
+  },
+  { 
+    type: 'image', 
+    top: '8%', 
+    left: '52%', 
+    src: 'https://picsum.photos/400/300?random=2', 
+    link: 'https://www.intercom.com/blog', 
+    label: 'BLOG POST' 
+  },
+  { 
+    type: 'image', 
+    top: '65%', 
+    left: '10%', 
+    src: 'https://picsum.photos/400/300?random=3', 
+    link: 'https://www.intercom.com/careers', 
+    label: 'CAREERS' 
+  },
+  { 
+    type: 'image', 
+    top: '75%', 
+    left: '82%', 
+    src: 'https://picsum.photos/400/300?random=4', 
+    link: 'https://www.intercom.com/podcast', 
+    label: 'PODCAST' 
+  },
+  { 
+    type: 'youtube', 
+    top: '12%', 
+    left: '22%', 
+    embedId: 'I8hMPj3AD34', 
+    label: 'FEATURED VIDEO' 
+  },
+  { 
+    type: 'youtube', 
+    top: '35%', 
+    left: '82%', 
+    embedId: 'jNQXAC9IVRw', 
+    label: 'PRODUCT WALKTHROUGH' 
+  },
+  { 
+    type: 'spotify', 
+    top: '30%', 
+    left: '30%', 
+    embedId: 'show/5QhB5qCYiPxbRzaeaN44Bk', 
+    label: 'DESIGN PODCAST' 
+  },
+  { 
+    type: 'spotify', 
+    top: '48%', 
+    left: '52%', 
+    embedId: 'show/5QhB5qCYiPxbRzaeaN44Bk', 
+    label: 'PRODUCT PODCAST' 
+  },
+  { 
+    type: 'text', 
+    top: '45%', 
+    left: '42%', 
+    text: 'Intercom Design', 
+    link: 'https://www.intercom.com/design-system',
+    id: 'logo' 
+  },
+  { 
+    type: 'text', 
+    top: '55%', 
+    left: '62%', 
+    text: 'DESIGN BLOG', 
+    link: 'https://www.intercom.com/blog/design' 
+  },
+  { 
+    type: 'text', 
+    top: '62%', 
+    left: '30%', 
+    text: 'FOLLOW US ON TWITTER', 
+    link: 'https://twitter.com/intercom' 
+  },
+  { 
+    type: 'folder', 
+    top: '2%', 
+    left: '82%', 
+    title: 'DESIGN DIGEST', 
+    content: 'Our monthly design newsletter...' 
+  },
+  { 
+    type: 'folder', 
+    top: '38%', 
+    left: '32%', 
+    title: 'CAREERS', 
+    content: 'Join our design team!...' 
+  },
+  { 
+    type: 'folder', 
+    top: '30%', 
+    left: '63%', 
+    title: 'BLOG', 
+    content: 'Read our latest articles...' 
+  },
+  { 
+    type: 'folder', 
+    top: '80%', 
+    left: '80%', 
+    title: 'PODCASTS', 
+    content: 'Listen to our podcasts...' 
+  }
 ];
 
 // Initialize minimap
@@ -153,6 +248,8 @@ function initializeCards() {
     if (card) {
       card.style.top = cardData.top;
       card.style.left = cardData.left;
+      if (cardData.id) card.id = cardData.id; // if the card has an id, set it
+
       canvas.appendChild(card);
     }
   });

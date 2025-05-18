@@ -19,9 +19,38 @@ let offsetY = 0;
 // Track latest scroll targets
 let scrollTween = { x: 0, y: 0 };
 
-// Canvas dimensions
-const CANVAS_WIDTH = 3600;
-const CANVAS_HEIGHT = 2200;
+// Canvas dimensions - now responsive
+const MIN_CANVAS_WIDTH = 3600;
+const MIN_CANVAS_HEIGHT = 2200;
+const ASPECT_RATIO = MIN_CANVAS_WIDTH / MIN_CANVAS_HEIGHT;
+
+// Function to calculate responsive canvas dimensions
+function calculateCanvasDimensions() {
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  
+  // Calculate base dimensions (2x viewport)
+  let width = viewportWidth * 2;
+  let height = width / ASPECT_RATIO;
+  
+  // Ensure minimum dimensions
+  width = Math.max(width, MIN_CANVAS_WIDTH);
+  height = Math.max(height, MIN_CANVAS_HEIGHT);
+  
+  return { width, height };
+}
+
+// Update canvas size
+function updateCanvasSize() {
+  const { width, height } = calculateCanvasDimensions();
+  canvas.style.width = `${width}px`;
+  canvas.style.height = `${height}px`;
+  
+  // Update minimap if it exists
+  if (minimap) {
+    minimap.updateDimensions(width, height);
+  }
+}
 
 // Card data
 const cards = [
@@ -39,7 +68,7 @@ const cards = [
   { type: 'folder', top: '2%', left: '82%', title: 'DESIGN DIGEST', content: 'Our monthly design newsletter...' },
   { type: 'folder', top: '38%', left: '32%', title: 'CAREERS', content: 'Join our design team!...' },
   { type: 'folder', top: '30%', left: '63%', title: 'BLOG', content: 'Read our latest articles...' },
-  { type: 'folder', top: '50%', left: '50%', title: 'PODCASTS', content: 'Listen to our podcasts...' }
+  { type: 'folder', top: '80%', left: '80%', title: 'PODCASTS', content: 'Listen to our podcasts...' }
 ];
 
 // Initialize minimap
@@ -47,25 +76,24 @@ let minimap;
 
 // Handle wheel scroll with easing using GSAP
 function handleWheel(event) {
-  // Prevent default browser behavior
   event.preventDefault();
   event.stopPropagation();
 
-  // Only process if there's significant movement
   if (Math.abs(event.deltaX) < 1 && Math.abs(event.deltaY) < 1) return;
 
-  const deltaX = -event.deltaX * 12;
-  const deltaY = -event.deltaY * 12;
+  const deltaX = -event.deltaX * 9;
+  const deltaY = -event.deltaY * 9;
 
-  const borderLeft = window.innerWidth - CANVAS_WIDTH;
-  const borderTop = window.innerHeight - CANVAS_HEIGHT;
+  const { width, height } = calculateCanvasDimensions();
+  const borderLeft = window.innerWidth - width;
+  const borderTop = window.innerHeight - height;
 
   scrollTween.x = Math.min(0, Math.max(offsetX + deltaX, borderLeft));
   scrollTween.y = Math.min(0, Math.max(offsetY + deltaY, borderTop));
 
   gsap.to(canvas, {
     duration: 0.8,
-    ease: 'power4.out',
+    ease: 'expo.out',
     x: scrollTween.x,
     y: scrollTween.y,
     onUpdate: () => {
@@ -78,9 +106,10 @@ function handleWheel(event) {
 // Initialize canvas and content
 function init() {
   initializeCards();
+  updateCanvasSize();
 
   minimap = new Minimap(canvasContainer, canvas, cards);
-  minimap.renderDots();
+  minimap.renderCards();
 
   const rect = canvas.getBoundingClientRect();
   offsetX = -rect.width / 2 + window.innerWidth / 2;
@@ -88,18 +117,16 @@ function init() {
 
   gsap.set(canvas, { x: offsetX, y: offsetY });
 
-  // Add wheel event listener with passive: false to ensure preventDefault works
+  // Add event listeners
   canvasContainer.addEventListener('wheel', handleWheel, { passive: false });
-}
-
-// Recenter button logic
-const recenterBtn = document.getElementById('recenter-btn');
-if (recenterBtn) {
-  recenterBtn.addEventListener('click', () => {
-    const centerX = (window.innerWidth - CANVAS_WIDTH) / 2;
-    const centerY = (window.innerHeight - CANVAS_HEIGHT) / 2;
+  window.addEventListener('resize', () => {
+    updateCanvasSize();
+    // Recenter canvas after resize
+    const { width, height } = calculateCanvasDimensions();
+    const centerX = (window.innerWidth - width) / 2;
+    const centerY = (window.innerHeight - height) / 2;
     gsap.to(canvas, {
-      duration: 1,
+      duration: 0.5,
       ease: 'power2.out',
       x: centerX,
       y: centerY,

@@ -54,8 +54,8 @@ function handleWheel(event) {
   // Only process if there's significant movement
   if (Math.abs(event.deltaX) < 1 && Math.abs(event.deltaY) < 1) return;
 
-  const deltaX = event.deltaX * 6;
-  const deltaY = event.deltaY * 6;
+  const deltaX = -event.deltaX * 12;
+  const deltaY = -event.deltaY * 12;
 
   const borderLeft = window.innerWidth - CANVAS_WIDTH;
   const borderTop = window.innerHeight - CANVAS_HEIGHT;
@@ -65,7 +65,7 @@ function handleWheel(event) {
 
   gsap.to(canvas, {
     duration: 0.8,
-    ease: "expo.out",
+    ease: 'power4.out',
     x: scrollTween.x,
     y: scrollTween.y,
     onUpdate: () => {

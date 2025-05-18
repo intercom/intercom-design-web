@@ -20,6 +20,12 @@ body {
     height: 100vh;
     overflow: hidden;
 }
+#border {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 10px solid #5bc90d;
+}
 
 /* Canvas styles */
 #canvas {

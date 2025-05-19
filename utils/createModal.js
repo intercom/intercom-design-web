@@ -8,13 +8,37 @@ export function createModal() {
 
     // Close modal when clicking the close button
     closeButton.addEventListener('click', () => {
-        modal.style.display = 'none';
+        gsap.to(modalContent, {
+            opacity: 0,
+            duration: 0.4,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                modal.style.display = 'none';
+            }
+        });
+        gsap.to(modal, {
+            opacity: 0,
+            duration: 0.4,
+            ease: 'power2.inOut'
+        });
     });
 
     // Close modal when clicking outside
     window.addEventListener('click', (event) => {
         if (event.target === modal) {
-            modal.style.display = 'none';
+            gsap.to(modalContent, {
+                opacity: 0,
+                duration: 0.4,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    modal.style.display = 'none';
+                }
+            });
+            gsap.to(modal, {
+                opacity: 0,
+                duration: 0.4,
+                ease: 'power2.inOut'
+            });
         }
     });
 
@@ -26,9 +50,37 @@ export function createModal() {
                 <div class="modal-content-body">${content}</div>
             `;
             modal.style.display = 'block';
+            
+            // Animate modal opening
+            gsap.set(modal, { opacity: 0 });
+            gsap.set(modalContent, { opacity: 0 });
+            
+            gsap.to(modal, {
+                opacity: 1,
+                duration: 0.4,
+                ease: 'power2.inOut'
+            });
+            
+            gsap.to(modalContent, {
+                opacity: 1,
+                duration: 0.4,
+                ease: 'power2.inOut'
+            });
         },
         close: () => {
-            modal.style.display = 'none';
+            gsap.to(modalContent, {
+                opacity: 0,
+                duration: 0.4,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    modal.style.display = 'none';
+                }
+            });
+            gsap.to(modal, {
+                opacity: 0,
+                duration: 0.4,
+                ease: 'power2.inOut'
+            });
         }
     };
 } 

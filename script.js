@@ -176,8 +176,8 @@ function handleWheel(event) {
 
   if (Math.abs(event.deltaX) < 1 && Math.abs(event.deltaY) < 1) return;
 
-  const deltaX = -event.deltaX * 8;
-  const deltaY = -event.deltaY * 8;
+  const deltaX = -event.deltaX * 9;
+  const deltaY = -event.deltaY * 9;
 
   const { width, height } = calculateCanvasDimensions();
   const borderLeft = window.innerWidth - width;

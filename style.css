@@ -8,7 +8,9 @@
 body {
     font-family: 'DM Mono', monospace;
     overflow: hidden;
-    background: #f5f5f5;
+    background: var(--background-primary);
+    color: var(--foreground-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Canvas container styles */
@@ -20,11 +22,12 @@ body {
     height: 100vh;
     overflow: hidden;
 }
+
 #border {
     position: absolute;
     width: 100%;
     height: 100%;
-    border: 10px solid #5bc90d;
+    border: 10px solid var(--accent-blue);
 }
 
 /* Canvas styles */
@@ -32,14 +35,82 @@ body {
     position: absolute;
     width: 3600px;
     height: 2200px;
-    background: #f5f5f5;
+    background: var(--background-primary);
     top: 0;
     left: 0;
     transition: transform 0.1s ease-out;
-    /* transform-origin: center center; */
-    /* left: 50%;
-    top: 50%; */
-    /* transform: translate(-50%, -50%); */
+}
+
+/* Grid pattern and cursor illumination effect
+ * This creates a pseudo-element that contains our grid pattern
+ * The grid is only visible within a circular area around the cursor
+ */
+#canvas::before {
+    /* Create a full-size overlay */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    /* Create the dot pattern using radial gradients */
+    background-image: radial-gradient(
+        circle at center,
+        var(--grid-color) 1px,
+        transparent 1px
+    );
+    background-size: 20px 20px; /* Reduced from 35px to 20px to make dots closer together */
+
+    /* Start with the grid invisible */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    /* Create a feathered border effect using mask-image */
+    mask-image: radial-gradient(
+        circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
+        rgb(255, 255, 255) 0%,
+        rgb(255, 255, 255) 0px,
+        transparent 400px
+    );
+    -webkit-mask-image: radial-gradient(
+        circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
+        rgb(255, 255, 255) 0%,
+        rgb(255, 255, 255) 0px,
+        transparent 400px
+    );
+}
+
+#canvas::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
+        var(--cursor-illumination) 0%,
+        transparent 10px
+    );
+    pointer-events: none;
+    mask-image: radial-gradient(
+        circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
+        rgba(0, 0, 0, 0) 0%,
+        transparent var(--cursor-illumination-radius)
+    );
+    -webkit-mask-image: radial-gradient(
+        circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
+        rgba(0, 0, 0, 0) 0%,
+        transparent var(--cursor-illumination-radius)
+    );
+}
+
+/* When the canvas has the 'illuminated' class (added on mouseenter),
+ * make the grid pattern visible
+ */
+#canvas.illuminated::before {
+    opacity: 1;
 }
 
 /* Center logo styles */
@@ -54,12 +125,36 @@ body {
     pointer-events: none;
 }
 
+/* Add CSS custom properties for border animation */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 90deg;
+  inherits: true;
+}
+
+@property --gradX {
+  syntax: '<percentage>';
+  initial-value: 50%;
+  inherits: true;
+}
+
+@property --gradY {
+  syntax: '<percentage>';
+  initial-value: 0%;
+  inherits: true;
+}
+
+:root {
+  --d: 4s; /* Animation duration */
+  --angle: 90deg;
+  --gradX: 100%;
+  --gradY: 50%;
+}
+
 /* Card base styles */
 .card {
-    background: #FFF;
-    box-shadow: 
-        0px 12px 16px -4px rgba(16, 24, 40, 0.08),
-        0px 4px 6px -2px rgba(16, 24, 40, 0.03);
+    background: var(--card-bg);
+    box-shadow: var(--shadow-soft);
     font-family: "DM Mono", monospace;
     font-size: 16px;
     font-style: normal;
@@ -67,19 +162,61 @@ body {
     line-height: normal;
     letter-spacing: 0.8px;
     text-transform: uppercase;
-    color: #000;
+    color: var(--foreground-primary);
     position: absolute;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 16px;
     cursor: pointer;
-    /* transition: transform 0.2s ease; */
     min-width: 281px;
     min-height: 277px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: var(--card-stroke-width) solid transparent;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 16px;
+    padding: var(--card-stroke-width);
+    background: conic-gradient(
+        from 0deg,
+        var(--background-tertiary),
+        var(--foreground-secondary),
+        var(--background-tertiary)
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .card:hover {
     transform: translateY(-4px);
-    
+    box-shadow: var(--shadow-soft);
+    border-image: conic-gradient(
+        from var(--angle),
+        var(--background-tertiary),
+        var(--foreground-secondary) 0.1turn,
+        var(--foreground-secondary) 0.15turn,
+        var(--background-tertiary) 0.25turn
+    ) 1;
+    animation: borderRotate var(--d) linear infinite forwards;
+}
+
+@keyframes borderRotate {
+    100% {
+        --angle: 420deg;
+    }
 }
 
 #logo {
@@ -90,19 +227,17 @@ body {
     font-size: 5.5rem !important;
     font-weight: 700 !important;
     letter-spacing: -0.02em !important;
-    color: #000000 !important;
+    color: var(--foreground-primary) !important;
     text-decoration: none !important;
     text-transform: none !important;
     pointer-events: auto !important;
     z-index: -10 !important;
 }
 
-
 #logo a {
     color: inherit !important;
     text-decoration: none !important;
 }
-
 
 /* Modal styles */
 .modal {
@@ -124,12 +259,13 @@ body {
     right: 1rem;
     bottom: 1rem;
     width: 50%;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--card-bg);
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-soft);
     opacity: 0;
     z-index: 10000;
+    border: 1px solid var(--card-border);
 }
 
 .modal-content h2 {
@@ -137,14 +273,14 @@ body {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    color: #1a1a1a;
+    color: var(--foreground-primary);
 }
 
 .modal-content-body {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     line-height: 1.6;
-    color: #4a4a4a;
+    color: var(--foreground-secondary);
 }
 
 .close-button {
@@ -153,12 +289,12 @@ body {
     top: 1.5rem;
     font-size: 1.5rem;
     cursor: pointer;
-    color: #666;
+    color: var(--foreground-secondary);
     transition: color 0.2s ease;
 }
 
 .close-button:hover {
-    color: #000;
+    color: var(--foreground-primary);
 }
 
 /* Card type specific styles */
@@ -209,58 +345,112 @@ body {
 }
 
 #minimap {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  background: #f0f0f0;
-  border: 1.5px solid #ccc;
-  border-radius: 8px;
-  z-index: 10000;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  overflow: hidden;
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    background: var(--minimap-bg);
+    backdrop-filter: blur(var(--minimap-blur));
+    -webkit-backdrop-filter: blur(var(--minimap-blur));
+    border: 1px solid var(--minimap-border);
+    border-radius: 12px;
+    z-index: 10000;
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
 }
 
 #minimap .minimap-card {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
-  pointer-events: none;
-  transition: transform 0.2s ease;
+    position: absolute;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    pointer-events: none;
+    transition: transform 0.2s ease;
 }
 
 #minimap .minimap-card:hover {
-  transform: scale(1.1);
-  z-index: 1;
+    transform: scale(1.1);
+    z-index: 1;
 }
 
 /* Card type specific styles */
 #minimap .image-card {
-  background: rgba(255, 255, 255, 0.9);
+    background: var(--card-bg);
 }
 
 #minimap .youtube-card {
-  background: rgba(255, 0, 0, 0.2);
-  border-color: rgba(255, 0, 0, 0.4);
+    background: var(--youtube-card-bg);
+    border-color: var(--youtube-card-border);
 }
 
 #minimap .spotify-card {
-  background: rgba(30, 215, 96, 0.2);
-  border-color: rgba(30, 215, 96, 0.4);
+    background: var(--spotify-card-bg);
+    border-color: var(--spotify-card-border);
 }
 
 #minimap .text-card {
-  background: rgba(0, 0, 0, 0.1);
+    background: var(--background-tertiary);
 }
 
 #minimap .folder-card {
-  background: rgba(0, 0, 0, 0.05);
+    background: var(--background-tertiary);
 }
 
 #map-viewport {
-  position: absolute;
-  border: 2px solid #191414;
-  background: rgba(30,215,96,0.08);
-  pointer-events: none;
-  z-index: 2;
+    position: absolute;
+    border: 2px solid var(--border-primary);
+    background: var(--background-tertiary);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Theme Switcher */
+.theme-switcher {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 1000;
+    background: var(--card-bg);
+    border: 2px solid var(--border-primary);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+    padding: 0;
+    margin: 0;
+}
+
+.theme-switcher:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-soft), 0 0 0 2px var(--border-glow);
+    background: var(--background-tertiary);
+}
+
+.theme-switcher svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--foreground-primary);
+    transition: transform 0.3s ease;
+}
+
+.theme-switcher:hover svg {
+    transform: rotate(15deg);
+}
+
+/* Ensure the theme switcher is always visible */
+.theme-switcher:focus {
+    outline: none;
+    box-shadow: var(--shadow-soft), 0 0 0 3px var(--border-glow);
+}
+
+/* Theme-specific grid colors
+ * Dark theme: White grid lines at 15% opacity
+ * Light theme: Black grid lines at 10% opacity
+ */
+body.light {
+    /* ... existing variables ... */
 }

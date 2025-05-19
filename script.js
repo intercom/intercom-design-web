@@ -228,6 +228,32 @@ function init() {
       }
     });
   });
+
+  /* Grid illumination event listeners
+   * These handle the cursor-based grid pattern reveal effect
+   */
+  // Track cursor movement to update the grid circle position
+  canvasContainer.addEventListener('mousemove', handleCursorMove);
+  // Show grid when cursor enters the canvas
+  canvasContainer.addEventListener('mouseenter', () => canvas.classList.add('illuminated'));
+  // Hide grid when cursor leaves the canvas
+  canvasContainer.addEventListener('mouseleave', () => canvas.classList.remove('illuminated'));
+}
+
+/* Handle cursor movement for grid illumination
+ * Updates the CSS variables that control the position of the grid circle
+ * These variables are used by the clip-path in CSS
+ */
+function handleCursorMove(event) {
+  // Get the position of the cursor relative to the canvas
+  const rect = canvas.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+  
+  // Update CSS variables that control the circle position
+  // These are used by the clip-path in the CSS
+  canvas.style.setProperty('--cursor-x', `${x}px`);
+  canvas.style.setProperty('--cursor-y', `${y}px`);
 }
 
 // Generate cards
@@ -318,3 +344,14 @@ function initializeCards() {
 
 // Start app
 init();
+
+// Update cursor position for grid mask
+document.addEventListener('mousemove', (e) => {
+    const canvas = document.getElementById('canvas');
+    const rect = canvas.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    canvas.style.setProperty('--cursor-x', `${x}%`);
+    canvas.style.setProperty('--cursor-y', `${y}%`);
+});

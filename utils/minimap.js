@@ -10,7 +10,7 @@ export class Minimap {
       this.canvasHeight = canvasRect.height;
       
       // Calculate minimap scale and dimensions
-      this.scale = 10; // 1:10 scale ratio
+      this.scale = 12; // 1:14.29 scale ratio (10/0.7 to make it 0.7 times smaller)
       this.minimapWidth = this.canvasWidth / this.scale;
       this.minimapHeight = this.canvasHeight / this.scale;
   

@@ -176,8 +176,8 @@ function handleWheel(event) {
 
   if (Math.abs(event.deltaX) < 1 && Math.abs(event.deltaY) < 1) return;
 
-  const deltaX = -event.deltaX * 9;
-  const deltaY = -event.deltaY * 9;
+  const deltaX = -event.deltaX * 8;
+  const deltaY = -event.deltaY * 8;
 
   const { width, height } = calculateCanvasDimensions();
   const borderLeft = window.innerWidth - width;
@@ -202,9 +202,6 @@ function handleWheel(event) {
 function init() {
   initializeCards();
   updateCanvasSize();
-
-  minimap = new Minimap(canvasContainer, canvas, cards);
-  minimap.renderCards();
 
   const rect = canvas.getBoundingClientRect();
   offsetX = -rect.width / 2 + window.innerWidth / 2;
@@ -236,7 +233,10 @@ function init() {
 // Generate cards
 function initializeCards() {
   const modal = createModal();
-  cards.forEach(cardData => {
+  const totalCards = cards.length;
+  let cardsAnimated = 0;
+
+  cards.forEach((cardData, index) => {
     let card;
     switch (cardData.type) {
       case 'image': card = createImageCard(cardData); break;
@@ -248,9 +248,70 @@ function initializeCards() {
     if (card) {
       card.style.top = cardData.top;
       card.style.left = cardData.left;
-      if (cardData.id) card.id = cardData.id; // if the card has an id, set it
-
+      if (cardData.id) card.id = cardData.id;
+      
+      // Set initial state for animation
+      gsap.set(card, {
+        scale: 0.8,
+        opacity: 0,
+        filter: 'blur(10px)'
+      });
+      
       canvas.appendChild(card);
+      
+      // Animate each card with a stagger effect
+      gsap.to(card, {
+        scale: 1,
+        opacity: 1,
+        filter: 'blur(0px)',
+        duration: 0.6,
+        delay: index * 0.08,
+        ease: "power2.out",
+        onComplete: () => {
+          cardsAnimated++;
+          
+          // Initialize minimap after all cards are animated
+          if (cardsAnimated === totalCards) {
+            minimap = new Minimap(canvasContainer, canvas, cards);
+            
+            // Set initial state for minimap
+            gsap.set(minimap.minimap, {
+              opacity: 0,
+              scale: 0.95,
+              filter: 'blur(10px)'
+            });
+            
+            // Animate minimap appearance
+            gsap.to(minimap.minimap, {
+              opacity: 1,
+              scale: 1,
+              filter: 'blur(0px)',
+              duration: 0.8,
+              ease: "power2.out",
+              onStart: () => {
+                minimap.renderCards();
+              }
+            });
+          }
+
+          // Add hover animation after initial appearance
+          card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+              scale: 1.05,
+              duration: 0.3,
+              ease: "power2.out"
+            });
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+              scale: 1,
+              duration: 0.3,
+              ease: "power2.out"
+            });
+          });
+        }
+      });
     }
   });
 }

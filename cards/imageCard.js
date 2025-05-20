@@ -1,8 +1,15 @@
 // Create an image card with a link
 export function createImageCard(data) {
-    // Create card container
-    const card = document.createElement('div');
-    card.className = 'card image-card';
+    const wrapper = document.createElement('div');
+    wrapper.className = 'card-wrapper';
+    wrapper.style.position = 'absolute';
+    wrapper.style.top = data.top;
+    wrapper.style.left = data.left;
+
+    // Card Title
+    const title = document.createElement('div');
+    title.className = 'card-title';
+    title.textContent = data.label || '';
 
     // Create image element
     const img = document.createElement('img');
@@ -16,14 +23,13 @@ export function createImageCard(data) {
     link.rel = 'noopener noreferrer';
     link.appendChild(img);
 
-    // Add label
-    const label = document.createElement('div');
-    label.className = 'card-label';
-    label.textContent = data.label;
-
     // Assemble card
+    const card = document.createElement('div');
+    card.className = 'card image-card';
     card.appendChild(link);
-    card.appendChild(label);
 
-    return card;
+    wrapper.appendChild(title);
+    wrapper.appendChild(card);
+
+    return wrapper;
 } 

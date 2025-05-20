@@ -6,7 +6,6 @@
 }
 
 body {
-    font-family: 'DM Mono', monospace;
     overflow: hidden;
     background: var(--background-primary);
     color: var(--foreground-primary);
@@ -155,13 +154,6 @@ body {
 .card {
     background: var(--card-bg);
     box-shadow: var(--shadow-soft);
-    font-family: "DM Mono", monospace;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
     color: var(--foreground-primary);
     position: absolute;
     padding: 20px;
@@ -171,6 +163,12 @@ body {
     min-height: 277px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     border: var(--card-stroke-width) solid transparent;
+    background-clip: padding-box;
+}
+
+.card-title {
+    padding: 0.5rem;
+    color: var(--foreground-secondary);
 }
 
 .card::before {
@@ -203,13 +201,19 @@ body {
 .card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-soft);
-    border-image: conic-gradient(
-        from var(--angle),
-        var(--background-tertiary),
-        var(--foreground-secondary) 0.1turn,
-        var(--foreground-secondary) 0.15turn,
-        var(--background-tertiary) 0.25turn
-    ) 1;
+    border: var(--card-stroke-width) solid transparent;
+    border-radius: 16px;
+    background-image: 
+        linear-gradient(var(--card-bg), var(--card-bg)),
+        conic-gradient(
+            from var(--angle),
+            var(--background-tertiary),
+            var(--foreground-secondary) 0.1turn,
+            var(--foreground-secondary) 0.15turn,
+            var(--background-tertiary) 0.25turn
+        );
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
     animation: borderRotate var(--d) linear infinite forwards;
 }
 
@@ -223,10 +227,6 @@ body {
     background: transparent !important;
     box-shadow: none !important;
     border: none !important;
-    font-family: 'Inter', sans-serif !important;
-    font-size: 5.5rem !important;
-    font-weight: 700 !important;
-    letter-spacing: -0.02em !important;
     color: var(--foreground-primary) !important;
     text-decoration: none !important;
     text-transform: none !important;

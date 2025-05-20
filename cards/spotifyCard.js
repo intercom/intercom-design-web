@@ -1,5 +1,16 @@
 // Create a Spotify embed card
 export function createSpotifyCard(data) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'card-wrapper';
+    wrapper.style.position = 'absolute';
+    wrapper.style.top = data.top;
+    wrapper.style.left = data.left;
+
+    // Card Title
+    const title = document.createElement('div');
+    title.className = 'card-title';
+    title.textContent = data.label || '';
+
     // Create card container
     const card = document.createElement('div');
     card.className = 'card spotify-card';
@@ -41,11 +52,6 @@ export function createSpotifyCard(data) {
       </svg>
     `;
 
-    // Track label
-    const label = document.createElement('div');
-    label.className = 'card-label';
-    label.textContent = data.label;
-
     // Play/pause logic
     let isPlaying = false;
     playBtn.onclick = () => {
@@ -66,8 +72,10 @@ export function createSpotifyCard(data) {
     // Assemble card
     card.appendChild(playBtn);
     card.appendChild(wave);
-    card.appendChild(label);
     card.appendChild(audio);
 
-    return card;
+    wrapper.appendChild(title);
+    wrapper.appendChild(card);
+
+    return wrapper;
 } 

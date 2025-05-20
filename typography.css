@@ -4,6 +4,7 @@
     --font-sans: 'Inter', sans-serif;
 
     /* Font Sizes */
+    --text-xxs: 0.625rem;    /* 10px */
     --text-xs: 0.75rem;    /* 12px */
     --text-sm: 0.875rem;   /* 14px */
     --text-base: 1rem;     /* 16px */
@@ -66,7 +67,6 @@ body {
     line-height: var(--leading-normal);
     letter-spacing: var(--tracking-wide);
     color: var(--foreground-secondary);
-    padding: 0.5rem;
 }
 
 /* Logo Typography */

@@ -56,8 +56,8 @@ function updateCanvasSize() {
 const cards = [
   { 
     type: 'image', 
-    top: '0%', 
-    left: '0%', 
+    top: '12%', 
+    left: '12%', 
     src: 'https://picsum.photos/400/300?random=1', 
     link: 'https://www.intercom.com/design', 
     label: 'DESIGN SYSTEM' 
@@ -97,7 +97,7 @@ const cards = [
     type: 'youtube', 
     top: '35%', 
     left: '82%', 
-    embedId: 'jNQXAC9IVRw', 
+    embedId: 'qiWV0T0qbeY', 
     label: 'PRODUCT WALKTHROUGH' 
   },
   { 
@@ -109,8 +109,8 @@ const cards = [
   },
   { 
     type: 'spotify', 
-    top: '48%', 
-    left: '52%', 
+    top: '49%', 
+    left: '54%', 
     embedId: 'show/5QhB5qCYiPxbRzaeaN44Bk', 
     label: 'PRODUCT PODCAST' 
   },
@@ -120,49 +120,55 @@ const cards = [
     left: '42%', 
     text: 'Intercom Design', 
     link: 'https://www.intercom.com/design-system',
-    id: 'logo' 
+    id: 'logo'
   },
   { 
     type: 'text', 
     top: '55%', 
     left: '62%', 
     text: 'DESIGN BLOG', 
-    link: 'https://www.intercom.com/blog/design' 
+    link: 'https://www.intercom.com/blog/design',
+    label: 'BLOG'
   },
   { 
     type: 'text', 
     top: '62%', 
     left: '30%', 
     text: 'FOLLOW US ON TWITTER', 
-    link: 'https://twitter.com/intercom' 
+    link: 'https://twitter.com/intercom',
+    label: 'SOCIAL'
   },
   { 
     type: 'folder', 
     top: '2%', 
     left: '82%', 
     title: 'DESIGN DIGEST', 
-    content: 'Our monthly design newsletter...' 
+    content: 'Our monthly design newsletter...',
+    label: 'NEWSLETTER'
   },
   { 
     type: 'folder', 
     top: '38%', 
     left: '32%', 
     title: 'CAREERS', 
-    content: 'Join our design team!...' 
+    content: 'Join our design team!...',
+    label: 'JOBS'
   },
   { 
     type: 'folder', 
     top: '30%', 
     left: '63%', 
     title: 'BLOG', 
-    content: 'Read our latest articles...' 
+    content: 'Read our latest articles...',
+    label: 'ARTICLES'
   },
   { 
     type: 'folder', 
     top: '80%', 
     left: '80%', 
     title: 'PODCASTS', 
-    content: 'Listen to our podcasts...' 
+    content: 'Listen to our podcasts...',
+    label: 'AUDIO'
   }
 ];
 

@@ -57,7 +57,7 @@ function updateCanvasSize() {
 const cards = [
   { 
     type: 'image', 
-    top: '12%', 
+    top: '15%', 
     left: '12%', 
     src: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&auto=format&fit=crop&q=80', 
     link: 'https://www.intercom.com/design', 

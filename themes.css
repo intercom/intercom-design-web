@@ -8,7 +8,7 @@
   --background-primary: #0a0a0a;      /* Canvas background / entire page */
   --background-secondary: #1a1a1a;    /* Panels, sidebars, toolbar backgrounds */
   --background-tertiary: #111111;     /* Popovers, tooltips, floating controls */
-  --grid-color: rgba(255, 255, 255, 0.15);  /* Grid lines color for dark theme - increased opacity */
+  --grid-color: rgba(255, 255, 255, 0.4);  /* Grid lines color for dark theme - increased opacity */
   --cursor-illumination: rgba(0, 0, 0, 0.2);  /* Cursor illumination effect color */
   --cursor-illumination-radius: 150px;  /* Radius of cursor illumination effect */
 
@@ -23,9 +23,9 @@
   --spotify-card-border: rgba(30, 215, 96, 0.4); /* Spotify card border */
 
   /* === MINIMAP SPECIFIC === */
-  --minimap-bg: rgba(10, 10, 10, 0.8);  /* Semi-transparent background for minimap */
-  --minimap-blur: 8px;                  /* Blur effect for minimap */
-  --minimap-border: rgba(42, 42, 42, 0.3);  /* Semi-transparent border for minimap */
+  --minimap-bg: rgba(0, 0, 0, 0.2);  /* Semi-transparent background for minimap */
+  --minimap-blur: 16px;                  /* Blur effect for minimap */
+  --minimap-border: rgba(63, 63, 63, 0.3);  /* Semi-transparent border for minimap */
 
   /* === TEXT / FOREGROUND COLORS === */
   --foreground-primary: #e3e3e3;      /* Primary text: titles, node text, main content */
@@ -40,15 +40,16 @@
 
   /* === BORDERS & DIVIDERS === */
   --border-primary: #434343;          /* Card borders, divider lines, containers */
-  --border-secondary: #252525;        
+  --border-secondary: #333232;        
+  --border-tertiary: rgba(255, 255, 255, 0.1);  /* Subtle border for cards in default state */
   --border-glow: rgba(79, 79, 79, 0.4); /* Pulsing glow rings, focus outlines */
 
   /* === CARDS & CONTAINERS === */
   --card-bg: #131313;                 /* Background for cards, nodes, thought bubbles */
-  --card-border: #2e2e2e;             /* Card outlines in minimap preview */
+  --card-border: #161616;             /* Card outlines in minimap preview */
 
   /* === DEPTH / SHADOW === */
-  --shadow-soft: 0 0px 16px rgba(0, 0, 0, 0.6);  /* Soft shadow for floating panels, popups */
+  --shadow-soft: none;  /* No shadow in dark mode */
 }
 
 /* Light Theme Overrides */
@@ -88,8 +89,9 @@ body.light {
   --accent-slate: #3b3f58;            /* Muted tone for labels, navigation hints */
 
   /* === BORDERS & DIVIDERS === */
-  --border-primary: #e9e9e9;          /* Light grey for visible separation */
+  --border-primary: #bbbbbb;          /* Light grey for visible separation */
   --border-secondary: #252525;        
+  --border-tertiary: rgba(0, 0, 0, 0.1);  /* Subtle border for cards in light mode */
   --border-glow: rgba(218, 219, 220, 0.2); /* Softer glow in light theme for focus/hover */
 
   /* === CARDS & CONTAINERS === */

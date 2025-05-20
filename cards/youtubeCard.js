@@ -29,18 +29,33 @@ export function createYoutubeCard(data) {
     thumbnail.style.backgroundPosition = 'center';
     thumbnail.style.transition = 'filter 0.3s ease';
 
-    // Create play button overlay
+    // Create play button container with blur effect
+    const playButtonContainer = document.createElement('div');
+    playButtonContainer.className = 'youtube-play-button-container';
+    playButtonContainer.style.position = 'absolute';
+    playButtonContainer.style.top = '50%';
+    playButtonContainer.style.left = '50%';
+    playButtonContainer.style.transform = 'translate(-50%, -50%)';
+    playButtonContainer.style.width = '80px';
+    playButtonContainer.style.height = '80px';
+    playButtonContainer.style.borderRadius = '50%';
+    playButtonContainer.style.background = 'rgba(0, 0, 0, 0.3)';
+    playButtonContainer.style.backdropFilter = 'blur(8px)';
+    playButtonContainer.style.webkitBackdropFilter = 'blur(8px)';
+    playButtonContainer.style.display = 'flex';
+    playButtonContainer.style.alignItems = 'center';
+    playButtonContainer.style.justifyContent = 'center';
+    playButtonContainer.style.transition = 'background 0.3s ease';
+    playButtonContainer.style.pointerEvents = 'none';
+
+    // Create play button icon
     const playButton = document.createElement('div');
     playButton.className = 'youtube-play-button';
-    playButton.innerHTML = '▶';
-    playButton.style.position = 'absolute';
-    playButton.style.top = '50%';
-    playButton.style.left = '50%';
-    playButton.style.transform = 'translate(-50%, -50%)';
-    playButton.style.fontSize = '48px';
-    playButton.style.color = 'rgba(255, 255, 255, 0.8)';
-    playButton.style.textShadow = '0 2px 4px rgba(0, 0, 0, 0.2)';
-    playButton.style.pointerEvents = 'none';
+    playButton.innerHTML = `
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 5.14v14l11-7-11-7z" fill="white" fill-opacity="0.9"/>
+        </svg>
+    `;
 
     // Create link wrapper
     const link = document.createElement('a');
@@ -54,17 +69,18 @@ export function createYoutubeCard(data) {
     // Add hover effect
     link.addEventListener('mouseenter', () => {
         thumbnail.style.filter = 'blur(2px) brightness(0.8)';
-        playButton.style.color = 'rgba(255, 255, 255, 1)';
+        playButtonContainer.style.background = 'rgba(0, 0, 0, 0.4)';
     });
 
     link.addEventListener('mouseleave', () => {
         thumbnail.style.filter = 'none';
-        playButton.style.color = 'rgba(255, 255, 255, 0.8)';
+        playButtonContainer.style.background = 'rgba(0, 0, 0, 0.3)';
     });
 
     // Assemble card
+    playButtonContainer.appendChild(playButton);
     link.appendChild(thumbnail);
-    link.appendChild(playButton);
+    link.appendChild(playButtonContainer);
     card.appendChild(link);
 
     wrapper.appendChild(title);

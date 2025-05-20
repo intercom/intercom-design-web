@@ -6,6 +6,7 @@ import { createTextCard } from './cards/textCard.js';
 import { createFolderCard } from './cards/folderCard.js';
 import { createModal } from './utils/createModal.js';
 import { Minimap } from './utils/minimap.js';
+import { NotificationSystem } from './utils/notifications.js';
 // import gsap from 'gsap';
 
 // Get DOM elements
@@ -58,7 +59,7 @@ const cards = [
     type: 'image', 
     top: '12%', 
     left: '12%', 
-    src: 'https://picsum.photos/400/300?random=1', 
+    src: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&auto=format&fit=crop&q=80', 
     link: 'https://www.intercom.com/design', 
     label: 'DESIGN SYSTEM' 
   },
@@ -66,7 +67,7 @@ const cards = [
     type: 'image', 
     top: '8%', 
     left: '52%', 
-    src: 'https://picsum.photos/400/300?random=2', 
+    src: 'https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&auto=format&fit=crop&q=80', 
     link: 'https://www.intercom.com/blog', 
     label: 'BLOG POST' 
   },
@@ -74,7 +75,7 @@ const cards = [
     type: 'image', 
     top: '65%', 
     left: '10%', 
-    src: 'https://picsum.photos/400/300?random=3', 
+    src: 'https://images.unsplash.com/photo-1579546929662-711aa81148cf?w=800&auto=format&fit=crop&q=80', 
     link: 'https://www.intercom.com/careers', 
     label: 'CAREERS' 
   },
@@ -82,7 +83,7 @@ const cards = [
     type: 'image', 
     top: '75%', 
     left: '82%', 
-    src: 'https://picsum.photos/400/300?random=4', 
+    src: 'https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&auto=format&fit=crop&q=80', 
     link: 'https://www.intercom.com/podcast', 
     label: 'PODCAST' 
   },
@@ -174,6 +175,9 @@ const cards = [
 
 // Initialize minimap
 let minimap;
+
+// Initialize notification system
+const notifications = new NotificationSystem();
 
 // Handle wheel scroll with easing using GSAP
 function handleWheel(event) {
@@ -361,3 +365,16 @@ document.addEventListener('mousemove', (e) => {
     canvas.style.setProperty('--cursor-x', `${x}%`);
     canvas.style.setProperty('--cursor-y', `${y}%`);
 });
+
+// Show notifications with a delay
+setTimeout(() => {
+    notifications.show('We are hiring!');
+}, 1000);
+
+setTimeout(() => {
+    notifications.show('Join us in the BFY event in London');
+}, 3000);
+
+setTimeout(() => {
+    notifications.show('We are hiring!');
+}, 5000);

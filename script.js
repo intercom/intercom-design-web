@@ -118,7 +118,7 @@ const cards = [
   { 
     type: 'text', 
     top: '45%', 
-    left: '42%', 
+    left: '40%', 
     text: 'Intercom Design', 
     link: 'https://www.intercom.com/design-system',
     id: 'logo'

@@ -224,7 +224,7 @@ body {
     background: transparent !important;
     box-shadow: none !important;
     border: none !important;
-    color: var(--foreground-tertiary) !important;
+    color: rgb(42, 42, 42) !important;
     text-decoration: none !important;
     text-transform: none !important;
     pointer-events: auto !important;
@@ -234,6 +234,8 @@ body {
 #logo a {
     color: inherit !important;
     text-decoration: none !important;
+    font-size: 6rem;
+
 }
 
 /* Modal styles */

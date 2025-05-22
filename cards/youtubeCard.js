@@ -10,6 +10,12 @@ export function createYoutubeCard(data) {
     const title = document.createElement('div');
     title.className = 'card-title';
     title.textContent = data.label || '';
+    title.style.textTransform = 'uppercase';
+    title.style.whiteSpace = 'pre-wrap';
+    title.style.wordBreak = 'break-word';
+    title.style.fontFamily = 'var(--font-mono)';
+    title.style.fontSize = 'var(--text-xs)';
+    title.style.letterSpacing = 'var(--tracking-widest)';
 
     // Create card container
     const card = document.createElement('div');
@@ -59,12 +65,13 @@ export function createYoutubeCard(data) {
 
     // Create link wrapper
     const link = document.createElement('a');
-    link.href = `https://www.youtube.com/watch?v=${data.embedId}`;
+    link.href = data.link || `https://www.youtube.com/watch?v=${data.embedId}`;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.style.display = 'block';
     link.style.width = '100%';
     link.style.height = '100%';
+    link.style.cursor = 'pointer';
 
     // Add hover effect
     link.addEventListener('mouseenter', () => {

@@ -92,10 +92,10 @@ const cards = [
   },
   { 
     type: 'youtube', 
-    top: '12%', 
-    left: '22%', 
+    top: '55%', 
+    left: '60%', 
     embedId: 'I8hMPj3AD34', 
-    label: 'FEATURED VIDEO' 
+    label: "Why Old UI Designs Won't Work with AI" 
   },
   { 
     type: 'youtube', 
@@ -108,8 +108,8 @@ const cards = [
     type: 'spotify', 
     top: '30%', 
     left: '30%', 
-    embedId: 'show/5QhB5qCYiPxbRzaeaN44Bk', 
-    label: 'DESIGN PODCAST' 
+    embedId: 'episode/2mJ5zLlX0iouG9H5vxUlhk', 
+    label: 'BEYOND THE AI HYPE' 
   },
   { 
     type: 'spotify', 
@@ -127,18 +127,25 @@ const cards = [
   { 
     type: 'text', 
     top: '55%', 
-    left: '62%', 
-    text: 'DESIGN BLOG', 
+    left: '30%', 
+    paragraph: `Every product reaches a moment when its foundation begins to strain under the weight of growth.
+
+For Intercom, we encountered this moment when it became clear that our information architecture (IA) – the framework that organizes how features, settings, and workflows fit together – was struggling to keep pace with the development of our product.
+
+It wasn't broken, but it wasn't serving our users anymore. Workflows were harder to locate, settings were scattered and confusing, and some navigation labels left users unsure of where to go.
+
+One user described it as "wandering through a maze of features".`, 
     link: 'https://www.intercom.com/blog/design',
-    label: 'BLOG'
+    label: 'DESIGNING FOR CLARITY'
   },
   { 
     type: 'text', 
-    top: '62%', 
-    left: '30%', 
-    text: 'FOLLOW US ON TWITTER', 
+    top: '80%', 
+    left: '28%', 
+    paragraph: 'FOLLOW US ON TWITTER', 
     link: 'https://twitter.com/intercom',
-    label: 'SOCIAL'
+    label: `A new age of UX: 
+Evolving your design approach for AI products`
   },
   { 
     type: 'folder', 

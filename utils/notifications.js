@@ -2,7 +2,7 @@ export class NotificationSystem {
     constructor() {
         this.container = document.createElement('div');
         this.container.style.position = 'fixed';
-        this.container.style.bottom = '24px';
+        this.container.style.top = '24px';
         this.container.style.right = '24px';
         this.container.style.display = 'flex';
         this.container.style.flexDirection = 'column';

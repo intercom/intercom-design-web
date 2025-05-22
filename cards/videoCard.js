@@ -5,8 +5,8 @@ export function createVideoCard(data) {
     wrapper.style.position = 'absolute';
     wrapper.style.top = data.top;
     wrapper.style.left = data.left;
-    wrapper.style.width = '48vw';  // 60% of viewport width
-    wrapper.style.height = '48vh'; // 60% of viewport height
+    wrapper.style.width = '50vw';  // 60% of viewport width
+    wrapper.style.height = '50vh'; // 60% of viewport height
     wrapper.style.zIndex = '-1';    // Place under other cards
 
     // Create image element for GIF

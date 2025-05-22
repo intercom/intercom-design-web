@@ -6,23 +6,29 @@ export function createFolderCard(data, modal) {
     wrapper.style.top = data.top;
     wrapper.style.left = data.left;
 
-    // Card Title
-    const title = document.createElement('div');
-    title.className = 'card-title';
-    title.textContent = data.label || '';
-
     // Create card container
     const card = document.createElement('div');
     card.className = 'card folder-card';
+    card.style.background = 'none';
+    card.style.border = 'none';
+    card.style.display = 'flex';
+    card.style.flexDirection = 'column';
+    card.style.alignItems = 'center';
+    card.style.gap = '12px';
 
     // Create folder icon
     const icon = document.createElement('img');
-    icon.src = 'assets/icons/folder.svg';
+    icon.src = 'assets/icons/folder.png';
     icon.alt = 'Folder';
+    icon.style.width = '96px';
+    icon.style.height = '96px';
 
-    // Create title element
-    const cardTitle = document.createElement('span');
-    cardTitle.textContent = data.title;
+    // Create label element
+    const label = document.createElement('span');
+    label.textContent = data.label;
+    label.style.color = 'var(--text-color, white)';
+    label.style.fontSize = '14px';
+    label.style.textAlign = 'center';
 
     // Add click handler to open modal
     card.addEventListener('click', () => {
@@ -31,9 +37,7 @@ export function createFolderCard(data, modal) {
 
     // Assemble card
     card.appendChild(icon);
-    card.appendChild(cardTitle);
-
-    wrapper.appendChild(title);
+    card.appendChild(label);
     wrapper.appendChild(card);
 
     return wrapper;

@@ -88,7 +88,7 @@ const cards = [
     left: '82%', 
     src: 'https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&auto=format&fit=crop&q=80', 
     link: 'https://www.intercom.com/podcast', 
-    label: 'PODCAST' 
+    label: 'IMG1' 
   },
   { 
     type: 'youtube', 
@@ -99,24 +99,24 @@ const cards = [
   },
   { 
     type: 'youtube', 
-    top: '35%', 
-    left: '82%', 
-    embedId: 'qiWV0T0qbeY', 
-    label: 'PRODUCT WALKTHROUGH' 
+    top: '70%', 
+    left: '63%', 
+    embedId: 'cnhUspTS4YU', 
+    label: 'Built For You: April 2024 - An Intercom Product Broadcast' 
   },
   { 
     type: 'spotify', 
-    top: '30%', 
-    left: '30%', 
+    top: '28%', 
+    left: '74%', 
     embedId: 'episode/2mJ5zLlX0iouG9H5vxUlhk', 
     label: 'BEYOND THE AI HYPE' 
   },
   { 
     type: 'spotify', 
-    top: '49%', 
-    left: '54%', 
-    embedId: 'show/5QhB5qCYiPxbRzaeaN44Bk', 
-    label: 'PRODUCT PODCAST' 
+    top: '20%', 
+    left: '78%', 
+    embedId: 'episode/2mJ5zLlX0iouG9H5vxUlhk', 
+    label: 'BEYOND THE AI HYPE' 
   },
   { 
     type: 'video', 
@@ -132,16 +132,14 @@ const cards = [
 
 For Intercom, we encountered this moment when it became clear that our information architecture (IA) – the framework that organizes how features, settings, and workflows fit together – was struggling to keep pace with the development of our product.
 
-It wasn't broken, but it wasn't serving our users anymore. Workflows were harder to locate, settings were scattered and confusing, and some navigation labels left users unsure of where to go.
-
-One user described it as "wandering through a maze of features".`, 
+It wasn't broken, but it wasn't serving our users anymore. Workflows were harder to locate, settings were scattered and confusing, and some navigation labels left users unsure of where to go.`, 
     link: 'https://www.intercom.com/blog/design',
     label: 'DESIGNING FOR CLARITY'
   },
   { 
     type: 'text', 
-    top: '80%', 
-    left: '28%', 
+    top: '78%', 
+    left: '32%', 
     paragraph: 'FOLLOW US ON TWITTER', 
     link: 'https://twitter.com/intercom',
     label: `A new age of UX: 
@@ -149,19 +147,11 @@ Evolving your design approach for AI products`
   },
   { 
     type: 'folder', 
-    top: '2%', 
-    left: '82%', 
-    title: 'DESIGN DIGEST', 
-    content: 'Our monthly design newsletter...',
-    label: 'NEWSLETTER'
-  },
-  { 
-    type: 'folder', 
     top: '38%', 
     left: '32%', 
     title: 'CAREERS', 
     content: 'Join our design team!...',
-    label: 'JOBS'
+    label: 'RNDM'
   },
   { 
     type: 'folder', 
@@ -169,7 +159,7 @@ Evolving your design approach for AI products`
     left: '63%', 
     title: 'BLOG', 
     content: 'Read our latest articles...',
-    label: 'ARTICLES'
+    label: 'TEXTS'
   },
   { 
     type: 'folder', 
@@ -319,7 +309,7 @@ function initializeCards() {
     if (card) {
       // Find the .card element inside the wrapper
       const cardElement = card.querySelector('.card');
-      if (cardElement) {
+      if (cardElement && cardData.type !== 'folder') {
         addCornerOverlay(cardElement);
       }
       card.style.top = cardData.top;

@@ -24,22 +24,30 @@ export function createSpotifyCard(data) {
     card.style.overflow = 'hidden';
     card.style.borderRadius = '12px';
     card.style.width = 'min(450px, 30vw)';
-    card.style.height = '82px';
+    card.style.height = '152px';
+    card.style.pointerEvents = 'none'; // Allow clicks to pass through to iframe
 
     // Create Spotify embed iframe
     const iframe = document.createElement('iframe');
-    iframe.src = `https://open.spotify.com/embed/${data.embedId}`;
+    iframe.style.borderRadius = '12px';
+    iframe.src = `https://open.spotify.com/embed/${data.embedId}?theme=0`;
     iframe.width = '100%';
-    iframe.height = '100%';
+    iframe.height = '152';
     iframe.frameBorder = '0';
+    iframe.allowFullscreen = true;
     iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
     iframe.loading = 'lazy';
-    iframe.style.borderRadius = '12px';
+    iframe.style.pointerEvents = 'auto'; // Ensure iframe can receive events
 
     // Assemble card
     card.appendChild(iframe);
     wrapper.appendChild(title);
     wrapper.appendChild(card);
+
+    // Prevent event propagation from wrapper to iframe
+    wrapper.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
 
     return wrapper;
 } 

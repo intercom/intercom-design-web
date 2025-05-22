@@ -331,7 +331,6 @@ body {
     height: 100%;
     background-size: cover;
     background-position: center;
-    transition: filter 0.3s ease;
 }
 
 .youtube-play-button {
@@ -343,11 +342,10 @@ body {
     color: rgba(255, 255, 255, 0.8);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     pointer-events: none;
-    transition: color 0.3s ease;
 }
 
 .youtube-card:hover .youtube-thumbnail {
-    filter: blur(2px) brightness(0.8);
+    filter: brightness(0.8);
 }
 
 .youtube-card:hover .youtube-play-button {

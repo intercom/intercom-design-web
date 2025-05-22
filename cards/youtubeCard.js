@@ -6,6 +6,17 @@ export function createYoutubeCard(data) {
     wrapper.style.top = data.top;
     wrapper.style.left = data.left;
 
+    // Create link wrapper
+    const link = document.createElement('a');
+    link.href = data.link || `https://www.youtube.com/watch?v=${data.embedId}`;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.style.display = 'block';
+    link.style.width = '100%';
+    link.style.height = '100%';
+    link.style.cursor = 'pointer';
+    link.style.textDecoration = 'none';
+
     // Card Title
     const title = document.createElement('div');
     title.className = 'card-title';
@@ -33,7 +44,6 @@ export function createYoutubeCard(data) {
     thumbnail.style.backgroundImage = `url(https://img.youtube.com/vi/${data.embedId}/maxresdefault.jpg)`;
     thumbnail.style.backgroundSize = 'cover';
     thumbnail.style.backgroundPosition = 'center';
-    thumbnail.style.transition = 'filter 0.3s ease';
 
     // Create play button container with blur effect
     const playButtonContainer = document.createElement('div');
@@ -63,35 +73,24 @@ export function createYoutubeCard(data) {
         </svg>
     `;
 
-    // Create link wrapper
-    const link = document.createElement('a');
-    link.href = data.link || `https://www.youtube.com/watch?v=${data.embedId}`;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.style.display = 'block';
-    link.style.width = '100%';
-    link.style.height = '100%';
-    link.style.cursor = 'pointer';
-
     // Add hover effect
     link.addEventListener('mouseenter', () => {
-        thumbnail.style.filter = 'blur(2px) brightness(0.8)';
         playButtonContainer.style.background = 'rgba(0, 0, 0, 0.4)';
     });
 
     link.addEventListener('mouseleave', () => {
-        thumbnail.style.filter = 'none';
         playButtonContainer.style.background = 'rgba(0, 0, 0, 0.3)';
     });
 
     // Assemble card
     playButtonContainer.appendChild(playButton);
-    link.appendChild(thumbnail);
-    link.appendChild(playButtonContainer);
-    card.appendChild(link);
+    card.appendChild(thumbnail);
+    card.appendChild(playButtonContainer);
 
-    wrapper.appendChild(title);
-    wrapper.appendChild(card);
+    // Assemble wrapper
+    link.appendChild(title);
+    link.appendChild(card);
+    wrapper.appendChild(link);
 
     return wrapper;
 } 

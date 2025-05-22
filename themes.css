@@ -29,7 +29,7 @@
 
   /* === TEXT / FOREGROUND COLORS === */
   --foreground-primary: #e3e3e3;      /* Primary text: titles, node text, main content */
-  --foreground-secondary: #757575;    /* Secondary text: metadata, timestamps, annotations */
+  --foreground-secondary: #a1a1a1;    /* Secondary text: metadata, timestamps, annotations */
 
   /* === ACCENT COLORS === */
   --accent-blue: #00bfff;             /* Links, buttons, active states, selection */

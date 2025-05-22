@@ -4,6 +4,7 @@ import { createYoutubeCard } from './cards/youtubeCard.js';
 import { createSpotifyCard } from './cards/spotifyCard.js';
 import { createTextCard } from './cards/textCard.js';
 import { createFolderCard } from './cards/folderCard.js';
+import { createVideoCard } from './cards/videoCard.js';
 import { createModal } from './utils/createModal.js';
 import { Minimap } from './utils/minimap.js';
 import { NotificationSystem } from './utils/notifications.js';
@@ -116,12 +117,11 @@ const cards = [
     label: 'PRODUCT PODCAST' 
   },
   { 
-    type: 'text', 
+    type: 'video', 
     top: '45%', 
     left: '40%', 
-    text: 'Intercom Design', 
-    link: 'https://www.intercom.com/design-system',
-    id: 'logo'
+    src: 'assets/Intercom-Logo.mp4',
+    label: 'INTERCOM'
   },
   { 
     type: 'text', 
@@ -280,6 +280,7 @@ function initializeCards() {
       case 'spotify': card = createSpotifyCard(cardData); break;
       case 'text': card = createTextCard(cardData); break;
       case 'folder': card = createFolderCard(cardData, modal); break;
+      case 'video': card = createVideoCard(cardData); break;
     }
     if (card) {
       card.style.top = cardData.top;
@@ -330,22 +331,24 @@ function initializeCards() {
             });
           }
 
-          // Add hover animation after initial appearance
-          card.addEventListener('mouseenter', () => {
-            gsap.to(card, {
-              scale: 1.05,
-              duration: 0.3,
-              ease: "power2.out"
+          // Add hover animation after initial appearance (skip for video cards)
+          if (cardData.type !== 'video') {
+            card.addEventListener('mouseenter', () => {
+              gsap.to(card, {
+                scale: 1.05,
+                duration: 0.3,
+                ease: "power2.out"
+              });
             });
-          });
-          
-          card.addEventListener('mouseleave', () => {
-            gsap.to(card, {
-              scale: 1,
-              duration: 0.3,
-              ease: "power2.out"
+            
+            card.addEventListener('mouseleave', () => {
+              gsap.to(card, {
+                scale: 1,
+                duration: 0.3,
+                ease: "power2.out"
+              });
             });
-          });
+          }
         }
       });
     }

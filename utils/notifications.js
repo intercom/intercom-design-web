@@ -2,12 +2,12 @@ export class NotificationSystem {
     constructor() {
         this.container = document.createElement('div');
         this.container.style.position = 'fixed';
-        this.container.style.bottom = '20px';
-        this.container.style.right = '20px';
-        this.container.style.zIndex = '1000';
+        this.container.style.bottom = '24px';
+        this.container.style.right = '24px';
         this.container.style.display = 'flex';
         this.container.style.flexDirection = 'column';
-        this.container.style.gap = '4px';
+        this.container.style.gap = '8px';
+        this.container.style.zIndex = '10000';
         document.body.appendChild(this.container);
     }
 
@@ -20,19 +20,26 @@ export class NotificationSystem {
         notification.style.borderRadius = '16px';
         notification.style.border = '1px solid rgba(46, 46, 46, 0.3)';
         notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-        notification.style.fontFamily = 'Inter, sans-serif';
+        notification.style.fontFamily = 'DM Mono, monospace';
         notification.style.fontSize = 'var(--text-xs)';
-        notification.style.fontWeight = 'var(--font-light)';
+        notification.style.fontWeight = '300';
         notification.style.letterSpacing = 'var(--tracking-wider)';
         notification.style.color = 'var(--foreground-primary)';
         notification.style.display = 'flex';
         notification.style.alignItems = 'center';
-        notification.style.justifyContent = 'space-between';
-        notification.style.gap = '16px';
+        notification.style.gap = '8px';
         notification.style.position = 'relative';
         notification.style.transform = 'translateX(100px)';
         notification.style.opacity = '0';
         notification.style.scale = '0.8';
+
+        // Create indicator
+        const indicator = document.createElement('div');
+        indicator.style.width = '6px';
+        indicator.style.height = '6px';
+        indicator.style.background = 'var(--foreground-primary)';
+        indicator.style.display = 'inline-block';
+        indicator.style.position = 'relative';
 
         // Create message container
         const messageContainer = document.createElement('div');
@@ -113,6 +120,7 @@ export class NotificationSystem {
         });
 
         // Assemble notification
+        notification.appendChild(indicator);
         notification.appendChild(messageContainer);
         notification.appendChild(closeButton);
         this.container.appendChild(notification);

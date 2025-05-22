@@ -5,13 +5,13 @@ export function createVideoCard(data) {
     wrapper.style.position = 'absolute';
     wrapper.style.top = data.top;
     wrapper.style.left = data.left;
-    wrapper.style.width = '800px';  // Reduced width for the video
-    wrapper.style.height = '800px'; // Reduced height for the video
+    wrapper.style.width = '48vw';  // 60% of viewport width
+    wrapper.style.height = '48vh'; // 60% of viewport height
     wrapper.style.zIndex = '-1';    // Place under other cards
 
     // Create image element for GIF
     const image = document.createElement('img');
-    image.src = 'assets/logo/LogoGif22.gif';
+    image.src = 'assets/logo/Logo4.gif';
     image.style.width = '100%';
     image.style.height = '100%';
     image.style.objectFit = 'contain';

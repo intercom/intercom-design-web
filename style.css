@@ -432,7 +432,7 @@ body {
     height: 64px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     z-index: 2000;
     background: linear-gradient(to bottom, var(--background-primary) 1%, transparent 40%);
     padding: 0 40px;
@@ -448,26 +448,103 @@ body {
 
 .menu-center {
     display: flex;
-    gap: 40px;
+    gap: 64px;
     justify-content: center;
-    flex: 1;
+    position: relative;
 }
 
 .menu-center a {
     color: var(--foreground-primary);
-    font-weight: var(--font-normal);
-    font-size: var(--text-base);
-    letter-spacing: var(--tracking-wide);
-
+    font-family: 'DM Mono', monospace;
+    font-size: var(--text-sm);
+    font-weight: 300;
+    letter-spacing: var(--tracking-wider);
     text-decoration: none;
     position: relative;
     padding: 2px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     transition: color 0.2s;
-    
+    text-transform: uppercase;
+}
+
+.menu-center a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent-orange);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .menu-center a:hover {
-    color: var(--foreground-secondary);
+    color: var(--accent-orange);
+}
+
+.menu-center a:hover::after {
+    width: 100%;
+}
+
+.link-icon {
+    width: 9px;
+    height: 9px;
+    display: inline-block;
+    margin-top: 5px;
+    align-self: flex-start;
+}
+
+.menu-center a:hover .link-icon {
+    filter: brightness(0) saturate(100%) invert(48%) sepia(98%) saturate(2472%) hue-rotate(346deg) brightness(101%) contrast(101%);
+}
+
+/* Remove the old hover effects */
+.menu-center a::before {
+    display: none;
+}
+
+@keyframes terminalGlow {
+    0% {
+        text-shadow: 0 0 0 rgba(255, 69, 0, 0);
+    }
+    50% {
+        text-shadow: 0 0 8px rgba(255, 69, 0, 0.3);
+    }
+    100% {
+        text-shadow: 0 0 0 rgba(255, 69, 0, 0);
+    }
+}
+
+.menu-center a:hover {
+    animation: terminalGlow 1.5s ease-in-out infinite;
+}
+
+/* Active indicator pulse */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.6);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(255, 69, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 69, 0, 0);
+    }
+}
+
+.active-indicator {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-orange);
+    display: inline-block;
+    position: relative;
+    align-self: center;
+}
+
+.menu-center a:hover .active-indicator {
+    animation: pulse 2s infinite;
 }
 
 .menu-right {
@@ -522,4 +599,8 @@ body {
 
 .card:hover .card-corner-overlay {
   opacity: 1;
+}
+
+.menu-center a.active {
+    color: var(--foreground-primary);
 }

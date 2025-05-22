@@ -8,7 +8,9 @@ import { createVideoCard } from './cards/videoCard.js';
 import { createModal } from './utils/createModal.js';
 import { Minimap } from './utils/minimap.js';
 import { NotificationSystem } from './utils/notifications.js';
-// import gsap from 'gsap';
+
+// Initialize notification system
+const notifications = new NotificationSystem();
 
 // Get DOM elements
 const canvas = document.getElementById('canvas');
@@ -120,8 +122,7 @@ const cards = [
     type: 'video', 
     top: '45%', 
     left: '40%', 
-    src: 'assets/Intercom-Logo.mp4',
-    label: 'INTERCOM'
+    src: 'assets/logo/Logo4.gif'
   },
   { 
     type: 'text', 
@@ -176,9 +177,6 @@ const cards = [
 // Initialize minimap
 let minimap;
 
-// Initialize notification system
-const notifications = new NotificationSystem();
-
 // Handle wheel scroll with easing using GSAP
 function handleWheel(event) {
   event.preventDefault();
@@ -212,6 +210,7 @@ function handleWheel(event) {
 function init() {
   initializeCards();
   updateCanvasSize();
+  initializeMenuAnimations();
 
   const rect = canvas.getBoundingClientRect();
   offsetX = -rect.width / 2 + window.innerWidth / 2;
@@ -386,6 +385,30 @@ function initializeCards() {
       });
     }
   });
+}
+
+// Add menu animations
+function initializeMenuAnimations() {
+  const menuLinks = document.querySelectorAll('.menu-center a');
+  
+  menuLinks.forEach(link => {
+    // Initial state
+    gsap.set(link, {
+      opacity: 1
+    });
+  });
+
+  // Active indicator animation
+  const activeIndicator = document.querySelector('.active-indicator');
+  if (activeIndicator) {
+    gsap.to(activeIndicator, {
+      scale: 1.1,
+      duration: 1,
+      repeat: -1,
+      yoyo: true,
+      ease: "power1.inOut"
+    });
+  }
 }
 
 // Start app

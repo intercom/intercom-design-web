@@ -1,6 +1,5 @@
 /* Theme Variables
- * This file contains all color variables for both light and dark themes
- * The default theme is dark, and light theme is applied when body has .light class
+ * This file contains all color variables for the dark theme
  */
 
 :root {
@@ -8,7 +7,7 @@
   --background-primary: #0a0a0a;      /* Canvas background / entire page */
   --background-secondary: #1a1a1a;    /* Panels, sidebars, toolbar backgrounds */
   --background-tertiary: #111111;     /* Popovers, tooltips, floating controls */
-  --grid-color: rgba(255, 255, 255, 0.4);  /* Grid lines color for dark theme - increased opacity */
+  --grid-color: rgba(255, 255, 255, 0.4);  /* Grid lines color */
   --cursor-illumination: rgba(0, 0, 0, 0.2);  /* Cursor illumination effect color */
   --cursor-illumination-radius: 150px;  /* Radius of cursor illumination effect */
 
@@ -50,54 +49,4 @@
 
   /* === DEPTH / SHADOW === */
   --shadow-soft: none;  /* No shadow in dark mode */
-}
-
-/* Light Theme Overrides */
-body.light {
-  /* === BACKGROUND COLORS === */
-  --background-primary: #ffffff;      /* Main background: canvas grid, page background */
-  --background-secondary: #f5f5f5;    /* Sidebar backgrounds, tool panels */
-  --background-tertiary: #d3d3d3;     /* Tooltips, sticky toolbars */
-  --grid-color: rgba(0, 0, 0, 0.2);   /* Grid lines color for light theme - increased opacity */
-  --cursor-illumination: rgba(0, 0, 0, 0.1);  /* Lighter cursor illumination for light theme */
-  --cursor-illumination-radius: 150px;  /* Radius of cursor illumination effect */
-
-  /* === CARD GRADIENTS === */
-  --card-stroke-gradient: linear-gradient(45deg, var(--background-tertiary), var(--foreground-secondary));
-  --card-stroke-width: 2px;
-
-  /* === CARD SPECIFIC COLORS === */
-  --youtube-card-bg: rgba(255, 0, 0, 0.1);    /* Lighter YouTube card background */
-  --youtube-card-border: rgba(255, 0, 0, 0.2); /* Lighter YouTube card border */
-  --spotify-card-bg: rgba(30, 215, 96, 0.1);   /* Lighter Spotify card background */
-  --spotify-card-border: rgba(30, 215, 96, 0.2); /* Lighter Spotify card border */
-
-  /* === MINIMAP SPECIFIC === */
-  --minimap-bg: rgba(255, 255, 255, 0.8);  /* Semi-transparent background for minimap */
-  --minimap-blur: 8px;                     /* Blur effect for minimap */
-  --minimap-border: rgba(233, 233, 233, 0.3);  /* Semi-transparent border for minimap */
-
-  /* === TEXT / FOREGROUND COLORS === */
-  --foreground-primary: #0a0a0a;      /* Primary text */
-  --foreground-secondary: #333333;    /* Metadata, helper text */
-
-  /* === ACCENT COLORS === */
-  --accent-blue: #0066cc;             /* Slightly darker blue for contrast on white */
-  --accent-orange: #e63900;           /* CTA and highlights */
-  --accent-gold: #c29100;             /* Gold accent, used more sparingly */
-  --accent-orchid: #b85bb0;           /* Tertiary accents */
-  --accent-slate: #3b3f58;            /* Muted tone for labels, navigation hints */
-
-  /* === BORDERS & DIVIDERS === */
-  --border-primary: #bbbbbb;          /* Light grey for visible separation */
-  --border-secondary: #252525;        
-  --border-tertiary: rgba(0, 0, 0, 0.1);  /* Subtle border for cards in light mode */
-  --border-glow: rgba(218, 219, 220, 0.2); /* Softer glow in light theme for focus/hover */
-
-  /* === CARDS & CONTAINERS === */
-  --card-bg: #ffffff;                 /* White cards */
-  --card-border: #f5f5f5;             /* Light card outlines */
-
-  /* === DEPTH / SHADOW === */
-  --shadow-soft: 0 1px 15px rgba(121, 121, 121, 0.1);  /* Light drop shadow for cards and popovers */
 } 

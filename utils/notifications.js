@@ -7,7 +7,7 @@ export class NotificationSystem {
         this.container.style.zIndex = '1000';
         this.container.style.display = 'flex';
         this.container.style.flexDirection = 'column';
-        this.container.style.gap = '0';
+        this.container.style.gap = '4px';
         document.body.appendChild(this.container);
     }
 
@@ -25,15 +25,14 @@ export class NotificationSystem {
         notification.style.fontWeight = 'var(--font-light)';
         notification.style.letterSpacing = 'var(--tracking-wider)';
         notification.style.color = 'var(--foreground-primary)';
-        notification.style.transform = 'translateX(20px)';
-        notification.style.opacity = '0';
-        notification.style.transition = 'all 0.3s ease';
         notification.style.display = 'flex';
         notification.style.alignItems = 'center';
         notification.style.justifyContent = 'space-between';
         notification.style.gap = '16px';
-        notification.style.marginTop = '-20px';
         notification.style.position = 'relative';
+        notification.style.transform = 'translateX(100px)';
+        notification.style.opacity = '0';
+        notification.style.scale = '0.8';
 
         // Create message container
         const messageContainer = document.createElement('div');
@@ -59,20 +58,33 @@ export class NotificationSystem {
 
         // Add hover effect to close button
         closeButton.addEventListener('mouseenter', () => {
-            closeButton.style.opacity = '1';
+            gsap.to(closeButton, {
+                opacity: 1,
+                duration: 0.2,
+                ease: "power2.out"
+            });
         });
 
         closeButton.addEventListener('mouseleave', () => {
-            closeButton.style.opacity = '0.6';
+            gsap.to(closeButton, {
+                opacity: 0.6,
+                duration: 0.2,
+                ease: "power2.out"
+            });
         });
 
         // Add click handler to close button
         closeButton.addEventListener('click', () => {
-            notification.style.transform = 'translateX(20px)';
-            notification.style.opacity = '0';
-            setTimeout(() => {
-                this.container.removeChild(notification);
-            }, 300);
+            gsap.to(notification, {
+                x: 100,
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.4,
+                ease: "power2.in",
+                onComplete: () => {
+                    this.container.removeChild(notification);
+                }
+            });
         });
 
         // Add hover effect to spread notifications
@@ -80,7 +92,11 @@ export class NotificationSystem {
             const notifications = this.container.children;
             for (let i = 0; i < notifications.length; i++) {
                 const notif = notifications[i];
-                notif.style.marginTop = '10px';
+                gsap.to(notif, {
+                    y: i * 8,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
             }
         });
 
@@ -88,7 +104,11 @@ export class NotificationSystem {
             const notifications = this.container.children;
             for (let i = 0; i < notifications.length; i++) {
                 const notif = notifications[i];
-                notif.style.marginTop = '-20px';
+                gsap.to(notif, {
+                    y: 0,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
             }
         });
 
@@ -97,10 +117,13 @@ export class NotificationSystem {
         notification.appendChild(closeButton);
         this.container.appendChild(notification);
 
-        // Trigger animation
-        requestAnimationFrame(() => {
-            notification.style.transform = 'translateX(0)';
-            notification.style.opacity = '1';
+        // Animate in with GSAP
+        gsap.to(notification, {
+            x: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.5,
+            ease: "back.out(1.7)"
         });
     }
 } 

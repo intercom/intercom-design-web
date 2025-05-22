@@ -266,6 +266,34 @@ function handleCursorMove(event) {
   canvas.style.setProperty('--cursor-y', `${y}px`);
 }
 
+function addCornerOverlay(cardElement) {
+  const overlay = document.createElement('div');
+  overlay.className = 'card-corner-overlay';
+  overlay.style.transform = 'scale(0.8)';
+  overlay.style.borderColor = 'var(--grid-color, rgba(255,255,255,0.4))';
+  cardElement.appendChild(overlay);
+
+  // Animate overlay on card hover
+  cardElement.addEventListener('mouseenter', () => {
+    gsap.to(overlay, {
+      scale: 1,
+      borderColor: 'rgba(255,255,255,0.8)',
+      duration: 0.8,
+      ease: 'expo.out',
+      overwrite: true
+    });
+  });
+  cardElement.addEventListener('mouseleave', () => {
+    gsap.to(overlay, {
+      scale: 0.8,
+      borderColor: 'var(--grid-color, rgba(255,255,255,0.4))',
+      duration: 0.8,
+      ease: 'expo.in',
+      overwrite: true
+    });
+  });
+}
+
 // Generate cards
 function initializeCards() {
   const modal = createModal();
@@ -283,6 +311,11 @@ function initializeCards() {
       case 'video': card = createVideoCard(cardData); break;
     }
     if (card) {
+      // Find the .card element inside the wrapper
+      const cardElement = card.querySelector('.card');
+      if (cardElement) {
+        addCornerOverlay(cardElement);
+      }
       card.style.top = cardData.top;
       card.style.left = cardData.left;
       if (cardData.id) card.id = cardData.id;

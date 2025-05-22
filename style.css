@@ -494,8 +494,32 @@ body {
     border-color: var(--foreground-primary);
 }
 
-/* Remove theme switcher */
-.theme-switcher { display: none !important; }
+.card-corner-overlay {
+  pointer-events: none;
+  position: absolute;
+  top: -40px; left: -40px; right: -40px; bottom: -40px;
+  width: calc(100% + 80px);
+  height: calc(100% + 80px);
+  border: 1px solid var(--grid-color, rgba(255,255,255,0.4));
+  border-radius: 0;
+  opacity: 0;
+  transition: opacity 0.2s cubic-bezier(0.4,0,0.2,1);
+  z-index: 20;
+  /* Mask out all but corners, sharp cutoff, smaller corners */
+  mask-image: 
+    radial-gradient(circle at 0 0, white 0 7px, transparent 7px),
+    radial-gradient(circle at 100% 0, white 0 7px, transparent 7px),
+    radial-gradient(circle at 0 100%, white 0 7px, transparent 7px),
+    radial-gradient(circle at 100% 100%, white 0 7px, transparent 7px);
+  mask-composite: add;
+  -webkit-mask-image: 
+    radial-gradient(circle at 0 0, white 0 7px, transparent 7px),
+    radial-gradient(circle at 100% 0, white 0 7px, transparent 7px),
+    radial-gradient(circle at 0 100%, white 0 7px, transparent 7px),
+    radial-gradient(circle at 100% 100%, white 0 7px, transparent 7px);
+  -webkit-mask-composite: source-over;
+}
 
-/* Remove light theme support */
-body.light { background: var(--background-primary); color: var(--foreground-primary); }
+.card:hover .card-corner-overlay {
+  opacity: 1;
+}

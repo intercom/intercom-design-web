@@ -39,7 +39,7 @@ export function createTextCard(data) {
     // Create card container
     const card = document.createElement('div');
     card.className = 'card text-card';
-    card.style.width = 'min(450px, 90vw)';  // 450px or 90% of viewport width, whichever is smaller
+    card.style.width = 'min(480px, 90vw)';  // Increased from 450px to 600px
 
     // Create active indicator
     const activeIndicator = document.createElement('span');
@@ -72,8 +72,8 @@ export function createTextCard(data) {
 
     paragraph.style.overflow = 'hidden';
     paragraph.style.position = 'relative';
-    paragraph.style.maskImage = 'linear-gradient(to bottom, black 40%, transparent 100%)';
-    paragraph.style.webkitMaskImage = 'linear-gradient(to bottom, black 40%, transparent 100%)';
+    paragraph.style.maskImage = 'linear-gradient(to bottom, black 60%, transparent 100%)';
+    paragraph.style.webkitMaskImage = 'linear-gradient(to bottom, black 60%, transparent 100%)';
 
     // Create link element
     const link = document.createElement('a');

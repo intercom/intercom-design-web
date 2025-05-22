@@ -166,6 +166,8 @@ body {
     font-weight: var(--font-light);
     line-height: var(--leading-normal);
     letter-spacing: var(--tracking-widest);
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .card::before {
@@ -601,4 +603,8 @@ body {
 
 .menu-center a.active {
     color: var(--foreground-primary);
+}
+
+.card-wrapper:hover .card-title {
+    opacity: 1;
 }

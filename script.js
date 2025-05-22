@@ -68,27 +68,27 @@ const cards = [
   },
   { 
     type: 'image', 
-    top: '8%', 
-    left: '52%', 
-    src: 'https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&auto=format&fit=crop&q=80', 
+    top: '20%', 
+    left: '40%', 
+    src: 'assets/images/img1.png', 
     link: 'https://www.intercom.com/blog', 
-    label: 'BLOG POST' 
+    label: '' 
   },
   { 
     type: 'image', 
-    top: '65%', 
-    left: '10%', 
-    src: 'https://images.unsplash.com/photo-1579546929662-711aa81148cf?w=800&auto=format&fit=crop&q=80', 
+    top: '32%', 
+    left: '20%', 
+    src: 'assets/images/img2.png', 
     link: 'https://www.intercom.com/careers', 
-    label: 'CAREERS' 
+    label: '' 
   },
   { 
     type: 'image', 
     top: '75%', 
     left: '82%', 
-    src: 'https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&auto=format&fit=crop&q=80', 
+    src: 'assets/images/img2.png', 
     link: 'https://www.intercom.com/podcast', 
-    label: 'IMG1' 
+    label: '' 
   },
   { 
     type: 'youtube', 
@@ -138,36 +138,38 @@ It wasn't broken, but it wasn't serving our users anymore. Workflows were harder
   },
   { 
     type: 'text', 
-    top: '78%', 
+    top: '76%', 
     left: '32%', 
-    paragraph: 'FOLLOW US ON TWITTER', 
+    paragraph: `Before ChatGPT rolled onto the scene a year ago, artificial intelligence (AI) and machine learning (ML) were the mysterious tools of experts and data scientists – teams with a lot of niche experience and specialized domain knowledge. Now, things are different.
+
+You're probably reading this because your company has decided to use OpenAI's GPT or another LLM (large language model) to build generative AI features into your product. If that's the case, you might be feeling e`, 
     link: 'https://twitter.com/intercom',
     label: `A new age of UX: 
 Evolving your design approach for AI products`
   },
   { 
     type: 'folder', 
-    top: '38%', 
-    left: '32%', 
-    title: 'CAREERS', 
-    content: 'Join our design team!...',
-    label: 'RNDM'
+    top: '42%', 
+    left: '34%', 
+    title: 'IDEAS', 
+    content: 'FIN.AI Ideas.',
+    label: 'IDEAS'
   },
   { 
     type: 'folder', 
-    top: '30%', 
-    left: '63%', 
-    title: 'BLOG', 
+    top: '55%', 
+    left: '18%', 
+    title: 'TEXTS', 
     content: 'Read our latest articles...',
     label: 'TEXTS'
   },
   { 
     type: 'folder', 
-    top: '80%', 
-    left: '80%', 
-    title: 'PODCASTS', 
+    top: '45%', 
+    left: '64%', 
+    title: 'TALKS & EVENTS', 
     content: 'Listen to our podcasts...',
-    label: 'AUDIO'
+    label: 'TALKS & EVENTS'
   }
 ];
 

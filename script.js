@@ -108,15 +108,15 @@ const cards = [
     type: 'spotify', 
     top: '28%', 
     left: '74%', 
-    embedId: 'episode/2mJ5zLlX0iouG9H5vxUlhk', 
-    label: 'BEYOND THE AI HYPE' 
+    embedId: 'episode/5F4PfFZhgVnPWlNJedKj4n', 
+    label: 'WHY ANTHROPIC CHOSE FIN' 
   },
   { 
     type: 'spotify', 
     top: '20%', 
     left: '78%', 
-    embedId: 'episode/2mJ5zLlX0iouG9H5vxUlhk', 
-    label: 'BEYOND THE AI HYPE' 
+    embedId: 'episode/6JJx8dpieFuAmzayEbJdYs', 
+    label: 'NAVIGATING AI-FIRST CUSTOMER SERVICE' 
   },
   { 
     type: 'video', 
@@ -133,7 +133,7 @@ const cards = [
 For Intercom, we encountered this moment when it became clear that our information architecture (IA) – the framework that organizes how features, settings, and workflows fit together – was struggling to keep pace with the development of our product.
 
 It wasn't broken, but it wasn't serving our users anymore. Workflows were harder to locate, settings were scattered and confusing, and some navigation labels left users unsure of where to go.`, 
-    link: 'https://www.intercom.com/blog/design',
+    link: 'https://www.intercom.com/blog/designing-for-clarity-restructuring-intercoms-information-architecture/',
     label: 'DESIGNING FOR CLARITY'
   },
   { 
@@ -143,7 +143,7 @@ It wasn't broken, but it wasn't serving our users anymore. Workflows were harder
     paragraph: `Before ChatGPT rolled onto the scene a year ago, artificial intelligence (AI) and machine learning (ML) were the mysterious tools of experts and data scientists – teams with a lot of niche experience and specialized domain knowledge. Now, things are different.
 
 You're probably reading this because your company has decided to use OpenAI's GPT or another LLM (large language model) to build generative AI features into your product. If that's the case, you might be feeling e`, 
-    link: 'https://twitter.com/intercom',
+    link: 'https://www.intercom.com/blog/design-ux-machine-learning-ai/',
     label: `A new age of UX: 
 Evolving your design approach for AI products`
   },

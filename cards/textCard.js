@@ -40,6 +40,7 @@ export function createTextCard(data) {
     const card = document.createElement('div');
     card.className = 'card text-card';
     card.style.width = 'min(480px, 90vw)';  // Increased from 450px to 600px
+    card.style.cursor = 'default'; // Change cursor to default since card is not clickable
 
     // Create active indicator
     const activeIndicator = document.createElement('span');
@@ -80,7 +81,7 @@ export function createTextCard(data) {
     link.href = data.link;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
-    link.style.display = 'flex';
+    link.style.display = 'inline-flex'; // Changed from flex to inline-flex
     link.style.alignItems = 'center';
     link.style.gap = '8px';
     link.style.marginTop = '24px';
@@ -89,6 +90,7 @@ export function createTextCard(data) {
     link.style.transition = 'color 0.2s';
     link.style.position = 'relative';
     link.style.padding = '2px 0';
+    link.style.cursor = 'pointer'; // Add pointer cursor for the link
 
     // Create text span
     const linkText = document.createElement('span');
@@ -111,7 +113,7 @@ export function createTextCard(data) {
     arrow.style.alignSelf = 'flex-start';
     arrow.style.opacity = '0.6';
 
-    // Add hover effect
+    // Add hover effect only to the link
     link.addEventListener('mouseenter', () => {
         // Add pulse animation to active indicator on hover
         gsap.to(activeIndicator, {
@@ -121,6 +123,7 @@ export function createTextCard(data) {
             yoyo: true,
             ease: "power1.inOut"
         });
+        link.style.color = 'var(--foreground-primary)'; // Change color on hover
     });
     link.addEventListener('mouseleave', () => {
         // Stop pulse animation
@@ -130,6 +133,7 @@ export function createTextCard(data) {
             duration: 0.3,
             ease: "power2.out"
         });
+        link.style.color = 'var(--foreground-secondary)'; // Reset color
     });
 
     // Assemble link

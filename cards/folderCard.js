@@ -21,7 +21,7 @@ export function createFolderCard(data, modal) {
     icon.src = 'assets/icons/folder.png';
     icon.alt = 'Folder';
     icon.style.width = '96px';
-    icon.style.height = '96px';
+    icon.style.height = 'auto';
 
     // Create label element
     const label = document.createElement('span');

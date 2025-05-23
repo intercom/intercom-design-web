@@ -417,11 +417,11 @@ init();
 document.addEventListener('mousemove', (e) => {
     const canvas = document.getElementById('canvas');
     const rect = canvas.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
     
-    canvas.style.setProperty('--cursor-x', `${x}%`);
-    canvas.style.setProperty('--cursor-y', `${y}%`);
+    canvas.style.setProperty('--cursor-x', `${x}px`);
+    canvas.style.setProperty('--cursor-y', `${y}px`);
 });
 
 // Show notifications with a delay

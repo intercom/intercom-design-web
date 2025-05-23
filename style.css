@@ -81,6 +81,10 @@ body {
         rgb(255, 255, 255) 0px,
         transparent 400px
     );
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
 }
 
 #canvas::after {
@@ -106,6 +110,10 @@ body {
         rgba(0, 0, 0, 0) 0%,
         transparent var(--cursor-illumination-radius)
     );
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
 }
 
 /* When the canvas has the 'illuminated' class (added on mouseenter),

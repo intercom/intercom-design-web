@@ -8,6 +8,7 @@ import { createVideoCard } from './cards/videoCard.js';
 import { createModal } from './utils/createModal.js';
 import { Minimap } from './utils/minimap.js';
 import { NotificationSystem } from './utils/notifications.js';
+import { createBlockQuoteCard } from './cards/blockQuoteCard.js';
 
 // Initialize notification system
 const notifications = new NotificationSystem();
@@ -62,17 +63,17 @@ const cards = [
     type: 'image', 
     top: '15%', 
     left: '12%', 
-    src: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&auto=format&fit=crop&q=80', 
+    src: 'assets/images/img3.png', 
     link: 'https://www.intercom.com/design', 
-    label: 'DESIGN SYSTEM' 
+    label: '' 
   },
   { 
     type: 'image', 
     top: '20%', 
-    left: '40%', 
+    left: '38%', 
     src: 'assets/images/img1.png', 
     link: 'https://www.intercom.com/blog', 
-    label: '' 
+    label: '',
   },
   { 
     type: 'image', 
@@ -99,24 +100,41 @@ const cards = [
   },
   { 
     type: 'youtube', 
-    top: '70%', 
+    top: '69%', 
     left: '63%', 
     embedId: 'cnhUspTS4YU', 
-    label: 'Built For You: April 2024 - An Intercom Product Broadcast' 
+    label: 'Built For You: April 2024 Broadcast' 
+  },
+  { 
+    type: 'youtube', 
+    top: '80%', 
+    left: '74%', 
+    embedId: 'rc1WGS8QNeI', 
+    label: 'How to design standout products in an AI world' 
   },
   { 
     type: 'spotify', 
     top: '28%', 
     left: '74%', 
     embedId: 'episode/5F4PfFZhgVnPWlNJedKj4n', 
-    label: 'WHY ANTHROPIC CHOSE FIN' 
+    label: 'WHY ANTHROPIC CHOSE FIN',
+    colourful: false
   },
   { 
     type: 'spotify', 
     top: '20%', 
     left: '78%', 
     embedId: 'episode/6JJx8dpieFuAmzayEbJdYs', 
-    label: 'NAVIGATING AI-FIRST CUSTOMER SERVICE' 
+    label: 'NAVIGATING AI-FIRST CUSTOMER SERVICE', 
+    colourful: false
+  },
+  { 
+    type: 'spotify', 
+    top: '36%', 
+    left: '78%', 
+    embedId: '4fxGDCRdLwO1Zs7YQm8YMz', 
+    label: 'A day in the life of a conversation designer',
+    colourful: false
   },
   { 
     type: 'video', 
@@ -127,29 +145,41 @@ const cards = [
   { 
     type: 'text', 
     top: '55%', 
-    left: '30%', 
+    left: '32%', 
     paragraph: `Every product reaches a moment when its foundation begins to strain under the weight of growth.
 
-For Intercom, we encountered this moment when it became clear that our information architecture (IA) – the framework that organizes how features, settings, and workflows fit together – was struggling to keep pace with the development of our product.
-
-It wasn't broken, but it wasn't serving our users anymore. Workflows were harder to locate, settings were scattered and confusing, and some navigation labels left users unsure of where to go.`, 
+For Intercom, we encountered this moment when it became clear that our information architecture (IA) – the framework that organizes how features, settings, and workflows fit together – was struggling to keep pace with the development of our product.`, 
     link: 'https://www.intercom.com/blog/designing-for-clarity-restructuring-intercoms-information-architecture/',
-    label: 'DESIGNING FOR CLARITY'
+    label: 'DESIGNING FOR CLARITY',
+    accent: 'accent-blue'
   },
+  
   { 
     type: 'text', 
-    top: '76%', 
-    left: '32%', 
+    top: '63%', 
+    left: '18%', 
     paragraph: `Before ChatGPT rolled onto the scene a year ago, artificial intelligence (AI) and machine learning (ML) were the mysterious tools of experts and data scientists – teams with a lot of niche experience and specialized domain knowledge. Now, things are different.
 
-You're probably reading this because your company has decided to use OpenAI's GPT or another LLM (large language model) to build generative AI features into your product. If that's the case, you might be feeling e`, 
+You're probably reading this because your company has decided to use OpenAI's GPT or another LLM (large language model) to build generative AI features into your product.`, 
     link: 'https://www.intercom.com/blog/design-ux-machine-learning-ai/',
     label: `A new age of UX: 
-Evolving your design approach for AI products`
+Evolving your design approach for AI products`,
+    accent: 'accent-lime'
   },
+
+  { 
+    type: 'text', 
+    top: '70%', 
+    left: '33%', 
+    paragraph: `AI is no longer a distant promise—it's here, and it's changing everything. From customer support to product design, the AI revolution is reshaping how we work, interact, and innovate. Are you ready to pioneer the future?`, 
+    link: 'https://www.intercom.com/blog/videos/pioneer-this-is-getting-real-ai-revolution/',
+    label: 'This is getting real: Welcome to the AI revolution',
+    accent: 'accent-orchid'
+  },
+
   { 
     type: 'folder', 
-    top: '42%', 
+    top: '38%', 
     left: '34%', 
     title: 'IDEAS', 
     content: 'FIN.AI Ideas.',
@@ -158,18 +188,48 @@ Evolving your design approach for AI products`
   { 
     type: 'folder', 
     top: '55%', 
-    left: '18%', 
+    left: '24%', 
     title: 'TEXTS', 
     content: 'Read our latest articles...',
     label: 'TEXTS'
   },
   { 
     type: 'folder', 
-    top: '45%', 
-    left: '64%', 
+    top: '47%', 
+    left: '62%', 
     title: 'TALKS & EVENTS', 
     content: 'Listen to our podcasts...',
     label: 'TALKS & EVENTS'
+  },
+  {
+    type: 'blockquote',
+    top: '52%',
+    left: '12%',
+    text: 'Most portfolios look great. But they rarely tell us how someone actually thinks and works. That\'s the gap we\'re trying to close.',
+    highlight: 'how someone actually thinks and works.',
+    highlightColor: 'accent-gold',
+    link: 'https://www.intercom.com/blog/videos/pioneer-this-is-getting-real-ai-revolution/',
+    label: 'READ MORE'
+  },
+  {
+    type: 'blockquote',
+    top: '58%',
+    left: '75%',
+    text: 'Most portfolios look great. But they rarely tell us how someone actually thinks and works. That\'s the gap we\'re trying to close.',
+    highlight: 'how someone actually thinks and works.',
+    highlightColor: 'accent-green',
+    link: 'https://www.intercom.com/blog/videos/pioneer-this-is-getting-real-ai-revolution/',
+    label: 'READ MORE'
+  },
+  {
+    type: 'blockquote',
+    top: '30%',
+    left: '60%',
+    text: `I was going to title this 'Why can\'t we let self-driving cars kill anyone?' but I thought that might be a bit too much.`,
+    highlight: 'Why can\'t we let self-driving cars kill anyone?',
+    highlightColor: 'accent-orchid',
+    link: 'https://www.intercom.com/blog/videos/pioneer-this-is-getting-real-ai-revolution/',
+    label: 'READ MORE'
   }
 ];
 
@@ -204,7 +264,6 @@ function handleWheel(event) {
     }
   });
 }
-
 // Initialize canvas and content
 function init() {
   initializeCards();
@@ -307,6 +366,7 @@ function initializeCards() {
       case 'text': card = createTextCard(cardData); break;
       case 'folder': card = createFolderCard(cardData, modal); break;
       case 'video': card = createVideoCard(cardData); break;
+      case 'blockquote': card = createBlockQuoteCard(cardData); break;
     }
     if (card) {
       // Find the .card element inside the wrapper
@@ -432,7 +492,3 @@ setTimeout(() => {
 setTimeout(() => {
     notifications.show('Join us in the BFY event in London');
 }, 3000);
-
-setTimeout(() => {
-    notifications.show('We are hiring!');
-}, 5000);

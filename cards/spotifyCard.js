@@ -27,10 +27,19 @@ export function createSpotifyCard(data) {
     card.style.height = '152px';
     card.style.pointerEvents = 'none';
 
+    // Set default for colourful if not provided
+    const isColourful = typeof data.colourful === 'boolean' ? data.colourful : false;
+    // Ensure embedId has 'episode/' prefix
+    let embedId = data.embedId;
+    if (!embedId.startsWith('episode/')) {
+        embedId = 'episode/' + embedId;
+    }
     // Create Spotify embed iframe
     const iframe = document.createElement('iframe');
     iframe.style.borderRadius = '12px';
-    iframe.src = `https://open.spotify.com/embed/${data.embedId}?theme=0`;
+    // Use colourful theme if specified
+    const themeParam = isColourful ? '1' : '0';
+    iframe.src = `https://open.spotify.com/embed/${embedId}?theme=${themeParam}`;
     iframe.width = '100%';
     iframe.height = '152';
     iframe.frameBorder = '0';

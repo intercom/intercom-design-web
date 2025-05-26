@@ -35,6 +35,8 @@ export function createYoutubeCard(data) {
     card.style.overflow = 'hidden';
     card.style.borderRadius = '16px';
     card.style.position = 'relative';
+    card.style.width = 'min(380px, 80vw)';
+    card.style.height = 'min(214px, 45vw)';
 
     // Create thumbnail container
     const thumbnail = document.createElement('div');
@@ -52,8 +54,8 @@ export function createYoutubeCard(data) {
     playButtonContainer.style.top = '50%';
     playButtonContainer.style.left = '50%';
     playButtonContainer.style.transform = 'translate(-50%, -50%)';
-    playButtonContainer.style.width = '80px';
-    playButtonContainer.style.height = '80px';
+    playButtonContainer.style.width = '56px';
+    playButtonContainer.style.height = '56px';
     playButtonContainer.style.borderRadius = '50%';
     playButtonContainer.style.background = 'rgba(0, 0, 0, 0.3)';
     playButtonContainer.style.backdropFilter = 'blur(8px)';
@@ -76,10 +78,24 @@ export function createYoutubeCard(data) {
     // Add hover effect
     link.addEventListener('mouseenter', () => {
         playButtonContainer.style.background = 'rgba(0, 0, 0, 0.4)';
+        // GSAP pop effect
+        gsap.to(playButtonContainer, {
+            scale: 1.15,
+            boxShadow: '0 0 16px 4px rgba(0,255,255,0.25)',
+            duration: 0.35,
+            ease: 'expo.out',
+        });
     });
 
     link.addEventListener('mouseleave', () => {
         playButtonContainer.style.background = 'rgba(0, 0, 0, 0.3)';
+        // Revert GSAP effect
+        gsap.to(playButtonContainer, {
+            scale: 1,
+            boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+            duration: 0.4,
+            ease: 'expo.in',
+        });
     });
 
     // Assemble card

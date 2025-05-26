@@ -8,6 +8,7 @@ export class NotificationSystem {
         this.container.style.flexDirection = 'column';
         this.container.style.gap = '8px';
         this.container.style.zIndex = '10000';
+        this.container.style.width = '360px';
         document.body.appendChild(this.container);
     }
 
@@ -16,13 +17,13 @@ export class NotificationSystem {
         notification.style.background = 'rgba(20, 20, 20, 0.7)';
         notification.style.backdropFilter = 'blur(10px)';
         notification.style.webkitBackdropFilter = 'blur(10px)';
-        notification.style.padding = '16px 24px';
+        notification.style.padding = '12px 12px 12px 16px';
         notification.style.borderRadius = '16px';
         notification.style.border = '1px solid rgba(46, 46, 46, 0.3)';
         notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-        notification.style.fontFamily = 'DM Mono, monospace';
+        notification.style.fontFamily = 'Inter, sans-serif';
         notification.style.fontSize = 'var(--text-xs)';
-        notification.style.fontWeight = '300';
+        notification.style.fontWeight = '400';
         notification.style.letterSpacing = 'var(--tracking-wider)';
         notification.style.color = 'var(--foreground-primary)';
         notification.style.display = 'flex';
@@ -32,6 +33,10 @@ export class NotificationSystem {
         notification.style.transform = 'translateX(100px)';
         notification.style.opacity = '0';
         notification.style.scale = '0.8';
+        notification.style.width = '100%';
+        notification.style.maxWidth = '100%';
+        notification.style.minWidth = '0';
+        notification.style.boxSizing = 'border-box';
 
         // Create indicator
         const indicator = document.createElement('div');
@@ -44,6 +49,9 @@ export class NotificationSystem {
         // Create message container
         const messageContainer = document.createElement('div');
         messageContainer.textContent = message;
+        messageContainer.style.whiteSpace = 'pre-line';
+        messageContainer.style.flex = '1 1 auto';
+        messageContainer.style.minWidth = '0';
 
         // Create close button
         const closeButton = document.createElement('button');
@@ -54,7 +62,8 @@ export class NotificationSystem {
         `;
         closeButton.style.background = 'none';
         closeButton.style.border = 'none';
-        closeButton.style.padding = '4px';
+        closeButton.style.padding = '6px';
+        closeButton.style.borderRadius = '6px';
         closeButton.style.cursor = 'pointer';
         closeButton.style.color = 'var(--foreground-primary)';
         closeButton.style.opacity = '0.6';
@@ -67,6 +76,7 @@ export class NotificationSystem {
         closeButton.addEventListener('mouseenter', () => {
             gsap.to(closeButton, {
                 opacity: 1,
+                background: '#232323',
                 duration: 0.2,
                 ease: "power2.out"
             });
@@ -75,6 +85,7 @@ export class NotificationSystem {
         closeButton.addEventListener('mouseleave', () => {
             gsap.to(closeButton, {
                 opacity: 0.6,
+                background: 'none',
                 duration: 0.2,
                 ease: "power2.out"
             });

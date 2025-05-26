@@ -36,7 +36,8 @@
   --accent-gold: #ffd700;             /* Decorative accent, nodes, icons */
   --accent-orchid: #da70d6;           /* Highlights, tertiary elements, creative UI hints */
   --accent-slate: #434d7f;            /* Muted accents: labels, dimmed links */
-
+  --accent-lime: #bfff00;             /* Lime green accent for special highlights */
+  --accent-green: #0DFF00;             /* Lime green accent for special highlights */
   /* === BORDERS & DIVIDERS === */
   --border-primary: #434343;          /* Card borders, divider lines, containers */
   --border-secondary: #333232;        

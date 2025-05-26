@@ -47,7 +47,8 @@ export function createTextCard(data) {
     activeIndicator.className = 'active-indicator';
     activeIndicator.style.width = '8px';
     activeIndicator.style.height = '8px';
-    activeIndicator.style.background = 'var(--accent-blue)';
+    const accentVar = data.accent ? `var(--${data.accent})` : 'var(--accent-blue)';
+    activeIndicator.style.background = accentVar;
     activeIndicator.style.display = 'inline-block';
     activeIndicator.style.position = 'relative';
     activeIndicator.style.alignSelf = 'center';

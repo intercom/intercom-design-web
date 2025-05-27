@@ -169,8 +169,8 @@ Evolving your design approach for AI products`,
 
   { 
     type: 'text', 
-    top: '70%', 
-    left: '33%', 
+    top: '75%', 
+    left: '38%', 
     paragraph: `AI is no longer a distant promise—it's here, and it's changing everything. From customer support to product design, the AI revolution is reshaping how we work, interact, and innovate. Are you ready to pioneer the future?`, 
     link: 'https://www.intercom.com/blog/videos/pioneer-this-is-getting-real-ai-revolution/',
     label: 'This is getting real: Welcome to the AI revolution',

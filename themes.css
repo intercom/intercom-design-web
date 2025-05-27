@@ -31,13 +31,20 @@
   --foreground-secondary: #a1a1a1;    /* Secondary text: metadata, timestamps, annotations */
 
   /* === ACCENT COLORS === */
-  --accent-blue: #00bfff;             /* Links, buttons, active states, selection */
+  --accent-blue: #0022ff;             /* Links, buttons, active states, selection */
   --accent-orange: #ff4500;           /* CTAs, warning tones, highlight on hover */
   --accent-gold: #ffd700;             /* Decorative accent, nodes, icons */
   --accent-orchid: #da70d6;           /* Highlights, tertiary elements, creative UI hints */
-  --accent-slate: #434d7f;            /* Muted accents: labels, dimmed links */
-  --accent-lime: #bfff00;             /* Lime green accent for special highlights */
-  --accent-green: #0DFF00;             /* Lime green accent for special highlights */
+  --accent-slate: #708090;            /* Neutral accent for subtle elements */
+  --accent-lime: #1eff1e;
+  --accent-green: #1bc41b;             /* Success states, positive indicators */
+  --accent-coral: #FF6B6B;            /* Vibrant coral for highlights */
+  --accent-sage: #18f68e;             /* Muted sage green for subtle accents */
+  --accent-cream: #ffd942;            /* Soft cream for gentle highlights */
+  --accent-rose: #ffa8a8;             /* Dusty rose for warm accents */
+  --accent-purple: #ca4dfc;           /* Rich purple for vibrant elements */
+  --accent-red: #E74C3C;              /* Bright red for attention */
+  --accent-yellow: #F1C40F;           /* Bright yellow for highlights */
   /* === BORDERS & DIVIDERS === */
   --border-primary: #434343;          /* Card borders, divider lines, containers */
   --border-secondary: #333232;        

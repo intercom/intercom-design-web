@@ -34,7 +34,7 @@ export function createBlockQuoteCard(data) {
         const idx = text.indexOf(highlight);
         html =
             text.substring(0, idx) +
-            `<span class="blockquote-highlight" style="background:${accentVar}; color:var(--color-black,#111); padding:0.1em 0.2em; border-radius:4px;">` +
+            `<span class="blockquote-highlight" style="background:${accentVar}; color:var(--color-black,#111); padding:0.1em 0.2em; border-radius:0;">` +
             highlight +
             '</span>' +
             text.substring(idx + highlight.length);
@@ -51,50 +51,39 @@ export function createBlockQuoteCard(data) {
     link.style.display = 'inline-flex';
     link.style.alignItems = 'center';
     link.style.gap = '8px';
-    link.style.marginTop = '8px';
+    link.style.marginTop = '24px';
     link.style.textDecoration = 'none';
     link.style.color = 'var(--foreground-secondary)';
     link.style.transition = 'color 0.2s';
     link.style.position = 'relative';
     link.style.padding = '2px 0';
     link.style.cursor = 'pointer';
-    link.style.fontFamily = 'var(--font-mono)';
-    link.style.fontSize = 'var(--text-xs)';
-    link.style.fontWeight = 'var(--font-light)';
-    link.style.letterSpacing = 'var(--tracking-widest)';
-    link.style.textTransform = 'uppercase';
 
-    // Link text
+    // Create text span
     const linkText = document.createElement('span');
-    linkText.textContent = data.label || 'READ MORE';
+    linkText.textContent = 'READ MORE';
+    linkText.style.fontFamily = 'var(--font-mono)';
+    linkText.style.fontSize = 'var(--text-xs)';
+    linkText.style.fontWeight = 'var(--font-light)';
+    linkText.style.letterSpacing = 'var(--tracking-widest)';
+    linkText.style.textTransform = 'uppercase';
 
-    // Arrow icon
-    const arrow = document.createElement('img');
-    arrow.src = 'assets/icons/arrow-diagonal-upd.svg';
-    arrow.className = 'link-icon';
-    arrow.alt = 'arrow';
-    arrow.style.width = '12px';
-    arrow.style.height = '12px';
-    arrow.style.display = 'inline-block';
-    arrow.style.marginTop = '2px';
-    arrow.style.alignSelf = 'flex-start';
-    arrow.style.opacity = '0.6';
-
-    // Hover effect
-    link.addEventListener('mouseenter', () => {
+    // Add hover effect to the entire card
+    wrapper.addEventListener('mouseenter', () => {
         link.style.color = 'var(--foreground-primary)';
-        scrambleOnHover(linkText, data.label || 'READ MORE');
+        scrambleOnHover(linkText, 'READ MORE');
     });
-    link.addEventListener('mouseleave', () => {
+    wrapper.addEventListener('mouseleave', () => {
         link.style.color = 'var(--foreground-secondary)';
-        resetToOriginal(linkText, data.label || 'READ MORE');
+        resetToOriginal(linkText, 'READ MORE');
     });
 
+    // Assemble link
     link.appendChild(linkText);
-    link.appendChild(arrow);
 
     // Assemble card
     wrapper.appendChild(quote);
     wrapper.appendChild(link);
+
     return wrapper;
 } 

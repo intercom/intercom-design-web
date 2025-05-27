@@ -9,6 +9,7 @@ import { createModal } from './utils/createModal.js';
 import { Minimap } from './utils/minimap.js';
 import { NotificationSystem } from './utils/notifications.js';
 import { createBlockQuoteCard } from './cards/blockQuoteCard.js';
+import { createLogoCard } from './cards/logoCard.js';
 import { scrambleOnHover, resetToOriginal } from './utils/textScramble.js';
 
 // Initialize notification system
@@ -138,13 +139,16 @@ const cards = [
     colourful: false
   },
   { 
-    type: 'text', 
+    type: 'logo', 
     top: '45%', 
     left: '40%', 
-    paragraph: 'INTERCOM DESIGN',
-    link: 'https://www.intercom.com/design',
-    label: '',
-    isCenter: true
+    text: 'INTERCOM DESIGN',
+    modalTitle: 'About Intercom Design',
+    modalContent: `
+      <p>Welcome to Intercom Design. We're a team of designers, researchers, and writers who are passionate about creating products that people love to use.</p>
+      <p>Our mission is to help businesses build better relationships with their customers through thoughtful, human-centered design.</p>
+      <p>Explore our work, read our articles, and learn more about how we approach design at Intercom.</p>
+    `
   },
   { 
     type: 'text', 
@@ -371,11 +375,13 @@ function initializeCards() {
       case 'folder': card = createFolderCard(cardData, modal); break;
       case 'video': card = createVideoCard(cardData); break;
       case 'blockquote': card = createBlockQuoteCard(cardData); break;
+      case 'logo': card = createLogoCard(cardData); break;
     }
     if (card) {
       // Find the .card element inside the wrapper
       const cardElement = card.querySelector('.card');
-      if (cardElement && cardData.type !== 'folder') {
+      // Only add corner overlay to logo card
+      if (cardElement && cardData.type === 'logo') {
         addCornerOverlay(cardElement);
       }
       card.style.top = cardData.top;

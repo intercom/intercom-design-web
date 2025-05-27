@@ -62,19 +62,40 @@ export function createTextCard(data) {
     
     // Special styling for center text
     if (data.isCenter) {
-        const p = document.createElement('p');
-        p.textContent = data.paragraph;
-        p.style.fontFamily = 'DM Sans, sans-serif';
-        p.style.fontSize = 'clamp(3rem, 8vw, 6rem)';
-        p.style.fontWeight = '500';
-        p.style.letterSpacing = '-0.02em';
-        p.style.color = 'var(--foreground-primary)';
-        p.style.marginBottom = '0';
-        p.style.lineHeight = '1';
-        p.style.textAlign = 'center';
-        p.style.width = '100%'; // Ensure text takes full width of container
-        p.style.display = 'inline-block'; // This helps maintain consistent width
-        paragraph.appendChild(p);
+        const lines = data.paragraph.split(' ');
+        const firstLine = lines[0];
+        const secondLine = lines.slice(1).join(' ');
+        
+        // Create first line
+        const p1 = document.createElement('p');
+        p1.textContent = firstLine;
+        p1.style.fontFamily = 'DM Sans, sans-serif';
+        p1.style.fontSize = 'clamp(3rem, 8vw, 6rem)';
+        p1.style.fontWeight = '500';
+        p1.style.letterSpacing = '-0.02em';
+        p1.style.color = 'var(--foreground-primary)';
+        p1.style.marginBottom = '0';
+        p1.style.lineHeight = '1';
+        p1.style.textAlign = 'center';
+        p1.style.width = '100%';
+        p1.style.display = 'inline-block';
+        
+        // Create second line
+        const p2 = document.createElement('p');
+        p2.textContent = secondLine;
+        p2.style.fontFamily = 'DM Sans, sans-serif';
+        p2.style.fontSize = 'clamp(3rem, 8vw, 6rem)';
+        p2.style.fontWeight = '500';
+        p2.style.letterSpacing = '-0.02em';
+        p2.style.color = 'var(--foreground-primary)';
+        p2.style.marginTop = '0.2em';
+        p2.style.lineHeight = '1';
+        p2.style.textAlign = 'center';
+        p2.style.width = '100%';
+        p2.style.display = 'inline-block';
+        
+        paragraph.appendChild(p1);
+        paragraph.appendChild(p2);
     } else {
         // Regular text card paragraphs
         const paragraphs = data.paragraph.split('\n').filter(p => p.trim());
@@ -127,7 +148,11 @@ export function createTextCard(data) {
     card.addEventListener('mouseenter', () => {
         link.style.color = 'var(--foreground-primary)';
         if (data.isCenter) {
-            scrambleOnHover(paragraph.querySelector('p'), data.paragraph);
+            const lines = data.paragraph.split(' ');
+            const firstLine = lines[0];
+            const secondLine = lines.slice(1).join(' ');
+            scrambleOnHover(paragraph.querySelector('p:first-child'), firstLine);
+            scrambleOnHover(paragraph.querySelector('p:last-child'), secondLine);
         } else {
             scrambleOnHover(linkText, 'READ MORE');
         }
@@ -135,7 +160,11 @@ export function createTextCard(data) {
     card.addEventListener('mouseleave', () => {
         link.style.color = 'var(--foreground-secondary)';
         if (data.isCenter) {
-            resetToOriginal(paragraph.querySelector('p'), data.paragraph);
+            const lines = data.paragraph.split(' ');
+            const firstLine = lines[0];
+            const secondLine = lines.slice(1).join(' ');
+            resetToOriginal(paragraph.querySelector('p:first-child'), firstLine);
+            resetToOriginal(paragraph.querySelector('p:last-child'), secondLine);
         } else {
             resetToOriginal(linkText, 'READ MORE');
         }

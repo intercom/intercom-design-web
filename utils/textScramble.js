@@ -12,7 +12,18 @@ const accentColors = [
   'var(--accent-orchid)',
   'var(--accent-slate)',
   'var(--accent-lime)',
-  'var(--accent-green)'
+  'var(--accent-green)',
+  'var(--accent-coral)',
+  'var(--accent-turquoise)',
+  'var(--accent-sky)',
+  'var(--accent-sage)',
+  'var(--accent-cream)',
+  'var(--accent-rose)',
+  'var(--accent-purple)',
+  'var(--accent-bright-blue)',
+  'var(--accent-red)',
+  'var(--accent-emerald)',
+  'var(--accent-yellow)'
 ];
 
 function getRandomChar() {
@@ -30,6 +41,14 @@ export function scrambleOnHover(el, text) {
   scrambleIntervals.forEach(clearInterval);
   scrambleIntervals = [];
 
+  // Check if this is the central text (by checking font size)
+  const isCentralText = window.getComputedStyle(el).fontSize.includes('clamp');
+  
+  // Adjust timing for central text
+  const duration = isCentralText ? 1200 : scrambleDurationPerChar; // Much slower for central text
+  const charStagger = isCentralText ? 80 : stagger; // More stagger for central text
+  const frameTiming = isCentralText ? 80 : frameRate; // Slower frame rate for central text
+
   el.innerHTML = text
     .split("")
     .map((char, index) =>
@@ -42,7 +61,7 @@ export function scrambleOnHover(el, text) {
   const spans = el.querySelectorAll("span");
 
   spans.forEach((span, index) => {
-    const delay = index * stagger;
+    const delay = index * charStagger;
 
     setTimeout(() => {
       const interval = setInterval(() => {
@@ -53,7 +72,7 @@ export function scrambleOnHover(el, text) {
         span.textContent = randomChar;
         span.style.background = bg;
         span.style.color = color;
-      }, frameRate);
+      }, frameTiming);
 
       scrambleIntervals.push(interval);
 
@@ -62,7 +81,7 @@ export function scrambleOnHover(el, text) {
         span.textContent = span.dataset.final;
         span.style.background = "transparent";
         span.style.color = "inherit";
-      }, scrambleDurationPerChar);
+      }, duration);
     }, delay);
   });
 }

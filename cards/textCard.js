@@ -1,3 +1,5 @@
+import { scrambleOnHover, resetToOriginal } from '../utils/textScramble.js';
+
 // Create a text card with a link
 export function createTextCard(data) {
     // Special handling for logo card
@@ -42,47 +44,66 @@ export function createTextCard(data) {
     card.style.width = 'min(480px, 90vw)';  // Increased from 450px to 600px
     card.style.cursor = 'default'; // Change cursor to default since card is not clickable
 
-    // Create active indicator
-    const activeIndicator = document.createElement('span');
-    activeIndicator.className = 'active-indicator';
-    activeIndicator.style.width = '8px';
-    activeIndicator.style.height = '8px';
-    const accentVar = data.accent ? `var(--${data.accent})` : 'var(--accent-blue)';
-    activeIndicator.style.background = accentVar;
-    activeIndicator.style.display = 'inline-block';
-    activeIndicator.style.position = 'relative';
-    activeIndicator.style.alignSelf = 'center';
-    activeIndicator.style.marginBottom = '16px';
+    // Special styling for center text
+    if (data.isCenter) {
+        card.style.width = '800px'; // Fixed width for center text
+        card.style.minWidth = 'unset';
+        card.style.background = 'transparent';
+        card.style.boxShadow = 'none';
+        card.style.border = 'none';
+        card.style.padding = '0';
+        card.style.textAlign = 'center';
+        card.style.position = 'relative';
+    }
 
     // Create paragraph container
     const paragraph = document.createElement('div');
     paragraph.className = 'text-card-paragraph';
     
-    // Split text by newlines and create separate paragraph elements
-    const paragraphs = data.paragraph.split('\n').filter(p => p.trim());
-    paragraphs.forEach((text, index) => {
+    // Special styling for center text
+    if (data.isCenter) {
         const p = document.createElement('p');
-        p.textContent = text;
-        p.style.fontFamily = 'var(--font-sans)';
-        p.style.fontSize = 'var(--text-base)';
-        p.style.fontWeight = 'var(--font-regular)';
-        p.style.letterSpacing = 'var(--tracking-wider)';
+        p.textContent = data.paragraph;
+        p.style.fontFamily = 'DM Sans, sans-serif';
+        p.style.fontSize = 'clamp(3rem, 8vw, 6rem)';
+        p.style.fontWeight = '500';
+        p.style.letterSpacing = '-0.02em';
         p.style.color = 'var(--foreground-primary)';
-        p.style.marginBottom = index < paragraphs.length - 1 ? '0.75em' : '16px';
+        p.style.marginBottom = '0';
+        p.style.lineHeight = '1';
+        p.style.textAlign = 'center';
+        p.style.width = '100%'; // Ensure text takes full width of container
+        p.style.display = 'inline-block'; // This helps maintain consistent width
         paragraph.appendChild(p);
-    });
+    } else {
+        // Regular text card paragraphs
+        const paragraphs = data.paragraph.split('\n').filter(p => p.trim());
+        paragraphs.forEach((text, index) => {
+            const p = document.createElement('p');
+            p.textContent = text;
+            p.style.fontFamily = 'var(--font-sans)';
+            p.style.fontSize = 'var(--text-base)';
+            p.style.fontWeight = 'var(--font-regular)';
+            p.style.letterSpacing = 'var(--tracking-wider)';
+            p.style.color = 'var(--foreground-primary)';
+            p.style.marginBottom = index < paragraphs.length - 1 ? '0.75em' : '16px';
+            paragraph.appendChild(p);
+        });
+    }
 
     paragraph.style.overflow = 'hidden';
     paragraph.style.position = 'relative';
-    paragraph.style.maskImage = 'linear-gradient(to bottom, black 60%, transparent 100%)';
-    paragraph.style.webkitMaskImage = 'linear-gradient(to bottom, black 60%, transparent 100%)';
+    if (!data.isCenter) {
+        paragraph.style.maskImage = 'linear-gradient(to bottom, black 60%, transparent 100%)';
+        paragraph.style.webkitMaskImage = 'linear-gradient(to bottom, black 60%, transparent 100%)';
+    }
 
     // Create link element
     const link = document.createElement('a');
     link.href = data.link;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
-    link.style.display = 'inline-flex'; // Changed from flex to inline-flex
+    link.style.display = 'inline-flex';
     link.style.alignItems = 'center';
     link.style.gap = '8px';
     link.style.marginTop = '24px';
@@ -91,7 +112,7 @@ export function createTextCard(data) {
     link.style.transition = 'color 0.2s';
     link.style.position = 'relative';
     link.style.padding = '2px 0';
-    link.style.cursor = 'pointer'; // Add pointer cursor for the link
+    link.style.cursor = 'pointer';
 
     // Create text span
     const linkText = document.createElement('span');
@@ -102,49 +123,40 @@ export function createTextCard(data) {
     linkText.style.letterSpacing = 'var(--tracking-widest)';
     linkText.style.textTransform = 'uppercase';
 
-    // Create arrow image
-    const arrow = document.createElement('img');
-    arrow.src = 'assets/icons/arrow-diagonal-upd.svg';
-    arrow.className = 'link-icon';
-    arrow.alt = 'arrow';
-    arrow.style.width = '12px';
-    arrow.style.height = '12px';
-    arrow.style.display = 'inline-block';
-    arrow.style.marginTop = '2px';
-    arrow.style.alignSelf = 'flex-start';
-    arrow.style.opacity = '0.6';
+    // Add hover effect to the card instead of just the link
+    card.addEventListener('mouseenter', () => {
+        link.style.color = 'var(--foreground-primary)';
+        if (data.isCenter) {
+            scrambleOnHover(paragraph.querySelector('p'), data.paragraph);
+        } else {
+            scrambleOnHover(linkText, 'READ MORE');
+        }
+    });
+    card.addEventListener('mouseleave', () => {
+        link.style.color = 'var(--foreground-secondary)';
+        if (data.isCenter) {
+            resetToOriginal(paragraph.querySelector('p'), data.paragraph);
+        } else {
+            resetToOriginal(linkText, 'READ MORE');
+        }
+    });
 
-    // Add hover effect only to the link
+    // Remove the old hover effects from the link
     link.addEventListener('mouseenter', () => {
-        // Add pulse animation to active indicator on hover
-        gsap.to(activeIndicator, {
-            scale: 1.1,
-            duration: 1,
-            repeat: -1,
-            yoyo: true,
-            ease: "power1.inOut"
-        });
-        link.style.color = 'var(--foreground-primary)'; // Change color on hover
+        link.style.color = 'var(--foreground-primary)';
     });
     link.addEventListener('mouseleave', () => {
-        // Stop pulse animation
-        gsap.killTweensOf(activeIndicator);
-        gsap.to(activeIndicator, {
-            scale: 1,
-            duration: 0.3,
-            ease: "power2.out"
-        });
-        link.style.color = 'var(--foreground-secondary)'; // Reset color
+        link.style.color = 'var(--foreground-secondary)';
     });
 
-    // Assemble link
+    // Assemble link (without arrow)
     link.appendChild(linkText);
-    link.appendChild(arrow);
 
     // Assemble card
-    card.appendChild(activeIndicator);
     card.appendChild(paragraph);
-    card.appendChild(link);
+    if (!data.isCenter) {
+        card.appendChild(link);
+    }
 
     wrapper.appendChild(title);
     wrapper.appendChild(card);

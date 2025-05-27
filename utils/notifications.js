@@ -156,8 +156,8 @@ export class NotificationSystem {
         // Create rectangle with next color from shuffled array
         const rect = document.createElement('div');
         rect.style.width = '8px';
-        rect.style.height = '8px';
-        rect.style.borderRadius = '1px';
+        rect.style.height = '12px';
+        rect.style.borderRadius = '0';
         rect.style.background = this.getNextAccentColor();
         accentBar.appendChild(rect);
 

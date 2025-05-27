@@ -9,6 +9,7 @@ import { createModal } from './utils/createModal.js';
 import { Minimap } from './utils/minimap.js';
 import { NotificationSystem } from './utils/notifications.js';
 import { createBlockQuoteCard } from './cards/blockQuoteCard.js';
+import { scrambleOnHover, resetToOriginal } from './utils/textScramble.js';
 
 // Initialize notification system
 const notifications = new NotificationSystem();
@@ -137,10 +138,13 @@ const cards = [
     colourful: false
   },
   { 
-    type: 'video', 
+    type: 'text', 
     top: '45%', 
     left: '40%', 
-    src: 'assets/logo/Logo4.gif'
+    paragraph: 'INTERCOM DESIGN',
+    link: 'https://www.intercom.com/design',
+    label: '',
+    isCenter: true
   },
   { 
     type: 'text', 
@@ -456,18 +460,6 @@ function initializeMenuAnimations() {
       opacity: 1
     });
   });
-
-  // Active indicator animation
-  const activeIndicator = document.querySelector('.active-indicator');
-  if (activeIndicator) {
-    gsap.to(activeIndicator, {
-      scale: 1.1,
-      duration: 1,
-      repeat: -1,
-      yoyo: true,
-      ease: "power1.inOut"
-    });
-  }
 }
 
 // Start app

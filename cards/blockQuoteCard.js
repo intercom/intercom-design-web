@@ -1,3 +1,5 @@
+import { scrambleOnHover, resetToOriginal } from '../utils/textScramble.js';
+
 // Create a block quote card with highlight and link
 export function createBlockQuoteCard(data) {
     const wrapper = document.createElement('div');
@@ -81,9 +83,11 @@ export function createBlockQuoteCard(data) {
     // Hover effect
     link.addEventListener('mouseenter', () => {
         link.style.color = 'var(--foreground-primary)';
+        scrambleOnHover(linkText, data.label || 'READ MORE');
     });
     link.addEventListener('mouseleave', () => {
         link.style.color = 'var(--foreground-secondary)';
+        resetToOriginal(linkText, data.label || 'READ MORE');
     });
 
     link.appendChild(linkText);

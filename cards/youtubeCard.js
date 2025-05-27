@@ -35,8 +35,10 @@ export function createYoutubeCard(data) {
     card.style.overflow = 'hidden';
     card.style.borderRadius = '16px';
     card.style.position = 'relative';
-    card.style.width = 'min(380px, 80vw)';
-    card.style.height = 'min(214px, 45vw)';
+    
+    // Use viewport units for scaling with maximum values
+    card.style.width = 'max(25vw, 380px)';  // Scale with viewport but max 380px (original size)
+    card.style.height = 'max(14vw, 214px)'; // Maintains 16:9 aspect ratio (original size)
 
     // Create thumbnail container
     const thumbnail = document.createElement('div');
@@ -54,8 +56,8 @@ export function createYoutubeCard(data) {
     playButtonContainer.style.top = '50%';
     playButtonContainer.style.left = '50%';
     playButtonContainer.style.transform = 'translate(-50%, -50%)';
-    playButtonContainer.style.width = '56px';
-    playButtonContainer.style.height = '56px';
+    playButtonContainer.style.width = '3.5rem';  // 56px
+    playButtonContainer.style.height = '3.5rem'; // 56px
     playButtonContainer.style.borderRadius = '50%';
     playButtonContainer.style.background = 'rgba(0, 0, 0, 0.3)';
     playButtonContainer.style.backdropFilter = 'blur(8px)';

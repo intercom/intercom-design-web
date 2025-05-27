@@ -5,8 +5,12 @@ export function createVideoCard(data) {
     wrapper.style.position = 'absolute';
     wrapper.style.top = data.top;
     wrapper.style.left = data.left;
-    wrapper.style.width = '50vw';  // 60% of viewport width
-    wrapper.style.height = '50vh'; // 60% of viewport height
+    
+    // Responsive sizing based on viewport
+    const isMobile = window.innerWidth <= 600;
+    const scaleFactor = isMobile ? 1 : Math.min(window.innerWidth / 1920, 2.5); // Scale up to 2.5x on larger screens
+    wrapper.style.width = `${50 * scaleFactor}vw`;  // Scale viewport width
+    wrapper.style.height = `${50 * scaleFactor}vh`; // Scale viewport height
     wrapper.style.zIndex = '-1';    // Place under other cards
 
     // Create image element for GIF

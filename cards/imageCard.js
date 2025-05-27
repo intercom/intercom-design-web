@@ -35,14 +35,19 @@ export function createImageCard(data) {
     card.className = 'card image-card';
     card.style.padding = '0';
     card.style.overflow = 'hidden';
-    // Support vertical layout
+    
+    // Responsive sizing based on viewport
+    const isMobile = window.innerWidth <= 600;
+    const scaleFactor = isMobile ? 1 : Math.min(window.innerWidth / 1920, 2.5); // Scale up to 2.5x on larger screens
+    
     if (data.vertical) {
-        card.style.width = 'min(390px, 60vw)';
-        card.style.height = 'min(600px, 70vh)';
+        card.style.width = `min(${390 * scaleFactor}px, 60vw)`;
+        card.style.height = `min(${600 * scaleFactor}px, 70vh)`;
     } else {
-        card.style.width = 'min(600px, 90vw)';
-        card.style.height = 'min(400px, 60vh)';
+        card.style.width = `min(${600 * scaleFactor}px, 90vw)`;
+        card.style.height = `min(${400 * scaleFactor}px, 60vh)`;
     }
+    
     card.appendChild(link);
 
     wrapper.appendChild(title);

@@ -41,12 +41,13 @@ export function createTextCard(data) {
     // Create card container
     const card = document.createElement('div');
     card.className = 'card text-card';
-    card.style.width = 'min(480px, 90vw)';  // Increased from 450px to 600px
-    card.style.cursor = 'default'; // Change cursor to default since card is not clickable
-
-    // Special styling for center text
+    
+    // Responsive sizing based on viewport
+    const isMobile = window.innerWidth <= 600;
+    const scaleFactor = isMobile ? 1 : Math.min(window.innerWidth / 1920, 2.5); // Scale up to 2.5x on larger screens
+    
     if (data.isCenter) {
-        card.style.width = '800px'; // Fixed width for center text
+        card.style.width = `${800 * scaleFactor}px`; // Scale center text
         card.style.minWidth = 'unset';
         card.style.background = 'transparent';
         card.style.boxShadow = 'none';
@@ -54,7 +55,10 @@ export function createTextCard(data) {
         card.style.padding = '0';
         card.style.textAlign = 'center';
         card.style.position = 'relative';
+    } else {
+        card.style.width = `min(${480 * scaleFactor}px, 90vw)`;
     }
+    card.style.cursor = 'default';
 
     // Create paragraph container
     const paragraph = document.createElement('div');

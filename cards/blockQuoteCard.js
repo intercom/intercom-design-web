@@ -7,8 +7,12 @@ export function createBlockQuoteCard(data) {
     wrapper.style.position = 'absolute';
     wrapper.style.top = data.top;
     wrapper.style.left = data.left;
-    wrapper.style.maxWidth = '420px';
-    wrapper.style.width = 'min(90vw, 420px)';
+    
+    // Responsive sizing based on viewport
+    const isMobile = window.innerWidth <= 600;
+    const scaleFactor = isMobile ? 1 : Math.min(window.innerWidth / 1920, 2.5); // Scale up to 2.5x on larger screens
+    wrapper.style.maxWidth = `${420 * scaleFactor}px`;
+    wrapper.style.width = `min(90vw, ${420 * scaleFactor}px)`;
 
     // Responsive quote text
     const quote = document.createElement('div');

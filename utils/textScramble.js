@@ -13,17 +13,6 @@ const accentColors = [
   'var(--accent-slate)',
   'var(--accent-lime)',
   'var(--accent-green)',
-  'var(--accent-coral)',
-  'var(--accent-turquoise)',
-  'var(--accent-sky)',
-  'var(--accent-sage)',
-  'var(--accent-cream)',
-  'var(--accent-rose)',
-  'var(--accent-purple)',
-  'var(--accent-bright-blue)',
-  'var(--accent-red)',
-  'var(--accent-emerald)',
-  'var(--accent-yellow)'
 ];
 
 function getRandomChar() {

@@ -10,7 +10,7 @@ import { Minimap } from './utils/minimap.js';
 import { NotificationSystem } from './utils/notifications.js';
 import { createBlockQuoteCard } from './cards/blockQuoteCard.js';
 import { createLogoCard } from './cards/logoCard.js';
-import { scrambleOnHover, resetToOriginal } from './utils/textScramble.js';
+import { scrambleOnHover, resetToOriginal } from './utils/textScrambleSimple.js';
 
 // Initialize notification system
 const notifications = new NotificationSystem();
@@ -35,6 +35,7 @@ const ASPECT_RATIO = MIN_CANVAS_WIDTH / MIN_CANVAS_HEIGHT;
 function calculateCanvasDimensions() {
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
+  const isMobile = viewportWidth <= 600;
   
   // Calculate base dimensions (2x viewport)
   let width = viewportWidth * 2;
@@ -43,6 +44,12 @@ function calculateCanvasDimensions() {
   // Ensure minimum dimensions
   width = Math.max(width, MIN_CANVAS_WIDTH);
   height = Math.max(height, MIN_CANVAS_HEIGHT);
+  
+  // Scale down for mobile
+  if (isMobile) {
+    width *= 0.8;
+    height *= 0.8;
+  }
   
   return { width, height };
 }
@@ -141,7 +148,7 @@ const cards = [
   { 
     type: 'logo', 
     top: '45%', 
-    left: '40%', 
+    left: '44%', 
     text: 'INTERCOM DESIGN',
     modalTitle: 'About Intercom Design',
     modalContent: `
@@ -272,6 +279,48 @@ function handleWheel(event) {
     }
   });
 }
+
+// Handle touch events for mobile
+function handleTouchStart(event) {
+  event.preventDefault();
+  const touch = event.touches[0];
+  const startX = touch.clientX;
+  const startY = touch.clientY;
+  
+  function handleTouchMove(moveEvent) {
+    moveEvent.preventDefault();
+    const touch = moveEvent.touches[0];
+    const deltaX = startX - touch.clientX;
+    const deltaY = startY - touch.clientY;
+    
+    const { width, height } = calculateCanvasDimensions();
+    const borderLeft = window.innerWidth - width;
+    const borderTop = window.innerHeight - height;
+    
+    scrollTween.x = Math.min(0, Math.max(offsetX + deltaX, borderLeft));
+    scrollTween.y = Math.min(0, Math.max(offsetY + deltaY, borderTop));
+    
+    gsap.to(canvas, {
+      duration: 0.3,
+      ease: 'power2.out',
+      x: scrollTween.x,
+      y: scrollTween.y,
+      onUpdate: () => {
+        offsetX = gsap.getProperty(canvas, 'x');
+        offsetY = gsap.getProperty(canvas, 'y');
+      }
+    });
+  }
+  
+  function handleTouchEnd() {
+    document.removeEventListener('touchmove', handleTouchMove);
+    document.removeEventListener('touchend', handleTouchEnd);
+  }
+  
+  document.addEventListener('touchmove', handleTouchMove);
+  document.addEventListener('touchend', handleTouchEnd);
+}
+
 // Initialize canvas and content
 function init() {
   initializeCards();
@@ -313,6 +362,19 @@ function init() {
   canvasContainer.addEventListener('mouseenter', () => canvas.classList.add('illuminated'));
   // Hide grid when cursor leaves the canvas
   canvasContainer.addEventListener('mouseleave', () => canvas.classList.remove('illuminated'));
+
+  // Add touch event listeners
+  canvasContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+  
+  // Update minimap for mobile
+  if (window.innerWidth <= 600) {
+    const minimapElement = document.querySelector('.minimap');
+    if (minimapElement) {
+      minimapElement.style.transform = 'scale(0.7)';
+      minimapElement.style.right = '10px';
+      minimapElement.style.bottom = '10px';
+    }
+  }
 }
 
 /* Handle cursor movement for grid illumination
@@ -464,6 +526,15 @@ function initializeMenuAnimations() {
     // Initial state
     gsap.set(link, {
       opacity: 1
+    });
+
+    // Add scramble animation
+    const text = link.textContent.trim();
+    link.addEventListener('mouseenter', () => {
+      scrambleOnHover(link, text);
+    });
+    link.addEventListener('mouseleave', () => {
+      resetToOriginal(link, text);
     });
   });
 }

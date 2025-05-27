@@ -11,7 +11,7 @@ export function createLogoCard(data) {
     // Create card container
     const card = document.createElement('div');
     card.className = 'card logo-card';
-    card.style.width = '800px';
+    card.style.width = '500px';
     card.style.background = 'transparent';
     card.style.boxShadow = 'none';
     card.style.border = 'none';

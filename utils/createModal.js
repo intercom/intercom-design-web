@@ -45,10 +45,24 @@ export function createModal() {
     // Return modal API
     return {
         open: (title, content) => {
-            modalBody.innerHTML = `
-                <h2>${title}</h2>
-                <div class="modal-content-body">${content}</div>
-            `;
+            // Clear previous content
+            modalBody.innerHTML = '';
+            
+            // Add title
+            const titleElement = document.createElement('h2');
+            titleElement.textContent = title;
+            modalBody.appendChild(titleElement);
+            
+            // Add content (either string or DOM element)
+            if (typeof content === 'string') {
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'modal-content-body';
+                contentDiv.innerHTML = content;
+                modalBody.appendChild(contentDiv);
+            } else if (content instanceof Element) {
+                modalBody.appendChild(content);
+            }
+            
             modal.style.display = 'block';
             
             // Animate modal opening

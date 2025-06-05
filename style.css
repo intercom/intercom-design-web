@@ -588,7 +588,7 @@ body {
 
 .blockquote-card-quote {
   background: none !important;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans) !important;
   font-size: clamp(2rem, 5vw, 2.5rem);
   font-weight: var(--font-normal);
   color: var(--color-white, #fff);

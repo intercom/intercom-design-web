@@ -1,3 +1,5 @@
+import { createArticleList } from '../components/articleList.js';
+
 // Create a folder card that opens a modal
 export function createFolderCard(data, modal) {
     const wrapper = document.createElement('div');
@@ -30,8 +32,25 @@ export function createFolderCard(data, modal) {
     label.style.fontSize = '14px';
     label.style.textAlign = 'center';
 
-    // Add click handler to open modal
+    // Add click handler to open modal with article list
     card.addEventListener('click', () => {
+        // Map folder labels to article list IDs
+        const folderIdMap = {
+            'IDEAS': 'ideas',
+            'TEXTS': 'texts',
+            'TALKS & EVENTS': 'talks'
+        };
+        
+        const folderId = folderIdMap[data.label];
+        if (folderId) {
+            const articleList = createArticleList(folderId);
+            if (articleList) {
+                modal.open(data.title, articleList);
+                return;
+            }
+        }
+        
+        // Fallback to original content if no articles found
         modal.open(data.title, data.content);
     });
 

@@ -12,7 +12,33 @@ export const articlesData = {
                 "title": "A new age of UX: Evolving your design approach for AI products",
                 "author": "Sarah Johnson",
                 "url": "https://www.intercom.com/blog/design-ux-machine-learning-ai/"
-            }
+            },
+            {
+                "title": "Designing for clarity: Restructuring Intercom's information architecture",
+                "author": "John Smith",
+                "url": "https://www.intercom.com/blog/designing-for-clarity-restructuring-intercoms-information-architecture/"
+            },
+            {
+                "title": "Designing for clarity: Restructuring Intercom's information architecture",
+                "author": "John Smith",
+                "url": "https://www.intercom.com/blog/designing-for-clarity-restructuring-intercoms-information-architecture/"
+            },
+            {
+                "title": "A new age of UX: Evolving your design approach for AI products",
+                "author": "Sarah Johnson",
+                "url": "https://www.intercom.com/blog/design-ux-machine-learning-ai/"
+            },
+            {
+                "title": "Designing for clarity: Restructuring Intercom's information architecture",
+                "author": "John Smith",
+                "url": "https://www.intercom.com/blog/designing-for-clarity-restructuring-intercoms-information-architecture/"
+            },
+            {
+                "title": "Designing for clarity: Restructuring Intercom's information architecture",
+                "author": "John Smith",
+                "url": "https://www.intercom.com/blog/designing-for-clarity-restructuring-intercoms-information-architecture/"
+            },
+            
         ]
     },
     "texts": {

@@ -7,23 +7,13 @@ export function createArticleList(folderId) {
     const modal = document.createElement('div');
     modal.className = 'article-list-modal';
 
-    // Create title
-    const title = document.createElement('h2');
-    title.textContent = folder.title;
-    title.style.fontFamily = 'var(--font-sans)';
-    title.style.fontSize = 'var(--text-2xl)';
-    title.style.fontWeight = 'var(--font-semibold)';
-    title.style.padding = '24px 32px';
-    title.style.margin = '0';
-    modal.appendChild(title);
-
     // Create article list
     const articleList = document.createElement('div');
     articleList.style.display = 'flex';
     articleList.style.flexDirection = 'column';
-    articleList.style.gap = '8px';
+    articleList.style.gap = '4px';
     articleList.style.width = '100%';
-    articleList.style.maxHeight = 'calc(100vh - 200px)';
+    articleList.style.maxHeight = 'calc(100vh - 90px)';
     articleList.style.overflowY = 'auto';
 
     folder.articles.forEach(article => {

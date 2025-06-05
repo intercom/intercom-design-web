@@ -48,11 +48,20 @@ export function createModal() {
             // Clear previous content
             modalBody.innerHTML = '';
             
-            // Add title
+            // Create header container
+            const header = document.createElement('div');
+            header.className = 'modal-header';
+
+            // Create h2
             const titleElement = document.createElement('h2');
             titleElement.textContent = title;
-            modalBody.appendChild(titleElement);
-            
+            header.appendChild(titleElement);
+
+            // Move the close button into the header
+            header.appendChild(closeButton);
+
+            modalBody.appendChild(header);
+
             // Add content (either string or DOM element)
             if (typeof content === 'string') {
                 const contentDiv = document.createElement('div');

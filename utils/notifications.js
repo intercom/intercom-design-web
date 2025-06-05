@@ -7,7 +7,7 @@ export class NotificationSystem {
         this.container.style.display = 'flex';
         this.container.style.flexDirection = 'column';
         this.container.style.gap = '8px';
-        this.container.style.zIndex = '10000';
+        this.container.style.zIndex = '1500';
         this.container.style.width = '360px';
         document.body.appendChild(this.container);
 

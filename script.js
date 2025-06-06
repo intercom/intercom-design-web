@@ -637,6 +637,27 @@ function initializeMenuAnimations() {
 // Start app
 init();
 
+// Font loading debug for GitHub Pages
+document.fonts.ready.then(() => {
+  console.log('All fonts loaded');
+  document.fonts.forEach(font => {
+    console.log(`Font loaded: ${font.family} ${font.weight} ${font.style}`);
+  });
+});
+
+// Check if MediumLLSub font is available
+document.fonts.load('400 16px MediumLLSub').then(() => {
+  console.log('MediumLLSub Regular loaded successfully');
+}).catch(err => {
+  console.error('MediumLLSub Regular failed to load:', err);
+});
+
+document.fonts.load('700 16px MediumLLSub').then(() => {
+  console.log('MediumLLSub Bold loaded successfully');
+}).catch(err => {
+  console.error('MediumLLSub Bold failed to load:', err);
+});
+
 // Update cursor position for grid mask
 document.addEventListener('mousemove', (e) => {
     const canvas = document.getElementById('canvas');

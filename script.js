@@ -58,6 +58,20 @@ function calculateCanvasDimensions() {
     height *= 0.8;
   }
   
+  // Debug scaling information
+  console.log('🔍 Scaling Debug Info:', {
+    environment: location.hostname.includes('github') ? 'Production (GitHub Pages)' : 'Local',
+    viewportWidth,
+    viewportHeight,
+    devicePixelRatio: window.devicePixelRatio,
+    isMobile,
+    calculatedWidth: width,
+    calculatedHeight: height,
+    aspectRatio: ASPECT_RATIO,
+    userAgent: navigator.userAgent.split(' ').slice(-2).join(' '), // Browser info
+    baseURL: location.origin + location.pathname
+  });
+  
   return { width, height };
 }
 
@@ -663,9 +677,36 @@ const testElement = document.createElement('div');
 testElement.style.fontFamily = 'MediumLLSub, sans-serif';
 testElement.style.position = 'absolute';
 testElement.style.left = '-9999px';
-testElement.textContent = 'Test';
+testElement.style.fontSize = '16px';
+testElement.textContent = 'Test MediumLLSub Font Loading';
 document.body.appendChild(testElement);
-setTimeout(() => document.body.removeChild(testElement), 100);
+
+// Check computed styles to see what font is actually being used
+setTimeout(() => {
+  const computedStyle = window.getComputedStyle(testElement);
+  console.log('🔤 Font Debug Info:', {
+    environment: location.hostname.includes('github') ? 'Production' : 'Local',
+    requestedFont: 'MediumLLSub, sans-serif',
+    actualFont: computedStyle.fontFamily,
+    fontSize: computedStyle.fontSize,
+    fontWeight: computedStyle.fontWeight,
+    textWidth: testElement.offsetWidth,
+    textHeight: testElement.offsetHeight
+  });
+  document.body.removeChild(testElement);
+}, 200);
+
+// Debug CSS custom properties
+setTimeout(() => {
+  const rootStyles = window.getComputedStyle(document.documentElement);
+  console.log('🎨 CSS Variables Debug:', {
+    environment: location.hostname.includes('github') ? 'Production' : 'Local',
+    fontSans: rootStyles.getPropertyValue('--font-sans').trim(),
+    fontSansBold: rootStyles.getPropertyValue('--font-sans-bold').trim(),
+    text7xl: rootStyles.getPropertyValue('--text-7xl').trim(),
+    foregroundPrimary: rootStyles.getPropertyValue('--foreground-primary').trim()
+  });
+}, 300);
 
 // Update cursor position for grid mask
 document.addEventListener('mousemove', (e) => {

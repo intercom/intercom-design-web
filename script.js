@@ -26,6 +26,13 @@ let offsetY = 0;
 // Track latest scroll targets
 let scrollTween = { x: 0, y: 0 };
 
+// Drag navigation state
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let dragStartOffsetX = 0;
+let dragStartOffsetY = 0;
+
 // Canvas dimensions - now responsive
 const MIN_CANVAS_WIDTH = 4320;
 const MIN_CANVAS_HEIGHT = 2640;
@@ -330,6 +337,57 @@ function handleTouchStart(event) {
   document.addEventListener('touchend', handleTouchEnd);
 }
 
+// Handle drag navigation
+function handleMouseDown(event) {
+  // Don't start drag if clicking on a card or interactive element
+  if (event.target.closest('.card') || event.target.closest('.modal') || event.target.closest('.minimap')) {
+    return;
+  }
+  
+  event.preventDefault();
+  isDragging = true;
+  dragStartX = event.clientX;
+  dragStartY = event.clientY;
+  dragStartOffsetX = offsetX;
+  dragStartOffsetY = offsetY;
+  
+  // Change cursor to grabbing
+  canvasContainer.style.cursor = 'grabbing';
+}
+
+function handleMouseMove(event) {
+  if (!isDragging) return;
+  
+  event.preventDefault();
+  const deltaX = event.clientX - dragStartX;
+  const deltaY = event.clientY - dragStartY;
+  
+  const { width, height } = calculateCanvasDimensions();
+  const borderLeft = window.innerWidth - width;
+  const borderTop = window.innerHeight - height;
+  
+  scrollTween.x = Math.min(0, Math.max(dragStartOffsetX + deltaX, borderLeft));
+  scrollTween.y = Math.min(0, Math.max(dragStartOffsetY + deltaY, borderTop));
+  
+  gsap.to(canvas, {
+    duration: 0.1,
+    ease: 'power2.out',
+    x: scrollTween.x,
+    y: scrollTween.y,
+    onUpdate: () => {
+      offsetX = gsap.getProperty(canvas, 'x');
+      offsetY = gsap.getProperty(canvas, 'y');
+    }
+  });
+}
+
+function handleMouseUp(event) {
+  if (!isDragging) return;
+  
+  isDragging = false;
+  canvasContainer.style.cursor = 'default';
+}
+
 // Initialize canvas and content
 function init() {
   initializeCards();
@@ -344,6 +402,12 @@ function init() {
 
   // Add event listeners
   canvasContainer.addEventListener('wheel', handleWheel, { passive: false });
+  
+  // Add drag navigation event listeners
+  canvasContainer.addEventListener('mousedown', handleMouseDown);
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
+  
   window.addEventListener('resize', () => {
     updateCanvasSize();
     // Recenter canvas after resize

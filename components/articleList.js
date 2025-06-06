@@ -68,7 +68,7 @@ export function createArticleList(folderId) {
                 ease: "power2.out"
             });
             gsap.to(articleInner, {
-                backgroundColor: 'rgba(30, 30, 30, 0.6)',
+                backgroundColor: 'rgba(30, 30, 30, 0.3)',
                 duration: 0.3,
                 ease: "power2.out"
             });

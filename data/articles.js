@@ -45,10 +45,22 @@ export const articlesData = {
         "title": "TEXTS",
         "articles": [
             {
-                "title": "This is getting real: Welcome to the AI revolution",
-                "author": "Michael Brown",
-                "url": "https://www.intercom.com/blog/videos/pioneer-this-is-getting-real-ai-revolution/"
-            }
+                "title": "Intercom on Product: How we became an AI-first company",
+                "author": "Des Traynor",
+                "url": "https://www.intercom.com/blog/intercom-on-product-how-we-became-an-ai-first-company/"
+            },
+            {
+                "title": "Intercom on Product: DeepSeek, agents, and the future of AI with Benedict Evansy",
+                "author": "Liam Geraghty",
+                "url": "https://www.intercom.com/blog/videos/intercom-on-product-benedict-evans-ai/"
+            },
+            {
+                "title": "A new age of UX: Evolving your design approach for AI products",
+                "author": "Molly Mahar",
+                "url": "https://www.intercom.com/blog/design-ux-machine-learning-ai/"
+            },
+            
+            
         ]
     },
     "talks": {

@@ -94,10 +94,18 @@ const cards = [
   },
   { 
     type: 'image', 
-    top: '75%', 
-    left: '82%', 
-    src: 'assets/images/img2.png', 
-    link: 'https://www.intercom.com/podcast', 
+    top: '5%', 
+    left: '67%', 
+    src: 'assets/images/img4.jpg', 
+    link: '', 
+    label: '' 
+  },
+  { 
+    type: 'image', 
+    top: '80%', 
+    left: '55%', 
+    src: 'assets/images/img5.jpg', 
+    link: '', 
     label: '' 
   },
   { 
@@ -536,6 +544,28 @@ function initializeMenuAnimations() {
     link.addEventListener('mouseleave', () => {
       resetToOriginal(link, text);
     });
+
+    // Add click handler for design link
+    if (link.getAttribute('href') === '#design') {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Center the canvas
+        const canvasWidth = canvas.offsetWidth;
+        const canvasHeight = canvas.offsetHeight;
+        const containerWidth = canvasContainer.offsetWidth;
+        const containerHeight = canvasContainer.offsetHeight;
+        
+        const targetX = (canvasWidth - containerWidth) / 2;
+        const targetY = (canvasHeight - containerHeight) / 2;
+        
+        gsap.to(canvas, {
+          x: -targetX,
+          y: -targetY,
+          duration: 1,
+          ease: "power2.inOut"
+        });
+      });
+    }
   });
 }
 

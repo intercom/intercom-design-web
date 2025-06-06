@@ -32,9 +32,9 @@ export function createLogoCard(data) {
     // Create first line
     const p1 = document.createElement('p');
     p1.textContent = firstLine;
-    p1.style.fontFamily = 'MediumLLSub';
+    p1.style.fontFamily = 'MediumLLSub, sans-serif';
     p1.style.fontSize = 'clamp(3rem, 8vw, 6rem)';
-    p1.style.fontWeight = '400';
+    p1.style.fontWeight = 'normal';
     p1.style.letterSpacing = '-0.02em';
     p1.style.color = 'var(--foreground-primary)';
     p1.style.marginBottom = '0';
@@ -46,9 +46,9 @@ export function createLogoCard(data) {
     // Create second line
     const p2 = document.createElement('p');
     p2.textContent = secondLine;
-    p2.style.fontFamily = 'MediumLLSub';
+    p2.style.fontFamily = 'MediumLLSub, sans-serif';
     p2.style.fontSize = 'clamp(3rem, 8vw, 6rem)';
-    p2.style.fontWeight = '400';
+    p2.style.fontWeight = 'normal';
     p2.style.letterSpacing = '-0.02em';
     p2.style.color = 'var(--foreground-primary)';
     p2.style.marginTop = '0.2em';

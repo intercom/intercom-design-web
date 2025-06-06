@@ -645,18 +645,27 @@ document.fonts.ready.then(() => {
   });
 });
 
-// Check if MediumLLSub font is available
-document.fonts.load('400 16px MediumLLSub').then(() => {
+// Check if MediumLLSub font is available with standard weight values
+document.fonts.load('normal 16px MediumLLSub').then(() => {
   console.log('MediumLLSub Regular loaded successfully');
 }).catch(err => {
   console.error('MediumLLSub Regular failed to load:', err);
 });
 
-document.fonts.load('700 16px MediumLLSub').then(() => {
+document.fonts.load('bold 16px MediumLLSub').then(() => {
   console.log('MediumLLSub Bold loaded successfully');
 }).catch(err => {
   console.error('MediumLLSub Bold failed to load:', err);
 });
+
+// Force create a test element to trigger font loading
+const testElement = document.createElement('div');
+testElement.style.fontFamily = 'MediumLLSub, sans-serif';
+testElement.style.position = 'absolute';
+testElement.style.left = '-9999px';
+testElement.textContent = 'Test';
+document.body.appendChild(testElement);
+setTimeout(() => document.body.removeChild(testElement), 100);
 
 // Update cursor position for grid mask
 document.addEventListener('mousemove', (e) => {

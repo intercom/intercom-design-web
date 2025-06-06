@@ -49,7 +49,7 @@ export const articlesData = {
                 "url": "https://www.intercom.com/blog/intercom-on-product-how-we-became-an-ai-first-company/"
             },
             {
-                "title": "Intercom on Product: DeepSeek, agents, and the future of AI with Benedict Evansy",
+                "title": "Intercom on Product: DeepSeek, agents, and the future of AI with Benedict Evans",
                 "author": "Liam Geraghty",
                 "url": "https://www.intercom.com/blog/videos/intercom-on-product-benedict-evans-ai/"
             },

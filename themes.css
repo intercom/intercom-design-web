@@ -31,13 +31,28 @@
   --foreground-secondary: #a1a1a1;    /* Secondary text: metadata, timestamps, annotations */
 
   /* === ACCENT COLORS === */
-  --accent-blue: #0022ff;             /* Links, buttons, active states, selection */
-  --accent-orange: #ff4500;           /* CTAs, warning tones, highlight on hover */
-  --accent-gold: #ffd700;             /* Decorative accent, nodes, icons */
-  --accent-orchid: #da70d6;           /* Highlights, tertiary elements, creative UI hints */
-  --accent-slate: #708090;            /* Neutral accent for subtle elements */
-  --accent-lime: #1eff1e;
-  --accent-green: #1bc41b;             /* Success states, positive indicators */
+  --accent-blue: #0022ff;
+  --accent-orange: #ff6600;
+  --accent-gold: #fff94d;
+  --accent-orchid: #ff33cc;
+  --accent-slate: #aab8ff;
+  --accent-lime: #99ff99;
+  --accent-green: #00ff00;
+  --accent-black: #181414;
+  --accent-cream: #f7f6ea;
+
+  --accent-blue-tint-10: #cce6ff;
+  --accent-blue-tint-50: #aab8ff;
+  --accent-teal-tint-10: #c6f8f8;
+  --accent-teal-tint-50: #7ff6f6;
+  --accent-pink-tint-10: #ffd1f0;
+  --accent-pink-tint-50: #ff99e6;
+  --accent-yellow-tint-10: #fff9cc;
+  --accent-yellow-tint-50: #fff599;
+  --accent-orange-tint-10: #ffe0cc;
+  --accent-orange-tint-50: #ffb380;
+  --accent-green-tint-10: #d6ffd6;
+  --accent-green-tint-50: #99ff99;
   
   /* === BORDERS & DIVIDERS === */
   --border-primary: #434343;          /* Card borders, divider lines, containers */

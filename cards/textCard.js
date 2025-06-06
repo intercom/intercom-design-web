@@ -73,7 +73,7 @@ export function createTextCard(data) {
         // Create first line
         const p1 = document.createElement('p');
         p1.textContent = firstLine;
-        p1.style.fontFamily = 'DM Sans, sans-serif';
+        p1.style.fontFamily = 'Inter, sans-serif';
         p1.style.fontSize = 'clamp(3rem, 8vw, 6rem)';
         p1.style.fontWeight = '500';
         p1.style.letterSpacing = '-0.02em';
@@ -87,7 +87,7 @@ export function createTextCard(data) {
         // Create second line
         const p2 = document.createElement('p');
         p2.textContent = secondLine;
-        p2.style.fontFamily = 'DM Sans, sans-serif';
+        p2.style.fontFamily = 'Inter, sans-serif';
         p2.style.fontSize = 'clamp(3rem, 8vw, 6rem)';
         p2.style.fontWeight = '500';
         p2.style.letterSpacing = '-0.02em';
@@ -106,7 +106,7 @@ export function createTextCard(data) {
         paragraphs.forEach((text, index) => {
             const p = document.createElement('p');
             p.textContent = text;
-            p.style.fontFamily = 'var(--font-sans)';
+            p.style.fontFamily = 'Inter, sans-serif';
             p.style.fontSize = 'var(--text-base)';
             p.style.fontWeight = 'var(--font-regular)';
             p.style.letterSpacing = 'var(--tracking-wider)';

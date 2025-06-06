@@ -1,8 +1,23 @@
+/* Font Face Declarations */
+@font-face {
+    font-family: 'MediumLLSub-Bold';
+    src: url('../assets/typefaces/MediumLLSub-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MediumLLSub-Regular';
+    src: url('../assets/typefaces/MediumLLSub-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
     /* Font Families */
     --font-mono: 'DM Mono', monospace;
-    --font-sans: 'Medium LL Book', sans-serif;
-    --font-sans-bold: 'Medium LL Bold', sans-serif;
+    --font-sans: 'MediumLLSub-Regular', sans-serif;
+    --font-sans-bold: 'MediumLLSub-Regular', sans-serif;
 
     /* Font Sizes */
     --text-xxs: 0.625rem;    /* 10px */
@@ -138,9 +153,9 @@ body {
     color: var(--foreground-primary);
     text-overflow: ellipsis;
     font-family: var(--font-sans);
-    font-size: 1.75rem;
+    font-size: 2rem;
     font-weight: var(--font-normal);
-    line-height: var(--leading-normal);
+    line-height: var(--leading-tight);
     letter-spacing: var(--tracking-normal);
     text-transform: capitalize;
     display: -webkit-box;

@@ -18,7 +18,7 @@ export function createBlockQuoteCard(data) {
     // Responsive quote text
     const quote = document.createElement('div');
     quote.className = 'blockquote-card-quote';
-    quote.style.fontFamily = 'Inter, sans-serif';
+    quote.style.fontFamily = 'MediumLLSub-Regular, sans-serif';
     quote.style.fontWeight = '400';
     quote.style.color = 'var(--color-white, #fff)';
     quote.style.fontSize = 'clamp(1.5rem, 4vw, 2rem)';

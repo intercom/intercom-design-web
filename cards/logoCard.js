@@ -11,7 +11,7 @@ export function createLogoCard(data) {
     // Create card container
     const card = document.createElement('div');
     card.className = 'card logo-card';
-    card.style.width = '500px';
+    card.style.width = '600px';
     card.style.background = 'transparent';
     card.style.boxShadow = 'none';
     card.style.border = 'none';
@@ -32,9 +32,9 @@ export function createLogoCard(data) {
     // Create first line
     const p1 = document.createElement('p');
     p1.textContent = firstLine;
-    p1.style.fontFamily = 'var(--font-sans)';
+    p1.style.fontFamily = 'MediumLLSub-Regular';
     p1.style.fontSize = 'clamp(3rem, 8vw, 6rem)';
-    p1.style.fontWeight = '500';
+    p1.style.fontWeight = '600';
     p1.style.letterSpacing = '-0.02em';
     p1.style.color = 'var(--foreground-primary)';
     p1.style.marginBottom = '0';
@@ -46,9 +46,9 @@ export function createLogoCard(data) {
     // Create second line
     const p2 = document.createElement('p');
     p2.textContent = secondLine;
-    p2.style.fontFamily = 'var(--font-sans)';
+    p2.style.fontFamily = 'MediumLLSub-Regular';
     p2.style.fontSize = 'clamp(3rem, 8vw, 6rem)';
-    p2.style.fontWeight = '500';
+    p2.style.fontWeight = '600';
     p2.style.letterSpacing = '-0.02em';
     p2.style.color = 'var(--foreground-primary)';
     p2.style.marginTop = '0.2em';

@@ -36,6 +36,7 @@ export function createFolderCard(data, modal) {
     card.addEventListener('click', () => {
         // Map folder labels to article list IDs
         const folderIdMap = {
+            'AI IDEAS': 'ai-ideas',
             'IDEAS': 'ideas',
             'TEXTS': 'texts',
             'TALKS & EVENTS': 'talks'

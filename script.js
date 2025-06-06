@@ -167,8 +167,8 @@ const cards = [
   },
   { 
     type: 'text', 
-    top: '55%', 
-    left: '32%', 
+    top: '52%', 
+    left: '12%', 
     paragraph: `Every product reaches a moment when its foundation begins to strain under the weight of growth.
 
 For Intercom, we encountered this moment when it became clear that our information architecture (IA) – the framework that organizes how features, settings, and workflows fit together – was struggling to keep pace with the development of our product.`, 
@@ -179,8 +179,8 @@ For Intercom, we encountered this moment when it became clear that our informati
   
   { 
     type: 'text', 
-    top: '63%', 
-    left: '18%', 
+    top: '68%', 
+    left: '22%', 
     paragraph: `Before ChatGPT rolled onto the scene a year ago, artificial intelligence (AI) and machine learning (ML) were the mysterious tools of experts and data scientists – teams with a lot of niche experience and specialized domain knowledge. Now, things are different.
 
 You're probably reading this because your company has decided to use OpenAI's GPT or another LLM (large language model) to build generative AI features into your product.`, 
@@ -204,9 +204,10 @@ Evolving your design approach for AI products`,
     type: 'folder', 
     top: '38%', 
     left: '34%', 
-    title: 'IDEAS', 
-    content: 'FIN.AI Ideas.',
-    label: 'IDEAS'
+    title: 'AI IDEAS', 
+    content: 'AI Ideas.',
+    label: 'AI IDEAS',
+    folderId: 'ai-ideas'
   },
   { 
     type: 'folder', 
@@ -226,32 +227,32 @@ Evolving your design approach for AI products`,
   },
   {
     type: 'blockquote',
-    top: '52%',
-    left: '12%',
+    top: '54%',
+    left: '32%',
     text: 'Most portfolios look great. But they rarely tell us how someone actually thinks and works. That\'s the gap we\'re trying to close.',
     highlight: 'how someone actually thinks and works.',
     highlightColor: 'accent-gold',
-    link: 'https://www.intercom.com/blog/videos/pioneer-this-is-getting-real-ai-revolution/',
+    link: 'https://www.linkedin.com/posts/thomas-rimmer-73903030_%F0%9D%97%AA%F0%9D%97%B2-%F0%9D%97%B7%F0%9D%98%82%F0%9D%98%80%F0%9D%98%81-%F0%9D%97%AF%F0%9D%97%BF%F0%9D%97%BC%F0%9D%98%82%F0%9D%97%B4%F0%9D%97%B5%F0%9D%98%81-%F0%9D%97%AF%F0%9D%97%AE%F0%9D%97%B0%F0%9D%97%B8-%F0%9D%97%B1%F0%9D%97%B2%F0%9D%98%80%F0%9D%97%B6%F0%9D%97%B4%F0%9D%97%BB-activity-7324145150039887873-3zJf',
     label: 'READ MORE'
   },
   {
     type: 'blockquote',
     top: '58%',
     left: '75%',
-    text: 'Most portfolios look great. But they rarely tell us how someone actually thinks and works. That\'s the gap we\'re trying to close.',
-    highlight: 'how someone actually thinks and works.',
+    text: 'You can feel the shape of what\'s coming - even if the tools are still clunky, the future is clearly starting to boot up.',
+    highlight: 'the future is clearly starting to boot up',
     highlightColor: 'accent-green',
-    link: 'https://www.intercom.com/blog/videos/pioneer-this-is-getting-real-ai-revolution/',
+    link: 'https://thoughtwax.com/2025/03/terminal-velocity/',
     label: 'READ MORE'
   },
   {
     type: 'blockquote',
     top: '30%',
     left: '60%',
-    text: `I was going to title this 'Why can\'t we let self-driving cars kill anyone?' but I thought that might be a bit too much.`,
+    text: 'I was going to title this \'Why can\'t we let self-driving cars kill anyone?\' but I thought that might be a bit too much.',
     highlight: 'Why can\'t we let self-driving cars kill anyone?',
     highlightColor: 'accent-orchid',
-    link: 'https://www.intercom.com/blog/videos/pioneer-this-is-getting-real-ai-revolution/',
+    link: 'https://fin.ai/ideas/why-do-we-expect-our-ai-products-to-be-flawless/',
     label: 'READ MORE'
   }
 ];

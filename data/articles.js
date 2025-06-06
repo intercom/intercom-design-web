@@ -1,7 +1,7 @@
 // Articles data
 export const articlesData = {
-    "ideas": {
-        "title": "IDEAS",
+    "ai-ideas": {
+        "title": "AI IDEAS",
         "articles": [
             {
                 "title": "Why do we expect our AI products to be flawless?",
@@ -19,26 +19,25 @@ export const articlesData = {
                 "url": "https://fin.ai/ideas/%e2%9c%a8sparkling-specificity%e2%9c%a8/"
             },
             {
+                "title": "The timeline to fully automated Customer Services",
+                "author": "Paul Adams",
+                "url": "https://fin.ai/ideas/the-timeline-to-fully-automated-customer-service/"
+            },
+            {
                 "title": "Why an AI-driven Customer Experience Score will replace human-surveyed CSAT",
                 "author": "Brian Donohue",
                 "url": "https://fin.ai/ideas/why-an-ai-driven-customer-experience-score-will-replace-human-surveyed-csat/"
             },
             {
-                "title": "A new age of UX: Evolving your design approach for AI products",
-                "author": "Sarah Johnson",
-                "url": "https://www.intercom.com/blog/design-ux-machine-learning-ai/"
+                "title": "An AI conundrum: Products or Partnerships",
+                "author": "Paul Adams",
+                "url": "https://fin.ai/ideas/an-ai-conundrum-products-or-partnerships/"
             },
             {
-                "title": "Designing for clarity: Restructuring Intercom's information architecture",
-                "author": "John Smith",
-                "url": "https://www.intercom.com/blog/designing-for-clarity-restructuring-intercoms-information-architecture/"
-            },
-            {
-                "title": "Designing for clarity: Restructuring Intercom's information architecture",
-                "author": "John Smith",
-                "url": "https://www.intercom.com/blog/designing-for-clarity-restructuring-intercoms-information-architecture/"
-            },
-            
+                "title": "Inconvenient truths about how we measure Customer Service, and how AI will save us",
+                "author": "Paul Adams",
+                "url": "https://fin.ai/ideas/inconvenient-truths-about-how-we-measure-customer-service-and-how-ai-will-save-us/"
+            }
         ]
     },
     "texts": {

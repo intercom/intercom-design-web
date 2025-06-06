@@ -7,6 +7,7 @@ export function createBlockQuoteCard(data) {
     wrapper.style.position = 'absolute';
     wrapper.style.top = data.top;
     wrapper.style.left = data.left;
+    wrapper.style.cursor = 'pointer';
     
     // Responsive sizing based on viewport
     const isMobile = window.innerWidth <= 600;
@@ -80,6 +81,11 @@ export function createBlockQuoteCard(data) {
     wrapper.addEventListener('mouseleave', () => {
         link.style.color = 'var(--foreground-secondary)';
         resetToOriginal(linkText, 'READ MORE');
+    });
+
+    // Make the entire card clickable
+    wrapper.addEventListener('click', () => {
+        window.open(data.link, '_blank');
     });
 
     // Assemble link

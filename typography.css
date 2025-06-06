@@ -1,23 +1,23 @@
 /* Font Face Declarations */
 @font-face {
-    font-family: 'MediumLLSub-Bold';
-    src: url('../assets/typefaces/MediumLLSub-Bold.woff') format('woff');
-    font-weight: normal;
+    font-family: 'MediumLLSub';
+    src: url('../assets/typefaces/MediumLLSub-Regular.woff') format('woff');
+    font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'MediumLLSub-Regular';
-    src: url('../assets/typefaces/MediumLLSub-Regular.woff') format('woff');
-    font-weight: normal;
+    font-family: 'MediumLLSub';
+    src: url('../assets/typefaces/MediumLLSub-Bold.woff') format('woff');
+    font-weight: 700;
     font-style: normal;
 }
 
 :root {
     /* Font Families */
     --font-mono: 'DM Mono', monospace;
-    --font-sans: 'MediumLLSub-Regular', sans-serif;
-    --font-sans-bold: 'MediumLLSub-Regular', sans-serif;
+    --font-sans: 'MediumLLSub', sans-serif;
+    --font-sans-bold: 'MediumLLSub', sans-serif;
 
     /* Font Sizes */
     --text-xxs: 0.625rem;    /* 10px */

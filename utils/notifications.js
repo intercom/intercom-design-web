@@ -42,7 +42,7 @@ export class NotificationSystem {
         return color;
     }
 
-    show(message) {
+    show(message, url = 'https://example.com') {
         // Create notification wrapper
         const notificationWrapper = document.createElement('div');
         notificationWrapper.style.position = 'relative';
@@ -76,7 +76,7 @@ export class NotificationSystem {
         closeButton.style.color = 'var(--foreground-secondary)';
         closeButton.style.opacity = '0';
         closeButton.style.transition = 'opacity 0.2s ease, background 0.2s ease, color 0.2s ease';
-        closeButton.style.zIndex = '1';
+        closeButton.style.zIndex = '2';
         closeButton.style.textDecoration = 'none';
         closeButton.style.transform = 'scale(0.8)';
         closeButton.style.transformOrigin = 'center';
@@ -86,27 +86,42 @@ export class NotificationSystem {
         closeButton.style.minHeight = '26px';
         closeButton.style.padding = '0';
 
-        // Notification main container
-        const notification = document.createElement('div');
-        notification.style.background = 'rgba(20, 20, 20, 0.7)';
-        notification.style.backdropFilter = 'blur(10px)';
-        notification.style.webkitBackdropFilter = 'blur(10px)';
-        notification.style.borderRadius = '16px';
-        notification.style.border = '1px solid rgba(46, 46, 46, 0.3)';
-        notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-        notification.style.display = 'flex';
-        notification.style.width = '360px';
-        notification.style.padding = '16px';
-        notification.style.alignItems = 'flex-start';
-        notification.style.gap = '12px';
-        notification.style.position = 'relative';
-        notification.style.transform = 'translateX(100px)';
-        notification.style.opacity = '0';
-        notification.style.scale = '0.8';
-        notification.style.boxSizing = 'border-box';
+        // Notification main container as a link
+        const notificationLink = document.createElement('a');
+        notificationLink.href = url;
+        notificationLink.target = '_blank';
+        notificationLink.rel = 'noopener noreferrer';
+        notificationLink.style.background = 'rgba(20, 20, 20, 0.7)';
+        notificationLink.style.backdropFilter = 'blur(10px)';
+        notificationLink.style.webkitBackdropFilter = 'blur(10px)';
+        notificationLink.style.borderRadius = '16px';
+        notificationLink.style.border = '1px solid rgba(46, 46, 46, 0.3)';
+        notificationLink.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+        notificationLink.style.display = 'flex';
+        notificationLink.style.width = '360px';
+        notificationLink.style.padding = '16px';
+        notificationLink.style.alignItems = 'flex-start';
+        notificationLink.style.gap = '12px';
+        notificationLink.style.position = 'relative';
+        notificationLink.style.transform = 'translateX(100px)';
+        notificationLink.style.opacity = '0';
+        notificationLink.style.scale = '0.8';
+        notificationLink.style.boxSizing = 'border-box';
+        notificationLink.style.textDecoration = 'none';
+        notificationLink.style.color = 'inherit';
+        notificationLink.style.cursor = 'pointer';
+        notificationLink.style.transition = 'background 0.2s';
+        notificationLink.tabIndex = 0;
 
-        // Show/hide close button on hover
-        notificationWrapper.addEventListener('mouseenter', () => {
+        // --- Hover logic for close button with delay ---
+        let closeBtnHideTimeout = null;
+        const CLOSE_BTN_HIDE_DELAY = 400; // ms
+
+        function showCloseBtn() {
+            if (closeBtnHideTimeout) {
+                clearTimeout(closeBtnHideTimeout);
+                closeBtnHideTimeout = null;
+            }
             gsap.to(closeButton, {
                 opacity: 1,
                 scale: 1,
@@ -114,16 +129,26 @@ export class NotificationSystem {
                 ease: "power2.out"
             });
             messageRow.style.color = 'var(--foreground-primary)';
-        });
-        notificationWrapper.addEventListener('mouseleave', () => {
-            gsap.to(closeButton, {
-                opacity: 0,
-                scale: 0.8,
-                duration: 0.2,
-                ease: "power2.in"
-            });
+        }
+        function hideCloseBtnWithDelay() {
+            if (closeBtnHideTimeout) clearTimeout(closeBtnHideTimeout);
+            closeBtnHideTimeout = setTimeout(() => {
+                gsap.to(closeButton, {
+                    opacity: 0,
+                    scale: 0.8,
+                    duration: 0.2,
+                    ease: "power2.in"
+                });
+            }, CLOSE_BTN_HIDE_DELAY);
             messageRow.style.color = 'var(--foreground-secondary)';
-        });
+        }
+
+        notificationWrapper.addEventListener('mouseenter', showCloseBtn);
+        notificationWrapper.addEventListener('mouseleave', hideCloseBtnWithDelay);
+        notificationLink.addEventListener('mouseenter', showCloseBtn);
+        notificationLink.addEventListener('mouseleave', hideCloseBtnWithDelay);
+        closeButton.addEventListener('mouseenter', showCloseBtn);
+        closeButton.addEventListener('mouseleave', hideCloseBtnWithDelay);
 
         closeButton.addEventListener('mouseenter', () => {
             closeButton.style.background = 'rgba(40,40,40,0.9)';
@@ -133,7 +158,9 @@ export class NotificationSystem {
             closeButton.style.background = 'rgba(20, 20, 20, 0.7)';
             closeButton.style.color = 'var(--foreground-secondary)';
         });
-        closeButton.addEventListener('click', () => {
+        closeButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
             gsap.to(notificationWrapper, {
                 x: 100,
                 opacity: 0,
@@ -145,6 +172,57 @@ export class NotificationSystem {
                 }
             });
         });
+
+        // --- Optional: Auto-dismiss logic with pause on hover ---
+        const AUTO_DISMISS_DELAY = 6000; // ms
+        let autoDismissTimeout = setTimeout(() => {
+            if (document.body.contains(notificationWrapper)) {
+                gsap.to(notificationWrapper, {
+                    x: 100,
+                    opacity: 0,
+                    scale: 0.8,
+                    duration: 0.4,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        if (this.container.contains(notificationWrapper)) {
+                            this.container.removeChild(notificationWrapper);
+                        }
+                    }
+                });
+            }
+        }, AUTO_DISMISS_DELAY);
+        function pauseAutoDismiss() {
+            if (autoDismissTimeout) {
+                clearTimeout(autoDismissTimeout);
+                autoDismissTimeout = null;
+            }
+        }
+        function resumeAutoDismiss() {
+            if (!autoDismissTimeout) {
+                autoDismissTimeout = setTimeout(() => {
+                    if (document.body.contains(notificationWrapper)) {
+                        gsap.to(notificationWrapper, {
+                            x: 100,
+                            opacity: 0,
+                            scale: 0.8,
+                            duration: 0.4,
+                            ease: "power2.in",
+                            onComplete: () => {
+                                if (this.container.contains(notificationWrapper)) {
+                                    this.container.removeChild(notificationWrapper);
+                                }
+                            }
+                        });
+                    }
+                }, AUTO_DISMISS_DELAY);
+            }
+        }
+        notificationWrapper.addEventListener('mouseenter', pauseAutoDismiss);
+        notificationWrapper.addEventListener('mouseleave', resumeAutoDismiss);
+        notificationLink.addEventListener('mouseenter', pauseAutoDismiss);
+        notificationLink.addEventListener('mouseleave', resumeAutoDismiss);
+        closeButton.addEventListener('mouseenter', pauseAutoDismiss);
+        closeButton.addEventListener('mouseleave', resumeAutoDismiss);
 
         // Left: Accent rectangles
         const accentBar = document.createElement('div');
@@ -211,16 +289,16 @@ export class NotificationSystem {
         innerContainer.appendChild(topRow);
         innerContainer.appendChild(messageRow);
 
-        // Assemble notification
-        notification.appendChild(innerContainer);
+        // Assemble notification (link as main container)
+        notificationLink.appendChild(innerContainer);
 
-        // Add notification and close button to wrapper
+        // Add close button and notification link to wrapper
         notificationWrapper.appendChild(closeButton);
-        notificationWrapper.appendChild(notification);
+        notificationWrapper.appendChild(notificationLink);
         this.container.appendChild(notificationWrapper);
 
         // Animate in with GSAP
-        gsap.to(notification, {
+        gsap.to(notificationLink, {
             x: 0,
             opacity: 1,
             scale: 1,

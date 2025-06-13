@@ -115,7 +115,7 @@ const cards = [
   },
   { 
     type: 'image', 
-    top: '5%', 
+    top: '2%', 
     left: '67%', 
     src: 'assets/images/img4.jpg', 
     link: '', 
@@ -181,9 +181,11 @@ const cards = [
     text: 'INTERCOM DESIGN',
     modalTitle: 'About Intercom Design',
     modalContent: `
-      <p>Welcome to Intercom Design. We're a team of designers, researchers, and writers who are passionate about creating products that people love to use.</p>
-      <p>Our mission is to help businesses build better relationships with their customers through thoughtful, human-centered design.</p>
-      <p>Explore our work, read our articles, and learn more about how we approach design at Intercom.</p>
+      <p>Our mission has always been to help our customers provide incredible customer experiences.</p>
+      <p>We've been building bots and customer service tools for years—but AI has changed everything.<br>
+      We believe AI Agents will do the vast majority of customer service, and soon.<br>
+      Fin, our AI Agent is the best performing, most widely adopted, and highest grossing AI service agent on the market.</p>
+      <p>We are shaping the future of how businesses communicate with their customers.</p>
     `
   },
   { 
@@ -234,17 +236,26 @@ Evolving your design approach for AI products`,
     type: 'folder', 
     top: '55%', 
     left: '24%', 
-    title: 'TEXTS', 
+    title: 'ARTICLES', 
     content: 'Read our latest articles...',
-    label: 'TEXTS'
+    label: 'ARTICLES'
   },
   { 
     type: 'folder', 
     top: '47%', 
     left: '62%', 
-    title: 'TALKS & EVENTS', 
+    title: 'VIDEOS', 
+    content: 'Watch our latest videos...',
+    label: 'VIDEOS'
+  },
+  {
+    type: 'folder',
+    top: '15%',
+    left: '60%',
+    title: 'PODCASTS',
     content: 'Listen to our podcasts...',
-    label: 'TALKS & EVENTS'
+    label: 'PODCASTS',
+    folderId: 'podcasts'
   },
   {
     type: 'blockquote',
@@ -524,7 +535,7 @@ function initializeCards() {
       case 'folder': card = createFolderCard(cardData, modal); break;
       case 'video': card = createVideoCard(cardData); break;
       case 'blockquote': card = createBlockQuoteCard(cardData); break;
-      case 'logo': card = createLogoCard(cardData); break;
+      case 'logo': card = createLogoCard(cardData, modal); break;
     }
     if (card) {
       // Find the .card element inside the wrapper
@@ -721,9 +732,9 @@ document.addEventListener('mousemove', (e) => {
 
 // Show notifications with a delay
 setTimeout(() => {
-    notifications.show('We are hiring!');
+    notifications.show('We are hiring!', 'https://example.com');
 }, 1000);
 
 setTimeout(() => {
-    notifications.show('Join us in the BFY event in London');
+    notifications.show('Join us in the BFY event in London', 'https://example.com');
 }, 3000);

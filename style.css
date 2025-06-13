@@ -272,10 +272,30 @@ body {
 }
 
 .modal-content-body {
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--foreground-secondary);
+    font-family: 'MediumLLSub', var(--font-sans), sans-serif;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--foreground-primary);
+    text-transform: none;
+    max-height: 60vh;
+    overflow-y: auto;
+    position: relative;
+    padding-bottom: 3.5rem;
+}
+
+/* Gradient overlay for modal content body */
+.modal-content-body::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3.5rem;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(20,20,20,0.85) 100%);
+    border-radius: 0 0 24px 24px;
+    z-index: 2;
 }
 
 .close-button {
@@ -629,4 +649,27 @@ body {
     -webkit-mask-size: 100% 100%;
     mask-repeat: no-repeat;
     -webkit-mask-repeat: no-repeat;
+}
+
+.modal-content.centered {
+    top: 0 !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: 0 !important;
+    transform: translateX(-50%);
+    width: 60vw;
+    max-width: 900px;
+    min-width: 320px;
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 24px;
+}
+
+.modal-content-body.logo-modal-body {
+    padding: 64px 48px;
+    font-size: 4rem;
 }

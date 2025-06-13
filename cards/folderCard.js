@@ -34,15 +34,16 @@ export function createFolderCard(data, modal) {
 
     // Add click handler to open modal with article list
     card.addEventListener('click', () => {
-        // Map folder labels to article list IDs
-        const folderIdMap = {
-            'AI IDEAS': 'ai-ideas',
-            'IDEAS': 'ideas',
-            'TEXTS': 'texts',
-            'TALKS & EVENTS': 'talks'
-        };
-        
-        const folderId = folderIdMap[data.label];
+        // Prefer explicit folderId from data
+        const folderId = data.folderId || (function() {
+            const folderIdMap = {
+                'AI IDEAS': 'ai-ideas',
+                'IDEAS': 'ideas',
+                'ARTICLES': 'texts',
+                'VIDEOS': 'talks'
+            };
+            return folderIdMap[data.label];
+        })();
         if (folderId) {
             const articleList = createArticleList(folderId);
             if (articleList) {
@@ -50,7 +51,6 @@ export function createFolderCard(data, modal) {
                 return;
             }
         }
-        
         // Fallback to original content if no articles found
         modal.open(data.title, data.content);
     });

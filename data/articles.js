@@ -41,7 +41,7 @@ export const articlesData = {
         ]
     },
     "texts": {
-        "title": "TEXTS",
+        "title": "ARTICLES",
         "articles": [
             {
                 "title": "A new age of UX: Evolving your design approach for AI products",
@@ -67,7 +67,7 @@ export const articlesData = {
         "title": "TALKS & EVENTS",
         "articles": [
             {
-                "title": "Why Old UI Designs Won’t Work with AI | Off Script",
+                "title": "Why Old UI Designs Won't Work with AI | Off Script",
                 "author": "Emmet Connolly",
                 "url": "https://www.youtube.com/watch?v=I8hMPj3AD34"
             },
@@ -88,6 +88,41 @@ export const articlesData = {
             },
             
             
+        ]
+    },
+    "podcasts": {
+        "title": "PODCASTS",
+        "articles": [
+            {
+                "title": "Why Anthropic chose Fin to transform their customer support",
+                "author": "Intercom Podcast",
+                "url": "https://www.intercom.com/blog/podcasts/why-anthropic-chose-fin-to-transform-their-customer-support/"
+            },
+            {
+                "title": "A day in the life of a conversation designer",
+                "author": "Intercom Podcast",
+                "url": "https://www.intercom.com/blog/videos/the-ticket-a-day-in-the-life-of-a-conversation-designer/"
+            },
+            {
+                "title": "Navigating a new era of AI-first customer service",
+                "author": "Intercom Podcast",
+                "url": "https://www.intercom.com/blog/videos/navigating-a-new-era-of-ai-first-customer-service/"
+            },
+            {
+                "title": "From siloed to seamless: what it really takes to unify the customer journey",
+                "author": "Intercom Podcast",
+                "url": "https://www.youtube.com/watch?v=dXgbGKpSEvk&list=PLlCIldMZCaFrn43ZNAiw00icA-nRW5wVF&index=1"
+            },
+            {
+                "title": "The future of customer experience starts with smarter listening",
+                "author": "Intercom Podcast",
+                "url": "https://www.intercom.com/blog/videos/the-future-of-customer-experience-starts-with-smarter-listening/"
+            },
+            {
+                "title": "The hidden cost of misdiagnosing customer issues (and how AI can help)",
+                "author": "Intercom Podcast",
+                "url": "https://www.intercom.com/blog/videos/the-hidden-cost-of-misdiagnosing-customer-issues/"
+            }
         ]
     }
 }; 

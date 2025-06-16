@@ -123,7 +123,7 @@ const cards = [
   },
   { 
     type: 'image', 
-    top: '80%', 
+    top: '83%', 
     left: '55%', 
     src: 'assets/images/img5.jpg', 
     link: '', 
@@ -138,15 +138,8 @@ const cards = [
   },
   { 
     type: 'youtube', 
-    top: '69%', 
-    left: '63%', 
-    embedId: 'cnhUspTS4YU', 
-    label: 'Built For You: April 2024 Broadcast' 
-  },
-  { 
-    type: 'youtube', 
     top: '80%', 
-    left: '74%', 
+    left: '76%', 
     embedId: 'rc1WGS8QNeI', 
     label: 'How to design standout products in an AI world' 
   },
@@ -261,10 +254,10 @@ Evolving your design approach for AI products`,
     type: 'blockquote',
     top: '54%',
     left: '32%',
-    text: 'Most portfolios look great. But they rarely tell us how someone actually thinks and works. That\'s the gap we\'re trying to close.',
-    highlight: 'how someone actually thinks and works.',
+    text: "AI isn\'t killing design, it's making it matter more. And the companies that get that? They\'re not scaling back their design teams. They\'re expecting more from them. And giving them more power in return.",
+    highlight: "AI isn\'t killing design, it's making it matter more.",
     highlightColor: 'accent-gold',
-    link: 'https://www.linkedin.com/posts/thomas-rimmer-73903030_%F0%9D%97%AA%F0%9D%97%B2-%F0%9D%97%B7%F0%9D%98%82%F0%9D%98%80%F0%9D%98%81-%F0%9D%97%AF%F0%9D%97%BF%F0%9D%97%BC%F0%9D%98%82%F0%9D%97%B4%F0%9D%97%B5%F0%9D%98%81-%F0%9D%97%AF%F0%9D%97%AE%F0%9D%97%B0%F0%9D%97%B8-%F0%9D%97%B1%F0%9D%97%B2%F0%9D%98%80%F0%9D%97%B6%F0%9D%97%B4%F0%9D%97%BB-activity-7324145150039887873-3zJf',
+    link: 'https://verifiedinsider.substack.com/p/design-at-intercom',
     label: 'READ MORE'
   },
   {
@@ -286,7 +279,15 @@ Evolving your design approach for AI products`,
     highlightColor: 'accent-orchid',
     link: 'https://fin.ai/ideas/why-do-we-expect-our-ai-products-to-be-flawless/',
     label: 'READ MORE'
-  }
+  },
+  { 
+    type: 'video',
+    top: '69%',
+    left: '63%',
+    src: 'assets/videos/hero-loop.mp4',
+    label: 'Built For You 2025',
+    link: 'https://bfy.fin.ai/'
+  },
 ];
 
 // Initialize minimap

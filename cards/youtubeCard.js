@@ -80,10 +80,9 @@ export function createYoutubeCard(data) {
     // Add hover effect
     link.addEventListener('mouseenter', () => {
         playButtonContainer.style.background = 'rgba(0, 0, 0, 0.4)';
-        // GSAP pop effect
+        // GSAP pop effect (no glow)
         gsap.to(playButtonContainer, {
             scale: 1.15,
-            boxShadow: '0 0 16px 4px rgba(0,255,255,0.25)',
             duration: 0.35,
             ease: 'expo.out',
         });
@@ -91,10 +90,9 @@ export function createYoutubeCard(data) {
 
     link.addEventListener('mouseleave', () => {
         playButtonContainer.style.background = 'rgba(0, 0, 0, 0.3)';
-        // Revert GSAP effect
+        // Revert GSAP effect (no glow)
         gsap.to(playButtonContainer, {
             scale: 1,
-            boxShadow: '0 0 0 0 rgba(0,0,0,0)',
             duration: 0.4,
             ease: 'expo.in',
         });

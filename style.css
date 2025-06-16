@@ -24,6 +24,38 @@ body {
     overflow: hidden;
 }
 
+/* Edge gradients - fade from background color to transparent around all edges */
+#canvas-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1000;
+    background:
+        /* Top gradient - matches menu gradient fade */
+        linear-gradient(to bottom, var(--background-primary) 1%, transparent 40%),
+        /* Bottom gradient */
+        linear-gradient(to top, var(--background-primary) 1%, transparent 40%),
+        /* Left gradient */
+        linear-gradient(to right, var(--background-primary) 1%, transparent 40%),
+        /* Right gradient */
+        linear-gradient(to left, var(--background-primary) 1%, transparent 40%);
+    background-size:
+        100% 200px, /* Top gradient height - much larger */
+        100% 200px, /* Bottom gradient height - much larger */
+        200px 100%, /* Left gradient width - much larger */
+        200px 100%; /* Right gradient width - much larger */
+    background-position:
+        0 0,       /* Top gradient position */
+        0 100%,    /* Bottom gradient position */
+        0 0,       /* Left gradient position */
+        100% 0;    /* Right gradient position */
+    background-repeat: no-repeat;
+}
+
 /* Canvas styles */
 #canvas {
     position: absolute;

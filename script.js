@@ -7,13 +7,12 @@ import { createFolderCard } from './cards/folderCard.js';
 import { createVideoCard } from './cards/videoCard.js';
 import { createModal } from './utils/createModal.js';
 import { Minimap } from './utils/minimap.js';
-import { NotificationSystem } from './utils/notifications.js';
+
 import { createBlockQuoteCard } from './cards/blockQuoteCard.js';
-import { createLogoCard } from './cards/logoCard.js';
+import { createLogoCard, createByline } from './cards/logoCard.js';
 import { scrambleOnHover, resetToOriginal } from './utils/textScrambleSimple.js';
 
-// Initialize notification system
-const notifications = new NotificationSystem();
+
 
 // Get DOM elements
 const canvas = document.getElementById('canvas');
@@ -528,6 +527,7 @@ function initializeCards() {
 
   cards.forEach((cardData, index) => {
     let card;
+    let byline;
     switch (cardData.type) {
       case 'image': card = createImageCard(cardData); break;
       case 'youtube': card = createYoutubeCard(cardData); break;
@@ -536,7 +536,10 @@ function initializeCards() {
       case 'folder': card = createFolderCard(cardData, modal); break;
       case 'video': card = createVideoCard(cardData); break;
       case 'blockquote': card = createBlockQuoteCard(cardData); break;
-      case 'logo': card = createLogoCard(cardData, modal); break;
+      case 'logo':
+        card = createLogoCard(cardData, modal);
+        byline = createByline(cardData);
+        break;
     }
     if (card) {
       // Find the .card element inside the wrapper
@@ -548,15 +551,27 @@ function initializeCards() {
       card.style.top = cardData.top;
       card.style.left = cardData.left;
       if (cardData.id) card.id = cardData.id;
-      
+
       // Set initial state for animation
       gsap.set(card, {
         scale: 0.8,
         opacity: 0,
         filter: 'blur(10px)'
       });
-      
+
       canvas.appendChild(card);
+
+      // Add byline separately if it exists
+      if (byline) {
+        // Set initial state for byline animation
+        gsap.set(byline, {
+          scale: 0.8,
+          opacity: 0,
+          filter: 'blur(10px)'
+        });
+
+        canvas.appendChild(byline);
+      }
       
       // Animate each card with a stagger effect
       gsap.to(card, {
@@ -568,18 +583,18 @@ function initializeCards() {
         ease: "power2.out",
         onComplete: () => {
           cardsAnimated++;
-          
+
           // Initialize minimap after all cards are animated
           if (cardsAnimated === totalCards) {
             minimap = new Minimap(canvasContainer, canvas, cards);
-            
+
             // Set initial state for minimap
             gsap.set(minimap.minimap, {
               opacity: 0,
               scale: 0.95,
               filter: 'blur(10px)'
             });
-            
+
             // Animate minimap appearance
             gsap.to(minimap.minimap, {
               opacity: 1,
@@ -602,7 +617,7 @@ function initializeCards() {
                 ease: "power2.out"
               });
             });
-            
+
             card.addEventListener('mouseleave', () => {
               gsap.to(card, {
                 scale: 1,
@@ -613,6 +628,18 @@ function initializeCards() {
           }
         }
       });
+
+      // Animate byline separately if it exists
+      if (byline) {
+        gsap.to(byline, {
+          scale: 1,
+          opacity: 1,
+          filter: 'blur(0px)',
+          duration: 0.6,
+          delay: index * 0.08 + 0.2, // Slightly delayed after the card
+          ease: "power2.out"
+        });
+      }
     }
   });
 }
@@ -731,11 +758,3 @@ document.addEventListener('mousemove', (e) => {
     canvas.style.setProperty('--cursor-y', `${y}px`);
 });
 
-// Show notifications with a delay
-setTimeout(() => {
-    notifications.show('We are hiring!', 'https://example.com');
-}, 1000);
-
-setTimeout(() => {
-    notifications.show('Join us in the BFY event in London', 'https://example.com');
-}, 3000);

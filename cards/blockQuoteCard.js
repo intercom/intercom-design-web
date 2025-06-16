@@ -15,6 +15,20 @@ export function createBlockQuoteCard(data) {
     wrapper.style.maxWidth = `${420 * scaleFactor}px`;
     wrapper.style.width = `min(90vw, ${420 * scaleFactor}px)`;
 
+    // Create card container for minimap detection
+    const card = document.createElement('div');
+    card.className = 'card blockquote-card';
+    card.style.width = '100%';
+    card.style.height = 'auto';
+    card.style.background = 'none';
+    card.style.border = 'none';
+    card.style.display = 'flex';
+    card.style.flexDirection = 'column';
+    card.style.alignItems = 'flex-start';
+    card.style.justifyContent = 'center';
+    card.style.padding = '0';
+    card.style.boxSizing = 'border-box';
+
     // Responsive quote text
     const quote = document.createElement('div');
     quote.className = 'blockquote-card-quote';
@@ -91,9 +105,10 @@ export function createBlockQuoteCard(data) {
     // Assemble link
     link.appendChild(linkText);
 
-    // Assemble card
-    wrapper.appendChild(quote);
-    wrapper.appendChild(link);
+    // Assemble card content
+    card.appendChild(quote);
+    card.appendChild(link);
+    wrapper.appendChild(card);
 
     return wrapper;
 } 

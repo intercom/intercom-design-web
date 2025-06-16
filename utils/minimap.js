@@ -94,6 +94,13 @@ export class Minimap {
         const cardType = cardElement.classList[1]; // Get the second class (e.g., 'image-card', 'youtube-card')
         if (cardType) {
           minimapCard.classList.add(cardType);
+          // Remove debug color for video and blockquote
+          // if (cardType === 'video-card') {
+          //   minimapCard.style.background = 'purple';
+          // }
+          // if (cardType === 'blockquote-card') {
+          //   minimapCard.style.background = 'orange';
+          // }
         }
         
         // Ensure card stays within minimap bounds

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimap Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .test-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            border-radius: 8px;
+            z-index: 10001;
+            max-width: 300px;
+        }
+        .test-info h3 {
+            margin: 0 0 10px 0;
+            color: #4CAF50;
+        }
+        .test-info ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .test-info li {
+            margin: 5px 0;
+        }
+        .success {
+            color: #4CAF50;
+        }
+        .error {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h3>Minimap Test Results</h3>
+        <div id="test-results">
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <script type="module">
+        // Wait for the page to load completely
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                runMinimapTests();
+            }, 2000); // Wait 2 seconds for everything to initialize
+        });
+
+        function runMinimapTests() {
+            const results = [];
+            
+            // Test 1: Check if minimap exists
+            const minimap = document.getElementById('minimap');
+            if (minimap) {
+                results.push('<li class="success">✓ Minimap container found</li>');
+            } else {
+                results.push('<li class="error">✗ Minimap container not found</li>');
+                displayResults(results);
+                return;
+            }
+
+            // Test 2: Check if minimap cards exist
+            const minimapCards = minimap.querySelectorAll('.minimap-card');
+            results.push(`<li class="success">✓ Found ${minimapCards.length} minimap cards</li>`);
+
+            // Test 3: Check for specific card types
+            const cardTypes = {
+                'blockquote-card': 0,
+                'video-card': 0,
+                'logo-card': 0,
+                'image-card': 0,
+                'text-card': 0,
+                'folder-card': 0,
+                'youtube-card': 0,
+                'spotify-card': 0
+            };
+
+            minimapCards.forEach(card => {
+                for (let type in cardTypes) {
+                    if (card.classList.contains(type)) {
+                        cardTypes[type]++;
+                    }
+                }
+            });
+
+            // Display card type counts
+            results.push('<li><strong>Card types found:</strong></li>');
+            for (let type in cardTypes) {
+                const count = cardTypes[type];
+                const className = count > 0 ? 'success' : 'error';
+                results.push(`<li class="${className}">  ${type}: ${count}</li>`);
+            }
+
+            // Test 4: Check if blockquote cards are visible
+            const blockquoteCards = minimap.querySelectorAll('.minimap-card.blockquote-card');
+            if (blockquoteCards.length > 0) {
+                results.push(`<li class="success">✓ ${blockquoteCards.length} blockquote cards visible in minimap</li>`);
+                
+                // Check if they have proper styling
+                let hasBackground = false;
+                blockquoteCards.forEach(card => {
+                    const style = window.getComputedStyle(card);
+                    if (style.backgroundColor !== 'rgba(0, 0, 0, 0)') {
+                        hasBackground = true;
+                    }
+                });
+                
+                if (hasBackground) {
+                    results.push('<li class="success">✓ Blockquote cards have background styling</li>');
+                } else {
+                    results.push('<li class="error">✗ Blockquote cards missing background styling</li>');
+                }
+            } else {
+                results.push('<li class="error">✗ No blockquote cards found in minimap</li>');
+            }
+
+            displayResults(results);
+        }
+
+        function displayResults(results) {
+            const container = document.getElementById('test-results');
+            container.innerHTML = '<ul>' + results.join('') + '</ul>';
+        }
+    </script>
+
+    <!-- Include the main page content -->
+    <iframe src="index.html" style="width: 100%; height: 80vh; border: 1px solid #333; border-radius: 8px;"></iframe>
+</body>
+</html>

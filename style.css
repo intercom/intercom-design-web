@@ -436,7 +436,10 @@ body {
 #minimap .youtube-card,
 #minimap .spotify-card,
 #minimap .text-card,
-#minimap .folder-card {
+#minimap .folder-card,
+#minimap .video-card,
+#minimap .blockquote-card,
+#minimap .logo-card {
     background: var(--border-tertiary);
     border: none;
 }
@@ -454,6 +457,65 @@ body {
 #map-viewport:hover {
     border-color: rgba(255, 255, 255, 0.5);
     background: rgba(255, 255, 255, 0.15);
+}
+
+/* Component type highlighting system */
+/* When a component type is being hovered, highlight all instances in minimap */
+
+/* YouTube card highlighting */
+.highlight-youtube .minimap-card.youtube-card {
+    background: var(--youtube-card-bg) !important;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Spotify card highlighting */
+.highlight-spotify .minimap-card.spotify-card {
+    background: var(--spotify-card-bg) !important;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Video card highlighting */
+.highlight-video .minimap-card.video-card {
+    background: rgba(102, 51, 255, 0.3) !important;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Image card highlighting */
+.highlight-image .minimap-card.image-card {
+    background: rgba(255, 102, 0, 0.3) !important;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Text card highlighting */
+.highlight-text .minimap-card.text-card {
+    background: rgba(255, 249, 77, 0.3) !important;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Folder card highlighting */
+.highlight-folder .minimap-card.folder-card {
+    background: rgba(255, 51, 204, 0.3) !important;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Blockquote card highlighting */
+.highlight-blockquote .minimap-card.blockquote-card {
+    background: rgba(170, 184, 255, 0.3) !important;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Logo card highlighting */
+.highlight-logo .minimap-card.logo-card {
+    background: rgba(153, 255, 153, 0.3) !important;
+    transform: scale(1.1);
+    z-index: 10;
 }
 
 /* Main menu styles */

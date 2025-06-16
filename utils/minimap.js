@@ -31,6 +31,7 @@ export class Minimap {
       // Render and set up listeners
       this.renderCards();
       this.setupEventListeners();
+      this.setupHoverHighlighting();
     }
   
     setupEventListeners() {
@@ -68,7 +69,7 @@ export class Minimap {
     renderCards() {
       // Clear old cards
       this.minimap.querySelectorAll('.minimap-card').forEach(card => card.remove());
-  
+
       // Get all card elements from the canvas
       const cardElements = this.canvas.querySelectorAll('.card');
   
@@ -83,7 +84,16 @@ export class Minimap {
         // Create minimap card element
         const minimapCard = document.createElement('div');
         minimapCard.className = 'minimap-card';
-        
+
+        // Copy card type classes from the original card
+        const cardTypeClasses = ['youtube-card', 'spotify-card', 'video-card', 'image-card',
+                                'text-card', 'folder-card', 'blockquote-card', 'logo-card'];
+        cardTypeClasses.forEach(cardType => {
+          if (cardElement.classList.contains(cardType)) {
+            minimapCard.classList.add(cardType);
+          }
+        });
+
         // Calculate scaled dimensions and position
         const scaledWidth = rect.width / this.scale;
         const scaledHeight = rect.height / this.scale;
@@ -94,13 +104,6 @@ export class Minimap {
         const cardType = cardElement.classList[1]; // Get the second class (e.g., 'image-card', 'youtube-card')
         if (cardType) {
           minimapCard.classList.add(cardType);
-          // Remove debug color for video and blockquote
-          // if (cardType === 'video-card') {
-          //   minimapCard.style.background = 'purple';
-          // }
-          // if (cardType === 'blockquote-card') {
-          //   minimapCard.style.background = 'orange';
-          // }
         }
         
         // Ensure card stays within minimap bounds
@@ -115,6 +118,9 @@ export class Minimap {
         
         this.minimap.appendChild(minimapCard);
       });
+
+      // Re-setup hover highlighting after rendering cards
+      this.setupHoverHighlighting();
     }
   
     updateViewportFromTransform(canvasX, canvasY) {
@@ -207,6 +213,63 @@ export class Minimap {
       const currentX = gsap.getProperty(this.canvas, 'x');
       const currentY = gsap.getProperty(this.canvas, 'y');
       this.updateViewportFromTransform(currentX, currentY);
+    }
+
+    setupHoverHighlighting() {
+      // Define card type mappings
+      const cardTypeMap = {
+        'youtube-card': 'highlight-youtube',
+        'spotify-card': 'highlight-spotify',
+        'video-card': 'highlight-video',
+        'image-card': 'highlight-image',
+        'text-card': 'highlight-text',
+        'folder-card': 'highlight-folder',
+        'blockquote-card': 'highlight-blockquote',
+        'logo-card': 'highlight-logo'
+      };
+
+      // Remove existing listeners if they exist
+      if (this.hoverHandler) {
+        this.canvas.removeEventListener('mouseover', this.hoverHandler);
+        this.canvas.removeEventListener('mouseout', this.hoverHandler);
+      }
+
+      // Create new hover handler using mouseover/mouseout for proper event delegation
+      this.hoverHandler = (event) => {
+        // Find the closest .card element
+        const target = event.target.closest('.card');
+        if (!target) return;
+
+        if (event.type === 'mouseover') {
+          // Clear any existing highlights first
+          Object.values(cardTypeMap).forEach(highlightClass => {
+            this.minimap.classList.remove(highlightClass);
+          });
+
+          // Find which card type this element is and add highlight
+          for (const [cardType, highlightClass] of Object.entries(cardTypeMap)) {
+            if (target.classList.contains(cardType)) {
+              this.minimap.classList.add(highlightClass);
+              console.log(`Added ${highlightClass} for ${cardType}`);
+              break;
+            }
+          }
+        } else if (event.type === 'mouseout') {
+          // Only remove highlights if we're leaving the card entirely
+          const relatedTarget = event.relatedTarget;
+          if (!relatedTarget || !target.contains(relatedTarget)) {
+            // Remove all highlight classes from minimap
+            Object.values(cardTypeMap).forEach(highlightClass => {
+              this.minimap.classList.remove(highlightClass);
+            });
+            console.log('Removed all highlights');
+          }
+        }
+      };
+
+      // Add event listeners using standard event delegation
+      this.canvas.addEventListener('mouseover', this.hoverHandler);
+      this.canvas.addEventListener('mouseout', this.hoverHandler);
     }
 }
   

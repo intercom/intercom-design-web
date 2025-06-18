@@ -88,13 +88,13 @@ function updateCanvasSize() {
 
 // Card data
 const cards = [
-  { 
-    type: 'image', 
-    top: '15%', 
-    left: '12%', 
-    src: 'assets/images/img3.png', 
-    link: 'https://www.intercom.com/design', 
-    label: '' 
+  {
+    type: 'video',
+    top: '32%',
+    left: '20%',
+    src: 'assets/videos/INTERCOM_BRAND_REEL_MS_250603.mp4',
+    link: 'https://www.intercom.com/design',
+    label: 'Intercom Brand Evoultion'
   },
   { 
     type: 'image', 
@@ -106,8 +106,8 @@ const cards = [
   },
   { 
     type: 'image', 
-    top: '32%', 
-    left: '20%', 
+    top: '15%', 
+    left: '12%', 
     src: 'assets/images/img2.png', 
     link: 'https://www.intercom.com/careers', 
     label: '' 
@@ -169,7 +169,7 @@ const cards = [
   { 
     type: 'logo', 
     top: '45%', 
-    left: '44%', 
+    left: '43%', 
     text: 'INTERCOM DESIGN',
     modalTitle: 'About Intercom Design',
     modalContent: `
@@ -180,15 +180,13 @@ const cards = [
       <p>We are shaping the future of how businesses communicate with their customers.</p>
     `
   },
-  { 
-    type: 'text', 
-    top: '52%', 
-    left: '12%', 
-    paragraph: `Every product reaches a moment when its foundation begins to strain under the weight of growth.
-
-For Intercom, we encountered this moment when it became clear that our information architecture (IA) – the framework that organizes how features, settings, and workflows fit together – was struggling to keep pace with the development of our product.`, 
-    link: 'https://www.intercom.com/blog/designing-for-clarity-restructuring-intercoms-information-architecture/',
-    label: 'DESIGNING FOR CLARITY',
+  {
+    type: 'text',
+    top: '45%',
+    left: '8%',
+    paragraph: `When people evaluate AI, they don't compare it to how humans actually perform—they compare it to perfection. That's a standard humans rarely meet. We forgive human error, but even a single AI misstep can erode trust completely. This double standard means AI has to earn trust in ways humans don't.`,
+    link: 'https://fin.ai/ideas/why-do-we-expect-our-ai-products-to-be-flawless/',
+    label: 'Why do we expect our AI products to be flawless?',
     accent: 'accent-blue'
   },
   
@@ -215,24 +213,16 @@ Evolving your design approach for AI products`,
     accent: 'accent-orchid'
   },
 
-  { 
-    type: 'folder', 
-    top: '38%', 
-    left: '34%', 
-    title: 'AI IDEAS', 
-    content: 'AI Ideas.',
-    label: 'AI IDEAS',
-    folderId: 'ai-ideas'
+  {
+    type: 'folder',
+    top: '38%',
+    left: '34%',
+    title: 'POSTS',
+    content: 'Posts.',
+    label: 'POSTS',
+    folderId: 'posts'
   },
-  { 
-    type: 'folder', 
-    top: '55%', 
-    left: '24%', 
-    title: 'ARTICLES', 
-    content: 'Read our latest articles...',
-    label: 'ARTICLES'
-  },
-  { 
+  {
     type: 'folder', 
     top: '47%', 
     left: '62%', 

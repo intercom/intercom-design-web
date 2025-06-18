@@ -37,9 +37,8 @@ export function createFolderCard(data, modal) {
         // Prefer explicit folderId from data
         const folderId = data.folderId || (function() {
             const folderIdMap = {
-                'AI IDEAS': 'ai-ideas',
+                'POSTS': 'posts',
                 'IDEAS': 'ideas',
-                'ARTICLES': 'texts',
                 'VIDEOS': 'talks'
             };
             return folderIdMap[data.label];

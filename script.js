@@ -90,11 +90,10 @@ function updateCanvasSize() {
 const cards = [
   {
     type: 'video',
-    top: '32%',
-    left: '20%',
-    src: 'assets/videos/INTERCOM_BRAND_REEL_MS_250603.mp4',
-    link: 'https://www.intercom.com/design',
-    label: 'Intercom Brand Evoultion'
+    top: '25%',
+    left: '19%',
+    src: 'assets/videos/1_1.mp4',
+    label: 'Intercom Brand Reel'
   },
   { 
     type: 'image', 
@@ -104,14 +103,7 @@ const cards = [
     link: 'https://www.intercom.com/blog', 
     label: '',
   },
-  { 
-    type: 'image', 
-    top: '15%', 
-    left: '12%', 
-    src: 'assets/images/img2.png', 
-    link: 'https://www.intercom.com/careers', 
-    label: '' 
-  },
+
   { 
     type: 'image', 
     top: '2%', 
@@ -122,7 +114,7 @@ const cards = [
   },
   { 
     type: 'image', 
-    top: '83%', 
+    top: '78%', 
     left: '55%', 
     src: 'assets/images/img5.jpg', 
     link: '', 
@@ -137,7 +129,7 @@ const cards = [
   },
   { 
     type: 'youtube', 
-    top: '80%', 
+    top: '75%', 
     left: '76%', 
     embedId: 'rc1WGS8QNeI', 
     label: 'How to design standout products in an AI world' 
@@ -183,7 +175,7 @@ const cards = [
   {
     type: 'text',
     top: '45%',
-    left: '8%',
+    left: '16%',
     paragraph: `When people evaluate AI, they don't compare it to how humans actually perform—they compare it to perfection. That's a standard humans rarely meet. We forgive human error, but even a single AI misstep can erode trust completely. This double standard means AI has to earn trust in ways humans don't.`,
     link: 'https://fin.ai/ideas/why-do-we-expect-our-ai-products-to-be-flawless/',
     label: 'Why do we expect our AI products to be flawless?',
@@ -193,7 +185,7 @@ const cards = [
   { 
     type: 'text', 
     top: '68%', 
-    left: '22%', 
+    left: '10%', 
     paragraph: `Before ChatGPT rolled onto the scene a year ago, artificial intelligence (AI) and machine learning (ML) were the mysterious tools of experts and data scientists – teams with a lot of niche experience and specialized domain knowledge. Now, things are different.
 
 You're probably reading this because your company has decided to use OpenAI's GPT or another LLM (large language model) to build generative AI features into your product.`, 
@@ -205,8 +197,8 @@ Evolving your design approach for AI products`,
 
   { 
     type: 'text', 
-    top: '75%', 
-    left: '38%', 
+    top: '58%', 
+    left: '15%', 
     paragraph: `AI is no longer a distant promise—it's here, and it's changing everything. From customer support to product design, the AI revolution is reshaping how we work, interact, and innovate. Are you ready to pioneer the future?`, 
     link: 'https://www.intercom.com/blog/videos/pioneer-this-is-getting-real-ai-revolution/',
     label: 'This is getting real: Welcome to the AI revolution',
@@ -215,8 +207,8 @@ Evolving your design approach for AI products`,
 
   {
     type: 'folder',
-    top: '38%',
-    left: '34%',
+    top: '40%',
+    left: '32%',
     title: 'POSTS',
     content: 'Posts.',
     label: 'POSTS',
@@ -242,7 +234,7 @@ Evolving your design approach for AI products`,
   {
     type: 'blockquote',
     top: '54%',
-    left: '32%',
+    left: '30%',
     text: "AI isn\'t killing design, it's making it matter more. And the companies that get that? They\'re not scaling back their design teams. They\'re expecting more from them. And giving them more power in return.",
     highlight: "AI isn\'t killing design, it's making it matter more.",
     highlightColor: 'accent-gold',
@@ -251,7 +243,7 @@ Evolving your design approach for AI products`,
   },
   {
     type: 'blockquote',
-    top: '58%',
+    top: '62%',
     left: '75%',
     text: 'You can feel the shape of what\'s coming - even if the tools are still clunky, the future is clearly starting to boot up.',
     highlight: 'the future is clearly starting to boot up',
@@ -269,13 +261,20 @@ Evolving your design approach for AI products`,
     link: 'https://fin.ai/ideas/why-do-we-expect-our-ai-products-to-be-flawless/',
     label: 'READ MORE'
   },
-  { 
+  {
     type: 'video',
-    top: '69%',
-    left: '63%',
+    top: '48%',
+    left: '83%',
     src: 'assets/videos/hero-loop.mp4',
     label: 'Built For You 2025',
     link: 'https://bfy.fin.ai/'
+  },
+  {
+    type: 'video',
+    top: '72%',
+    left: '36%',
+    src: 'assets/videos/2.mp4',
+    label: 'Intercom Innovation Showcase'
   },
 ];
 
@@ -542,7 +541,7 @@ function initializeCards() {
       card.style.left = cardData.left;
       if (cardData.id) card.id = cardData.id;
 
-      // Set initial state for animation
+      // Set initial state for animation - all cards including video cards
       gsap.set(card, {
         scale: 0.8,
         opacity: 0,

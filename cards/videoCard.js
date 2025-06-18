@@ -34,8 +34,16 @@ export function createVideoCard(data) {
     card.style.overflow = 'hidden';
     card.style.borderRadius = '16px';
     card.style.position = 'relative';
-    card.style.width = 'min(467.812px, 90vw)';
-    card.style.height = 'min(311.875px, 60vh)';
+    // 16:9 aspect ratio dimensions - scale based on whether it has external link
+    if (data.link && data.link !== '') {
+        // Smaller size for cards with external links (75% of normal size)
+        card.style.width = 'min(450px, 67.5vw)';
+        card.style.height = 'min(253px, 38vw)'; // 253px = 450px * 9/16
+    } else {
+        // Normal larger size for fullscreen video cards
+        card.style.width = 'min(600px, 90vw)';
+        card.style.height = 'min(337.5px, 50.625vw)'; // 337.5px = 600px * 9/16
+    }
     card.style.background = '#000';
 
     // Video element
@@ -53,21 +61,19 @@ export function createVideoCard(data) {
     video.setAttribute('tabindex', '-1');
     video.setAttribute('aria-hidden', 'true');
 
-    // Dark overlay (like YouTube card)
+    // Subtle overlay for hover effect
     const overlay = document.createElement('div');
-    overlay.className = 'video-dark-overlay';
+    overlay.className = 'video-hover-overlay';
     overlay.style.position = 'absolute';
     overlay.style.top = '0';
     overlay.style.left = '0';
     overlay.style.width = '100%';
     overlay.style.height = '100%';
-    overlay.style.background = 'rgba(0,0,0,0.22)';
+    overlay.style.background = 'rgba(0,0,0,0.1)';
     overlay.style.opacity = '0';
-    overlay.style.transition = 'opacity 0.3s';
+    overlay.style.transition = 'opacity 0.2s ease';
     overlay.style.pointerEvents = 'none';
     overlay.style.zIndex = '1';
-
-    // No play button needed for autoplay video
 
     // Show label and overlay on hover (video continues playing)
     card.addEventListener('mouseenter', () => {
@@ -79,7 +85,18 @@ export function createVideoCard(data) {
         overlay.style.opacity = '0';
     });
 
-    // No click handlers needed - video just plays automatically
+    // Make entire card clickable - behavior depends on whether it has external link
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (data.link && data.link !== '') {
+            // Open external link for cards with links
+            window.open(data.link, '_blank', 'noopener noreferrer');
+        } else {
+            // Open fullscreen modal for cards without external links
+            openVideoFullscreen(data.src, data.label);
+        }
+    });
 
     // Assemble
     card.appendChild(video);
@@ -89,4 +106,134 @@ export function createVideoCard(data) {
     wrapper.appendChild(container);
 
     return wrapper;
-} 
+}
+
+// Fullscreen video modal function
+function openVideoFullscreen(videoSrc, videoLabel) {
+    // Create fullscreen overlay
+    const fullscreenOverlay = document.createElement('div');
+    fullscreenOverlay.className = 'video-fullscreen-overlay';
+    fullscreenOverlay.style.position = 'fixed';
+    fullscreenOverlay.style.top = '0';
+    fullscreenOverlay.style.left = '0';
+    fullscreenOverlay.style.width = '100vw';
+    fullscreenOverlay.style.height = '100vh';
+    fullscreenOverlay.style.background = 'rgba(0, 0, 0, 0.3)';
+    fullscreenOverlay.style.backdropFilter = 'blur(30px) saturate(150%)';
+    fullscreenOverlay.style.webkitBackdropFilter = 'blur(30px) saturate(150%)';
+    fullscreenOverlay.style.display = 'flex';
+    fullscreenOverlay.style.alignItems = 'center';
+    fullscreenOverlay.style.justifyContent = 'center';
+    fullscreenOverlay.style.zIndex = '9999';
+    fullscreenOverlay.style.opacity = '0';
+    fullscreenOverlay.style.transition = 'opacity 0.3s ease';
+
+    // Create video container
+    const videoContainer = document.createElement('div');
+    videoContainer.style.position = 'relative';
+    videoContainer.style.width = '90vw';
+    videoContainer.style.height = '50.625vw'; // 16:9 aspect ratio
+    videoContainer.style.maxWidth = '1280px';
+    videoContainer.style.maxHeight = '720px';
+    videoContainer.style.borderRadius = '16px';
+    videoContainer.style.overflow = 'hidden';
+    videoContainer.style.background = '#000';
+
+    // Create fullscreen video element
+    const fullscreenVideo = document.createElement('video');
+    fullscreenVideo.src = videoSrc;
+    fullscreenVideo.style.width = '100%';
+    fullscreenVideo.style.height = '100%';
+    fullscreenVideo.style.objectFit = 'cover';
+    fullscreenVideo.controls = true;
+    fullscreenVideo.autoplay = true;
+    fullscreenVideo.loop = true;
+    fullscreenVideo.muted = false; // Allow sound in fullscreen
+
+    // Create close button
+    const closeButton = document.createElement('div');
+    closeButton.className = 'video-fullscreen-close';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '16px';
+    closeButton.style.right = '16px';
+    closeButton.style.width = '40px';
+    closeButton.style.height = '40px';
+    closeButton.style.borderRadius = '50%';
+    closeButton.style.background = 'rgba(0, 0, 0, 0.7)';
+    closeButton.style.backdropFilter = 'blur(8px)';
+    closeButton.style.webkitBackdropFilter = 'blur(8px)';
+    closeButton.style.display = 'flex';
+    closeButton.style.alignItems = 'center';
+    closeButton.style.justifyContent = 'center';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.zIndex = '10000';
+    closeButton.style.transition = 'background 0.3s ease';
+    closeButton.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    `;
+
+    // Create title if provided
+    if (videoLabel) {
+        const fullscreenTitle = document.createElement('div');
+        fullscreenTitle.style.position = 'absolute';
+        fullscreenTitle.style.bottom = '16px';
+        fullscreenTitle.style.left = '16px';
+        fullscreenTitle.style.color = 'white';
+        fullscreenTitle.style.fontFamily = 'var(--font-mono)';
+        fullscreenTitle.style.fontSize = 'var(--text-sm)';
+        fullscreenTitle.style.letterSpacing = 'var(--tracking-widest)';
+        fullscreenTitle.style.textTransform = 'uppercase';
+        fullscreenTitle.style.background = 'rgba(0, 0, 0, 0.7)';
+        fullscreenTitle.style.backdropFilter = 'blur(8px)';
+        fullscreenTitle.style.webkitBackdropFilter = 'blur(8px)';
+        fullscreenTitle.style.padding = '8px 12px';
+        fullscreenTitle.style.borderRadius = '8px';
+        fullscreenTitle.style.zIndex = '10000';
+        fullscreenTitle.textContent = videoLabel;
+        videoContainer.appendChild(fullscreenTitle);
+    }
+
+    // Close functionality
+    const closeFullscreen = () => {
+        fullscreenVideo.pause();
+        gsap.to(fullscreenOverlay, {
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.out',
+            onComplete: () => {
+                document.body.removeChild(fullscreenOverlay);
+            }
+        });
+    };
+
+    closeButton.addEventListener('click', closeFullscreen);
+    fullscreenOverlay.addEventListener('click', (e) => {
+        if (e.target === fullscreenOverlay) {
+            closeFullscreen();
+        }
+    });
+
+    // ESC key to close
+    const handleEscKey = (e) => {
+        if (e.key === 'Escape') {
+            closeFullscreen();
+            document.removeEventListener('keydown', handleEscKey);
+        }
+    };
+    document.addEventListener('keydown', handleEscKey);
+
+    // Assemble fullscreen modal
+    videoContainer.appendChild(fullscreenVideo);
+    videoContainer.appendChild(closeButton);
+    fullscreenOverlay.appendChild(videoContainer);
+    document.body.appendChild(fullscreenOverlay);
+
+    // Animate in
+    gsap.to(fullscreenOverlay, {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'power2.out'
+    });
+}

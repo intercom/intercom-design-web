@@ -110,6 +110,16 @@ export function createVideoCard(data) {
 
 // Fullscreen video modal function
 function openVideoFullscreen(videoSrc, videoLabel) {
+    // Hide minimap when opening fullscreen
+    const minimapElement = document.getElementById('minimap');
+    if (minimapElement) {
+        gsap.to(minimapElement, {
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    }
+
     // Create fullscreen overlay
     const fullscreenOverlay = document.createElement('div');
     fullscreenOverlay.className = 'video-fullscreen-overlay';
@@ -174,38 +184,49 @@ function openVideoFullscreen(videoSrc, videoLabel) {
         </svg>
     `;
 
-    // Create title if provided
-    if (videoLabel) {
-        const fullscreenTitle = document.createElement('div');
-        fullscreenTitle.style.position = 'absolute';
-        fullscreenTitle.style.bottom = '16px';
-        fullscreenTitle.style.left = '16px';
-        fullscreenTitle.style.color = 'white';
-        fullscreenTitle.style.fontFamily = 'var(--font-mono)';
-        fullscreenTitle.style.fontSize = 'var(--text-sm)';
-        fullscreenTitle.style.letterSpacing = 'var(--tracking-widest)';
-        fullscreenTitle.style.textTransform = 'uppercase';
-        fullscreenTitle.style.background = 'rgba(0, 0, 0, 0.7)';
-        fullscreenTitle.style.backdropFilter = 'blur(8px)';
-        fullscreenTitle.style.webkitBackdropFilter = 'blur(8px)';
-        fullscreenTitle.style.padding = '8px 12px';
-        fullscreenTitle.style.borderRadius = '8px';
-        fullscreenTitle.style.zIndex = '10000';
-        fullscreenTitle.textContent = videoLabel;
-        videoContainer.appendChild(fullscreenTitle);
-    }
-
     // Close functionality
     const closeFullscreen = () => {
         fullscreenVideo.pause();
-        gsap.to(fullscreenOverlay, {
+
+        // Create closing timeline
+        const closeTl = gsap.timeline();
+
+        closeTl
+        // First animate out the close button
+        .to(closeButton, {
+            scale: 0,
+            opacity: 0,
+            duration: 0.2,
+            ease: 'power2.in'
+        })
+        // Then animate out the video container
+        .to(videoContainer, {
+            scale: 0.9,
+            opacity: 0,
+            y: 20,
+            filter: 'blur(5px)',
+            duration: 0.4,
+            ease: 'power2.in'
+        }, '-=0.1')
+        // Finally fade out the overlay
+        .to(fullscreenOverlay, {
             opacity: 0,
             duration: 0.3,
-            ease: 'power2.out',
+            ease: 'power2.in',
             onComplete: () => {
                 document.body.removeChild(fullscreenOverlay);
+
+                // Show minimap again when closing fullscreen
+                const minimapElement = document.getElementById('minimap');
+                if (minimapElement) {
+                    gsap.to(minimapElement, {
+                        opacity: 1,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                }
             }
-        });
+        }, '-=0.2');
     };
 
     closeButton.addEventListener('click', closeFullscreen);
@@ -230,10 +251,42 @@ function openVideoFullscreen(videoSrc, videoLabel) {
     fullscreenOverlay.appendChild(videoContainer);
     document.body.appendChild(fullscreenOverlay);
 
-    // Animate in
-    gsap.to(fullscreenOverlay, {
+    // Set initial states for animation
+    gsap.set(videoContainer, {
+        scale: 0.8,
+        opacity: 0,
+        y: 30,
+        filter: 'blur(10px)'
+    });
+
+    gsap.set(closeButton, {
+        scale: 0,
+        opacity: 0
+    });
+
+    // Animate in with staggered timing
+    const tl = gsap.timeline();
+
+    // First animate the overlay background
+    tl.to(fullscreenOverlay, {
+        opacity: 1,
+        duration: 0.4,
+        ease: 'power2.out'
+    })
+    // Then animate the video container
+    .to(videoContainer, {
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        duration: 0.6,
+        ease: 'back.out(1.2)'
+    }, '-=0.2')
+    // Finally animate the close button
+    .to(closeButton, {
+        scale: 1,
         opacity: 1,
         duration: 0.3,
-        ease: 'power2.out'
-    });
+        ease: 'back.out(1.7)'
+    }, '-=0.3');
 }

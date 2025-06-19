@@ -274,7 +274,7 @@ Evolving your design approach for AI products`,
     top: '72%',
     left: '36%',
     src: 'assets/videos/2.mp4',
-    label: 'Intercom Innovation Showcase'
+    label: 'Intercom Brand Showreel'
   },
 ];
 
@@ -473,7 +473,7 @@ function handleCursorMove(event) {
   const rect = canvas.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
-  
+
   // Update CSS variables that control the circle position
   // These are used by the clip-path in the CSS
   canvas.style.setProperty('--cursor-x', `${x}px`);
@@ -597,8 +597,8 @@ function initializeCards() {
             });
           }
 
-          // Add hover animation after initial appearance (skip for video cards)
-          if (cardData.type !== 'video') {
+          // Add hover animation after initial appearance (skip for video cards and image cards)
+          if (cardData.type !== 'video' && cardData.type !== 'image') {
             card.addEventListener('mouseenter', () => {
               gsap.to(card, {
                 scale: 1.05,
@@ -742,7 +742,7 @@ document.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     canvas.style.setProperty('--cursor-x', `${x}px`);
     canvas.style.setProperty('--cursor-y', `${y}px`);
 });

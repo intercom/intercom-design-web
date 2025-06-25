@@ -95,8 +95,8 @@ export class Minimap {
         });
 
         // Calculate scaled dimensions and position
-        const scaledWidth = rect.width / this.scale;
-        const scaledHeight = rect.height / this.scale;
+        const scaledWidth = Math.max(2, rect.width / this.scale); // Minimum 2px width
+        const scaledHeight = Math.max(2, rect.height / this.scale); // Minimum 2px height
         const scaledLeft = relativeLeft / this.scale;
         const scaledTop = relativeTop / this.scale;
         
@@ -121,6 +121,11 @@ export class Minimap {
 
       // Re-setup hover highlighting after rendering cards
       this.setupHoverHighlighting();
+    }
+
+    // Method to refresh minimap when card dimensions change
+    refresh() {
+      this.renderCards();
     }
   
     updateViewportFromTransform(canvasX, canvasY) {

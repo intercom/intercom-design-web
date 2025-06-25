@@ -104,21 +104,22 @@ const cards = [
     label: '',
   },
 
-  { 
-    type: 'image', 
-    top: '2%', 
-    left: '67%', 
-    src: 'assets/images/img4.jpg', 
-    link: '', 
-    label: '' 
+  {
+    type: 'image',
+    top: '2%',
+    left: '67%',
+    src: 'assets/images/img4.png',
+    link: '',
+    label: '',
+    originalSize: true
   },
-  { 
-    type: 'image', 
-    top: '78%', 
-    left: '55%', 
-    src: 'assets/images/img5.jpg', 
-    link: '', 
-    label: '' 
+  {
+    type: 'image',
+    top: '78%',
+    left: '55%',
+    src: 'assets/images/img5.png',
+    link: '',
+    label: ''
   },
   { 
     type: 'youtube', 
@@ -576,6 +577,9 @@ function initializeCards() {
           // Initialize minimap after all cards are animated
           if (cardsAnimated === totalCards) {
             minimap = new Minimap(canvasContainer, canvas, cards);
+
+            // Make minimap globally accessible for image cards with original sizing
+            window.minimap = minimap;
 
             // Set initial state for minimap
             gsap.set(minimap.minimap, {

@@ -27,16 +27,45 @@ export function createImageCard(data) {
     card.style.overflow = 'hidden';
     card.style.cursor = 'default'; // Make non-clickable
 
-    // Responsive sizing based on viewport
-    const isMobile = window.innerWidth <= 600;
-    const scaleFactor = isMobile ? 1 : Math.min(window.innerWidth / 1920, 2.5); // Scale up to 2.5x on larger screens
+    // Check if original size should be used
+    if (data.originalSize) {
+        // Use original image dimensions - will be set after image loads
+        img.onload = function() {
+            const aspectRatio = this.naturalWidth / this.naturalHeight;
+            const maxSize = Math.min(window.innerWidth * 0.4, window.innerHeight * 0.4, 800); // Max 40% of viewport or 800px
 
-    if (data.vertical) {
-        card.style.width = `min(${390 * scaleFactor}px, 60vw)`;
-        card.style.height = `min(${600 * scaleFactor}px, 70vh)`;
+            if (aspectRatio >= 1) {
+                // Landscape or square
+                card.style.width = `${Math.min(this.naturalWidth, maxSize)}px`;
+                card.style.height = `${Math.min(this.naturalHeight, maxSize / aspectRatio)}px`;
+            } else {
+                // Portrait
+                card.style.height = `${Math.min(this.naturalHeight, maxSize)}px`;
+                card.style.width = `${Math.min(this.naturalWidth, maxSize * aspectRatio)}px`;
+            }
+
+            // Refresh minimap after image loads and card resizes
+            setTimeout(() => {
+                if (window.minimap && window.minimap.refresh) {
+                    window.minimap.refresh();
+                }
+            }, 100); // Small delay to ensure DOM has updated
+        };
+        // Set initial size to prevent layout shift
+        card.style.width = '400px';
+        card.style.height = '400px';
     } else {
-        card.style.width = `min(${600 * scaleFactor}px, 90vw)`;
-        card.style.height = `min(${400 * scaleFactor}px, 60vh)`;
+        // Responsive sizing based on viewport
+        const isMobile = window.innerWidth <= 600;
+        const scaleFactor = isMobile ? 1 : Math.min(window.innerWidth / 1920, 2.5); // Scale up to 2.5x on larger screens
+
+        if (data.vertical) {
+            card.style.width = `min(${390 * scaleFactor}px, 60vw)`;
+            card.style.height = `min(${600 * scaleFactor}px, 70vh)`;
+        } else {
+            card.style.width = `min(${600 * scaleFactor}px, 90vw)`;
+            card.style.height = `min(${400 * scaleFactor}px, 60vh)`;
+        }
     }
 
     card.appendChild(img);

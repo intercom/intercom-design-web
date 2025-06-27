@@ -9,7 +9,7 @@ import { createModal } from './utils/createModal.js';
 import { Minimap } from './utils/minimap.js';
 
 import { createBlockQuoteCard } from './cards/blockQuoteCard.js';
-import { createLogoCard, createByline } from './cards/logoCard.js';
+import { createLogoCard, animateBylineIn } from './cards/logoCard.js';
 import { scrambleOnHover, resetToOriginal } from './utils/textScrambleSimple.js';
 
 
@@ -147,10 +147,10 @@ const cards = [
     label: 'A day in the life of a conversation designer',
     colourful: false
   },
-  { 
-    type: 'logo', 
-    top: '45%', 
-    left: '43%', 
+  {
+    type: 'logo',
+    top: '45%',
+    left: '50%',
     text: 'INTERCOM DESIGN',
     modalTitle: 'About Intercom Design',
     modalContent: `
@@ -397,9 +397,10 @@ function init() {
   updateCanvasSize();
   initializeMenuAnimations();
 
-  const rect = canvas.getBoundingClientRect();
-  offsetX = -rect.width / 2 + window.innerWidth / 2;
-  offsetY = -rect.height / 2 + window.innerHeight / 2;
+  // Use consistent centering logic for initial load (same as resize handler)
+  const { width, height } = calculateCanvasDimensions();
+  offsetX = (window.innerWidth - width) / 2;
+  offsetY = (window.innerHeight - height) / 2;
 
   gsap.set(canvas, { x: offsetX, y: offsetY });
 
@@ -505,7 +506,8 @@ function initializeCards() {
 
   cards.forEach((cardData, index) => {
     let card;
-    let byline;
+    let byline = null; // Track byline for logo cards
+
     switch (cardData.type) {
       case 'image': card = createImageCard(cardData); break;
       case 'youtube': card = createYoutubeCard(cardData); break;
@@ -515,8 +517,9 @@ function initializeCards() {
       case 'video': card = createVideoCard(cardData); break;
       case 'blockquote': card = createBlockQuoteCard(cardData); break;
       case 'logo':
-        card = createLogoCard(cardData, modal);
-        byline = createByline(cardData);
+        const logoResult = createLogoCard(cardData, modal);
+        card = logoResult.wrapper;
+        byline = logoResult.byline;
         break;
     }
     if (card) {
@@ -538,18 +541,6 @@ function initializeCards() {
       });
 
       canvas.appendChild(card);
-
-      // Add byline separately if it exists
-      if (byline) {
-        // Set initial state for byline animation
-        gsap.set(byline, {
-          scale: 0.8,
-          opacity: 0,
-          filter: 'blur(10px)'
-        });
-
-        canvas.appendChild(byline);
-      }
       
       // Animate each card with a stagger effect
       gsap.to(card, {
@@ -561,6 +552,11 @@ function initializeCards() {
         ease: "power2.out",
         onComplete: () => {
           cardsAnimated++;
+
+          // If this is a logo card, animate the byline after the card animation
+          if (cardData.type === 'logo' && byline) {
+            animateBylineIn(byline, 0.3); // 0.3s delay after logo card completes
+          }
 
           // Initialize minimap after all cards are animated
           if (cardsAnimated === totalCards) {
@@ -610,17 +606,7 @@ function initializeCards() {
         }
       });
 
-      // Animate byline separately if it exists
-      if (byline) {
-        gsap.to(byline, {
-          scale: 1,
-          opacity: 1,
-          filter: 'blur(0px)',
-          duration: 0.6,
-          delay: index * 0.08 + 0.2, // Slightly delayed after the card
-          ease: "power2.out"
-        });
-      }
+
     }
   });
 }
@@ -648,20 +634,20 @@ function initializeMenuAnimations() {
     if (link.getAttribute('href') === '#design') {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        // Center the canvas
-        const canvasWidth = canvas.offsetWidth;
-        const canvasHeight = canvas.offsetHeight;
-        const containerWidth = canvasContainer.offsetWidth;
-        const containerHeight = canvasContainer.offsetHeight;
-        
-        const targetX = (canvasWidth - containerWidth) / 2;
-        const targetY = (canvasHeight - containerHeight) / 2;
-        
+        // Center the canvas using consistent logic
+        const { width, height } = calculateCanvasDimensions();
+        const centerX = (window.innerWidth - width) / 2;
+        const centerY = (window.innerHeight - height) / 2;
+
         gsap.to(canvas, {
-          x: -targetX,
-          y: -targetY,
+          x: centerX,
+          y: centerY,
           duration: 1,
-          ease: "power2.inOut"
+          ease: "power2.inOut",
+          onUpdate: () => {
+            offsetX = gsap.getProperty(canvas, 'x');
+            offsetY = gsap.getProperty(canvas, 'y');
+          }
         });
       });
     }

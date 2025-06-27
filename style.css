@@ -637,6 +637,58 @@ body {
     animation: none;
 }
 
+/* Byline base styles */
+.logo-byline-container {
+    position: relative;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    white-space: nowrap;
+    margin-top: 3rem;
+}
+
+.byline-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Mobile responsive styles */
+@media screen and (max-width: 768px) {
+    /* Byline mobile styles - change from flex to vertical column layout */
+    .logo-byline-container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.15rem !important; /* Tight gap between lines */
+        text-align: center !important;
+        white-space: normal !important;
+    }
+
+    /* Each line becomes a block element */
+    .byline-line {
+        display: block !important;
+        text-align: center !important;
+        line-height: 1.4 !important;
+        margin: 0 !important;
+    }
+
+    /* Keep spans inline within each line */
+    .byline-line span {
+        display: inline !important;
+        margin-right: 0.1rem !important;
+    }
+
+    /* Hide separators on mobile for cleaner look */
+    .logo-byline-container .separator {
+        display: none !important;
+    }
+}
+
 .menu-right {
     display: flex;
     align-items: center;

@@ -2,23 +2,17 @@ import { scrambleOnHover, resetToOriginal } from '../utils/textScramble.js';
 
 // Create the byline component as a separate element
 export function createByline(data) {
-    // Create byline container
+    // Create byline container - positioned relative to logo card
     const bylineContainer = document.createElement('div');
     bylineContainer.className = 'logo-byline-container';
-    bylineContainer.style.position = 'absolute';
-    bylineContainer.style.textAlign = 'center';
-    bylineContainer.style.display = 'flex';
-    bylineContainer.style.alignItems = 'center';
-    bylineContainer.style.justifyContent = 'center';
-    bylineContainer.style.gap = '12px';
+    // Styles are now handled by CSS classes for better mobile responsiveness
 
-    // Position the byline below the logo card
-    // Calculate position based on logo card position
-    const logoTop = parseFloat(data.top);
-    const logoLeft = parseFloat(data.left);
-    bylineContainer.style.top = `${logoTop + 12}%`; // Position below logo
-    bylineContainer.style.left = `${logoLeft + 3.7}%`; // Center relative to logo
-    bylineContainer.style.transform = 'translateX(-50%)';
+    // Set initial state for staggered animation
+    gsap.set(bylineContainer, {
+        opacity: 0,
+        y: 20,
+        filter: 'blur(5px)'
+    });
 
     // Create byline elements following Figma design
     const madeByLabel = document.createElement('span');
@@ -52,6 +46,7 @@ export function createByline(data) {
     designers.style.transition = 'color 0.2s ease';
 
     const separator1 = document.createElement('div');
+    separator1.className = 'separator';
     separator1.style.width = '1px';
     separator1.style.height = '14px';
     separator1.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
@@ -68,6 +63,7 @@ export function createByline(data) {
     aiTools.style.transition = 'color 0.2s ease';
 
     const separator2 = document.createElement('div');
+    separator2.className = 'separator';
     separator2.style.width = '1px';
     separator2.style.height = '14px';
     separator2.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
@@ -207,17 +203,42 @@ export function createByline(data) {
         });
     });
 
-    // Assemble byline
-    bylineContainer.appendChild(madeByLabel);
-    bylineContainer.appendChild(colon);
-    bylineContainer.appendChild(designers);
+    // Create line wrappers for mobile responsive layout
+    const line1 = document.createElement('div');
+    line1.className = 'byline-line';
+    line1.appendChild(madeByLabel);
+    line1.appendChild(colon);
+    line1.appendChild(designers);
+
+    const line2 = document.createElement('div');
+    line2.className = 'byline-line';
+    line2.appendChild(aiTools);
+
+    const line3 = document.createElement('div');
+    line3.className = 'byline-line';
+    line3.appendChild(timeframe);
+    line3.appendChild(questionMarkContainer);
+
+    // Assemble byline with separators for desktop
+    bylineContainer.appendChild(line1);
     bylineContainer.appendChild(separator1);
-    bylineContainer.appendChild(aiTools);
+    bylineContainer.appendChild(line2);
     bylineContainer.appendChild(separator2);
-    bylineContainer.appendChild(timeframe);
-    bylineContainer.appendChild(questionMarkContainer);
+    bylineContainer.appendChild(line3);
 
     return bylineContainer;
+}
+
+// Function to animate the byline in after the logo card
+export function animateBylineIn(bylineContainer, delay = 0) {
+    gsap.to(bylineContainer, {
+        opacity: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        duration: 0.8,
+        delay: delay,
+        ease: 'power2.out'
+    });
 }
 
 // Create a logo card with scramble animation
@@ -227,6 +248,7 @@ export function createLogoCard(data, modal) {
     wrapper.style.position = 'absolute';
     wrapper.style.top = data.top;
     wrapper.style.left = data.left;
+    wrapper.style.transform = 'translateX(-50%)'; // Center the card horizontally
 
     // Create card container
     const card = document.createElement('div');
@@ -293,9 +315,14 @@ export function createLogoCard(data, modal) {
         resetToOriginal(p2, secondLine);
     });
 
-    // Assemble card (without byline)
+    // Create and add byline to the card
+    const byline = createByline(data);
+
+    // Assemble card (with byline)
     card.appendChild(paragraph);
+    card.appendChild(byline);
     wrapper.appendChild(card);
 
-    return wrapper;
+    // Return both wrapper and byline for staggered animation
+    return { wrapper, byline };
 } 

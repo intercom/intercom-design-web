@@ -28,6 +28,10 @@ export function createYoutubeCard(data) {
     title.style.fontSize = 'var(--text-xs)';
     title.style.letterSpacing = 'var(--tracking-widest)';
 
+    // Mobile detection for responsive sizing
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
+
     // Create card container
     const card = document.createElement('div');
     card.className = 'card youtube-card';
@@ -35,10 +39,27 @@ export function createYoutubeCard(data) {
     card.style.overflow = 'hidden';
     card.style.borderRadius = '16px';
     card.style.position = 'relative';
-    
-    // Use viewport units for scaling with maximum values
-    card.style.width = 'max(25vw, 380px)';  // Scale with viewport but max 380px (original size)
-    card.style.height = 'max(14vw, 214px)'; // Maintains 16:9 aspect ratio (original size)
+
+    // Responsive sizing for YouTube cards with proper 16:9 aspect ratio
+    if (isSmallMobile) {
+        // Very small mobile devices - compact format
+        card.style.width = 'min(300px, 90vw)';
+        card.style.height = 'min(169px, 50.6vw)'; // 169px = 300px * 9/16
+    } else if (isMobile) {
+        // Mobile devices - responsive but larger than small mobile
+        card.style.width = 'min(360px, 85vw)';
+        card.style.height = 'min(202px, 47.8vw)'; // 202px = 360px * 9/16
+    } else {
+        // Desktop and tablet - use viewport-based sizing with reasonable limits
+        card.style.width = 'min(450px, 35vw)';
+        card.style.height = 'min(253px, 19.7vw)'; // 253px = 450px * 9/16
+    }
+
+    // Add mobile-specific touch optimizations
+    if (isMobile) {
+        card.style.touchAction = 'manipulation';
+        card.style.webkitTapHighlightColor = 'transparent';
+    }
 
     // Create thumbnail container
     const thumbnail = document.createElement('div');

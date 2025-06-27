@@ -27,6 +27,10 @@ export function createVideoCard(data) {
     title.style.transition = 'opacity 0.3s';
     title.style.pointerEvents = 'none';
 
+    // Mobile detection for responsive sizing
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
+
     // Card container
     const card = document.createElement('div');
     card.className = 'card video-card';
@@ -34,17 +38,40 @@ export function createVideoCard(data) {
     card.style.overflow = 'hidden';
     card.style.borderRadius = '16px';
     card.style.position = 'relative';
-    // 16:9 aspect ratio dimensions - scale based on whether it has external link
+    card.style.background = '#000';
+
+    // Responsive 16:9 aspect ratio dimensions - scale based on device and external link
     if (data.link && data.link !== '') {
-        // Smaller size for cards with external links (75% of normal size)
-        card.style.width = 'min(450px, 67.5vw)';
-        card.style.height = 'min(253px, 38vw)'; // 253px = 450px * 9/16
+        // Smaller size for cards with external links
+        if (isSmallMobile) {
+            card.style.width = 'min(280px, 90vw)';
+            card.style.height = 'min(157px, 50.6vw)'; // 157px = 280px * 9/16
+        } else if (isMobile) {
+            card.style.width = 'min(350px, 85vw)';
+            card.style.height = 'min(197px, 47.8vw)'; // 197px = 350px * 9/16
+        } else {
+            card.style.width = 'min(450px, 67.5vw)';
+            card.style.height = 'min(253px, 38vw)'; // 253px = 450px * 9/16
+        }
     } else {
         // Normal larger size for fullscreen video cards
-        card.style.width = 'min(600px, 90vw)';
-        card.style.height = 'min(337.5px, 50.625vw)'; // 337.5px = 600px * 9/16
+        if (isSmallMobile) {
+            card.style.width = 'min(320px, 95vw)';
+            card.style.height = 'min(180px, 53.4vw)'; // 180px = 320px * 9/16
+        } else if (isMobile) {
+            card.style.width = 'min(400px, 90vw)';
+            card.style.height = 'min(225px, 50.6vw)'; // 225px = 400px * 9/16
+        } else {
+            card.style.width = 'min(600px, 90vw)';
+            card.style.height = 'min(337.5px, 50.625vw)'; // 337.5px = 600px * 9/16
+        }
     }
-    card.style.background = '#000';
+
+    // Add mobile-specific touch optimizations
+    if (isMobile) {
+        card.style.touchAction = 'manipulation';
+        card.style.webkitTapHighlightColor = 'transparent';
+    }
 
     // Video element
     const video = document.createElement('video');

@@ -10,10 +10,26 @@ export function createBlockQuoteCard(data) {
     wrapper.style.cursor = 'pointer';
     
     // Responsive sizing based on viewport
-    const isMobile = window.innerWidth <= 600;
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
     const scaleFactor = isMobile ? 1 : Math.min(window.innerWidth / 1920, 2.5); // Scale up to 2.5x on larger screens
-    wrapper.style.maxWidth = `${420 * scaleFactor}px`;
-    wrapper.style.width = `min(90vw, ${420 * scaleFactor}px)`;
+
+    if (isSmallMobile) {
+        wrapper.style.maxWidth = '280px';
+        wrapper.style.width = 'min(95vw, 280px)';
+    } else if (isMobile) {
+        wrapper.style.maxWidth = '350px';
+        wrapper.style.width = 'min(90vw, 350px)';
+    } else {
+        wrapper.style.maxWidth = `${420 * scaleFactor}px`;
+        wrapper.style.width = `min(90vw, ${420 * scaleFactor}px)`;
+    }
+
+    // Add mobile-specific touch optimizations
+    if (isMobile) {
+        wrapper.style.touchAction = 'manipulation';
+        wrapper.style.webkitTapHighlightColor = 'transparent';
+    }
 
     // Create card container for minimap detection
     const card = document.createElement('div');

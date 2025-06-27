@@ -299,7 +299,7 @@ function handleWheel(event) {
   });
 }
 
-// Enhanced touch navigation for mobile
+// Enhanced touch navigation for mobile - similar to mobile maps
 let touchState = {
   isActive: false,
   startX: 0,
@@ -313,12 +313,16 @@ let touchState = {
   initialDistance: 0,
   scale: 1,
   minScale: 0.5,
-  maxScale: 2,
-  swipeThreshold: 50,
-  swipeTimeout: 300
+  maxScale: 3,
+  swipeThreshold: 30,
+  swipeTimeout: 200,
+  momentumThreshold: 0.3,
+  momentumMultiplier: 150,
+  dampingFactor: 0.95,
+  maxVelocity: 5
 };
 
-// Handle touch events for mobile with enhanced gestures
+// Handle touch events for mobile - map-like navigation
 function handleTouchStart(event) {
   // Don't handle touch if it's on a card or interactive element
   if (event.target.closest('.card') || event.target.closest('.modal') || event.target.closest('.minimap')) {
@@ -328,6 +332,9 @@ function handleTouchStart(event) {
   event.preventDefault();
   const touch = event.touches[0];
   const now = Date.now();
+
+  // Stop any ongoing animations for immediate response
+  gsap.killTweensOf(canvas);
 
   touchState.isActive = true;
   touchState.startX = touchState.lastX = touch.clientX;
@@ -354,10 +361,10 @@ function handleTouchStart(event) {
     moveEvent.preventDefault();
 
     const now = Date.now();
-    const timeDelta = now - touchState.lastTime;
+    const timeDelta = Math.max(now - touchState.lastTime, 1); // Prevent division by zero
 
     if (moveEvent.touches.length === 2) {
-      // Handle pinch-to-zoom
+      // Handle pinch-to-zoom (foundation for future implementation)
       const touch1 = moveEvent.touches[0];
       const touch2 = moveEvent.touches[1];
       const currentDistance = Math.hypot(
@@ -367,38 +374,38 @@ function handleTouchStart(event) {
 
       if (touchState.initialDistance > 0) {
         const scaleChange = currentDistance / touchState.initialDistance;
-        const newScale = Math.min(touchState.maxScale, Math.max(touchState.minScale, touchState.scale * scaleChange));
-
-        // Apply zoom effect (for future implementation)
-        // For now, we'll focus on pan navigation
+        // Store scale for future zoom implementation
+        touchState.scale = Math.min(touchState.maxScale, Math.max(touchState.minScale, touchState.scale * scaleChange));
       }
     } else {
-      // Handle single-touch pan
+      // Handle single-touch pan - immediate response like mobile maps
       const touch = moveEvent.touches[0];
-      const deltaX = touchState.lastX - touch.clientX;
-      const deltaY = touchState.lastY - touch.clientY;
+      const deltaX = touch.clientX - touchState.lastX;
+      const deltaY = touch.clientY - touchState.lastY;
 
-      // Calculate velocity for momentum scrolling
-      if (timeDelta > 0) {
-        touchState.velocityX = deltaX / timeDelta;
-        touchState.velocityY = deltaY / timeDelta;
-      }
+      // Calculate velocity for momentum scrolling (pixels per millisecond)
+      touchState.velocityX = deltaX / timeDelta;
+      touchState.velocityY = deltaY / timeDelta;
+
+      // Clamp velocity to prevent extreme values
+      touchState.velocityX = Math.max(-touchState.maxVelocity, Math.min(touchState.maxVelocity, touchState.velocityX));
+      touchState.velocityY = Math.max(-touchState.maxVelocity, Math.min(touchState.maxVelocity, touchState.velocityY));
 
       const { width, height } = calculateCanvasDimensions();
       const borderLeft = window.innerWidth - width;
       const borderTop = window.innerHeight - height;
 
-      scrollTween.x = Math.min(0, Math.max(offsetX - deltaX, borderLeft));
-      scrollTween.y = Math.min(0, Math.max(offsetY - deltaY, borderTop));
+      // Apply movement with boundary constraints
+      const newX = Math.min(0, Math.max(offsetX + deltaX, borderLeft));
+      const newY = Math.min(0, Math.max(offsetY + deltaY, borderTop));
 
-      // Immediate response for touch
-      gsap.set(canvas, {
-        x: scrollTween.x,
-        y: scrollTween.y
-      });
+      // Immediate response - no animation delay like mobile maps
+      gsap.set(canvas, { x: newX, y: newY });
 
-      offsetX = scrollTween.x;
-      offsetY = scrollTween.y;
+      offsetX = newX;
+      offsetY = newY;
+      scrollTween.x = newX;
+      scrollTween.y = newY;
 
       touchState.lastX = touch.clientX;
       touchState.lastY = touch.clientY;
@@ -419,33 +426,38 @@ function handleTouchStart(event) {
     const deltaY = touchState.startY - touchState.lastY;
     const distance = Math.hypot(deltaX, deltaY);
 
-    // Detect swipe gestures
-    if (touchDuration < touchState.swipeTimeout && distance > touchState.swipeThreshold) {
+    // Apply momentum scrolling like mobile maps
+    const absVelX = Math.abs(touchState.velocityX);
+    const absVelY = Math.abs(touchState.velocityY);
+
+    if (absVelX > touchState.momentumThreshold || absVelY > touchState.momentumThreshold) {
+      const { width, height } = calculateCanvasDimensions();
+      const borderLeft = window.innerWidth - width;
+      const borderTop = window.innerHeight - height;
+
+      // Calculate momentum distance based on velocity
+      const momentumX = touchState.velocityX * touchState.momentumMultiplier;
+      const momentumY = touchState.velocityY * touchState.momentumMultiplier;
+
+      const targetX = Math.min(0, Math.max(offsetX + momentumX, borderLeft));
+      const targetY = Math.min(0, Math.max(offsetY + momentumY, borderTop));
+
+      // Smooth deceleration animation like mobile maps
+      gsap.to(canvas, {
+        duration: Math.min(2, Math.max(0.8, (absVelX + absVelY) * 0.5)),
+        ease: 'power2.out',
+        x: targetX,
+        y: targetY,
+        onUpdate: () => {
+          offsetX = gsap.getProperty(canvas, 'x');
+          offsetY = gsap.getProperty(canvas, 'y');
+          scrollTween.x = offsetX;
+          scrollTween.y = offsetY;
+        }
+      });
+    } else if (touchDuration < touchState.swipeTimeout && distance > touchState.swipeThreshold) {
+      // Handle quick swipe gestures for navigation
       handleSwipeGesture(deltaX, deltaY);
-    } else {
-      // Apply momentum scrolling based on velocity
-      const velocityThreshold = 0.5;
-      if (Math.abs(touchState.velocityX) > velocityThreshold || Math.abs(touchState.velocityY) > velocityThreshold) {
-        const momentumFactor = 100;
-
-        const { width, height } = calculateCanvasDimensions();
-        const borderLeft = window.innerWidth - width;
-        const borderTop = window.innerHeight - height;
-
-        const targetX = Math.min(0, Math.max(offsetX - (touchState.velocityX * momentumFactor), borderLeft));
-        const targetY = Math.min(0, Math.max(offsetY - (touchState.velocityY * momentumFactor), borderTop));
-
-        gsap.to(canvas, {
-          duration: 1.2,
-          ease: 'power3.out',
-          x: targetX,
-          y: targetY,
-          onUpdate: () => {
-            offsetX = gsap.getProperty(canvas, 'x');
-            offsetY = gsap.getProperty(canvas, 'y');
-          }
-        });
-      }
     }
 
     document.removeEventListener('touchmove', handleTouchMove);
@@ -456,39 +468,41 @@ function handleTouchStart(event) {
   document.addEventListener('touchend', handleTouchEnd);
 }
 
-// Handle swipe gestures for quick navigation
+// Handle swipe gestures for quick navigation - map-like behavior
 function handleSwipeGesture(deltaX, deltaY) {
   const { width, height } = calculateCanvasDimensions();
   const borderLeft = window.innerWidth - width;
   const borderTop = window.innerHeight - height;
 
-  // Determine swipe direction and apply appropriate movement
-  const swipeMultiplier = 200;
+  // More responsive swipe movement
+  const swipeMultiplier = 300;
   let targetX = offsetX;
   let targetY = offsetY;
 
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    // Horizontal swipe
-    targetX = Math.min(0, Math.max(offsetX + (deltaX > 0 ? swipeMultiplier : -swipeMultiplier), borderLeft));
+    // Horizontal swipe - move in opposite direction of swipe
+    targetX = Math.min(0, Math.max(offsetX - (deltaX > 0 ? swipeMultiplier : -swipeMultiplier), borderLeft));
   } else {
-    // Vertical swipe
-    targetY = Math.min(0, Math.max(offsetY + (deltaY > 0 ? swipeMultiplier : -swipeMultiplier), borderTop));
+    // Vertical swipe - move in opposite direction of swipe
+    targetY = Math.min(0, Math.max(offsetY - (deltaY > 0 ? swipeMultiplier : -swipeMultiplier), borderTop));
   }
 
   gsap.to(canvas, {
-    duration: 0.6,
+    duration: 0.5,
     ease: 'power2.out',
     x: targetX,
     y: targetY,
     onUpdate: () => {
       offsetX = gsap.getProperty(canvas, 'x');
       offsetY = gsap.getProperty(canvas, 'y');
+      scrollTween.x = offsetX;
+      scrollTween.y = offsetY;
     }
   });
 
-  // Haptic feedback for swipe
+  // Subtle haptic feedback for swipe
   if ('vibrate' in navigator) {
-    navigator.vibrate(15);
+    navigator.vibrate(10);
   }
 }
 
@@ -564,25 +578,42 @@ function init() {
   document.addEventListener('mousemove', handleMouseMove);
   document.addEventListener('mouseup', handleMouseUp);
   
+  // Handle window resize and orientation changes - important for mobile maps
   window.addEventListener('resize', () => {
     updateCanvasSize();
-    // Recenter canvas after resize
+
+    // Stop any ongoing animations during resize for immediate response
+    gsap.killTweensOf(canvas);
+
+    // Recenter canvas after resize - immediate positioning for mobile
     const { width, height } = calculateCanvasDimensions();
     const centerX = (window.innerWidth - width) / 2;
     const centerY = (window.innerHeight - height) / 2;
-    gsap.to(canvas, {
-      duration: 0.5,
-      ease: 'power2.out',
-      x: centerX,
-      y: centerY,
-      onUpdate: () => {
-        offsetX = gsap.getProperty(canvas, 'x');
-        offsetY = gsap.getProperty(canvas, 'y');
-      }
-    });
+
+    // Use immediate positioning on mobile, smooth animation on desktop
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      gsap.set(canvas, { x: centerX, y: centerY });
+      offsetX = centerX;
+      offsetY = centerY;
+      scrollTween.x = centerX;
+      scrollTween.y = centerY;
+    } else {
+      gsap.to(canvas, {
+        duration: 0.5,
+        ease: 'power2.out',
+        x: centerX,
+        y: centerY,
+        onUpdate: () => {
+          offsetX = gsap.getProperty(canvas, 'x');
+          offsetY = gsap.getProperty(canvas, 'y');
+          scrollTween.x = offsetX;
+          scrollTween.y = offsetY;
+        }
+      });
+    }
 
     // Handle minimap visibility for mobile
-    const isMobile = window.innerWidth <= 768;
     const minimapElement = document.getElementById('minimap');
 
     if (minimapElement) {
@@ -596,6 +627,9 @@ function init() {
         minimapElement.style.opacity = '';
       }
     }
+
+    // Re-setup mobile navigation after orientation change
+    setupMobileNavigation();
   });
 
   /* Grid illumination event listeners
@@ -631,7 +665,7 @@ function handleCursorMove(event) {
   canvas.style.setProperty('--cursor-y', `${y}px`);
 }
 
-// Setup mobile-specific navigation and controls
+// Setup mobile-specific navigation and controls - map-like experience
 function setupMobileNavigation() {
   const isMobile = window.innerWidth <= 768;
 
@@ -644,13 +678,18 @@ function setupMobileNavigation() {
       minimapElement.style.opacity = '0';
     }
 
-    // Mobile navigation controls removed for cleaner interface
-
-    // Add mobile-specific touch optimizations
-    document.body.style.touchAction = 'none';
+    // Enhanced mobile touch optimizations for map-like behavior
+    document.body.style.touchAction = 'pan-x pan-y';
     document.body.style.userSelect = 'none';
+    document.body.style.webkitUserSelect = 'none';
+    document.body.style.webkitTouchCallout = 'none';
 
-    // Prevent zoom on double tap
+    // Prevent default touch behaviors that interfere with navigation
+    canvasContainer.style.touchAction = 'none';
+    canvasContainer.style.webkitUserSelect = 'none';
+    canvasContainer.style.webkitTouchCallout = 'none';
+
+    // Prevent zoom on double tap - essential for map-like behavior
     let lastTouchEnd = 0;
     document.addEventListener('touchend', function (event) {
       const now = (new Date()).getTime();
@@ -660,12 +699,23 @@ function setupMobileNavigation() {
       lastTouchEnd = now;
     }, false);
 
-    // Add haptic feedback for supported devices
+    // Prevent context menu on long press
+    canvasContainer.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    // Add subtle haptic feedback for touch interactions
     if ('vibrate' in navigator) {
-      canvasContainer.addEventListener('touchstart', () => {
-        navigator.vibrate(10); // Short vibration for touch feedback
+      canvasContainer.addEventListener('touchstart', (e) => {
+        // Only vibrate for canvas touches, not card touches
+        if (!e.target.closest('.card') && !e.target.closest('.modal')) {
+          navigator.vibrate(5); // Very subtle feedback
+        }
       });
     }
+
+    console.log('Mobile navigation setup complete - map-like touch controls enabled');
   } else {
     // Show minimap on desktop
     const minimapElement = document.getElementById('minimap');

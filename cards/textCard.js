@@ -43,11 +43,18 @@ export function createTextCard(data) {
     card.className = 'card text-card';
     
     // Responsive sizing based on viewport
-    const isMobile = window.innerWidth <= 600;
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
     const scaleFactor = isMobile ? 1 : Math.min(window.innerWidth / 1920, 2.5); // Scale up to 2.5x on larger screens
-    
+
     if (data.isCenter) {
-        card.style.width = `${800 * scaleFactor}px`; // Scale center text
+        if (isSmallMobile) {
+            card.style.width = 'min(300px, 95vw)';
+        } else if (isMobile) {
+            card.style.width = 'min(400px, 90vw)';
+        } else {
+            card.style.width = `${800 * scaleFactor}px`; // Scale center text
+        }
         card.style.minWidth = 'unset';
         card.style.background = 'transparent';
         card.style.boxShadow = 'none';
@@ -56,9 +63,21 @@ export function createTextCard(data) {
         card.style.textAlign = 'center';
         card.style.position = 'relative';
     } else {
-        card.style.width = `min(${480 * scaleFactor}px, 90vw)`;
+        if (isSmallMobile) {
+            card.style.width = 'min(280px, 90vw)';
+        } else if (isMobile) {
+            card.style.width = 'min(350px, 85vw)';
+        } else {
+            card.style.width = `min(${480 * scaleFactor}px, 90vw)`;
+        }
     }
     card.style.cursor = 'default';
+
+    // Add mobile-specific touch optimizations
+    if (isMobile) {
+        card.style.touchAction = 'manipulation';
+        card.style.webkitTapHighlightColor = 'transparent';
+    }
 
     // Create paragraph container
     const paragraph = document.createElement('div');

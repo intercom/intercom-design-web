@@ -56,15 +56,38 @@ export function createImageCard(data) {
         card.style.height = '400px';
     } else {
         // Responsive sizing based on viewport
-        const isMobile = window.innerWidth <= 600;
+        const isMobile = window.innerWidth <= 768;
+        const isSmallMobile = window.innerWidth <= 480;
         const scaleFactor = isMobile ? 1 : Math.min(window.innerWidth / 1920, 2.5); // Scale up to 2.5x on larger screens
 
         if (data.vertical) {
-            card.style.width = `min(${390 * scaleFactor}px, 60vw)`;
-            card.style.height = `min(${600 * scaleFactor}px, 70vh)`;
+            if (isSmallMobile) {
+                card.style.width = 'min(280px, 85vw)';
+                card.style.height = 'min(420px, 60vh)';
+            } else if (isMobile) {
+                card.style.width = 'min(320px, 80vw)';
+                card.style.height = 'min(480px, 65vh)';
+            } else {
+                card.style.width = `min(${390 * scaleFactor}px, 60vw)`;
+                card.style.height = `min(${600 * scaleFactor}px, 70vh)`;
+            }
         } else {
-            card.style.width = `min(${600 * scaleFactor}px, 90vw)`;
-            card.style.height = `min(${400 * scaleFactor}px, 60vh)`;
+            if (isSmallMobile) {
+                card.style.width = 'min(300px, 90vw)';
+                card.style.height = 'min(200px, 50vh)';
+            } else if (isMobile) {
+                card.style.width = 'min(360px, 85vw)';
+                card.style.height = 'min(240px, 55vh)';
+            } else {
+                card.style.width = `min(${600 * scaleFactor}px, 90vw)`;
+                card.style.height = `min(${400 * scaleFactor}px, 60vh)`;
+            }
+        }
+
+        // Add mobile-specific touch optimizations
+        if (isMobile) {
+            card.style.touchAction = 'manipulation';
+            card.style.webkitTapHighlightColor = 'transparent';
         }
     }
 

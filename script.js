@@ -57,19 +57,7 @@ function calculateCanvasDimensions() {
     height *= 0.8;
   }
   
-  // Debug scaling information
-  console.log('🔍 Scaling Debug Info:', {
-    environment: location.hostname.includes('github') ? 'Production (GitHub Pages)' : 'Local',
-    viewportWidth,
-    viewportHeight,
-    devicePixelRatio: window.devicePixelRatio,
-    isMobile,
-    calculatedWidth: width,
-    calculatedHeight: height,
-    aspectRatio: ASPECT_RATIO,
-    userAgent: navigator.userAgent.split(' ').slice(-2).join(' '), // Browser info
-    baseURL: location.origin + location.pathname
-  });
+
   
   return { width, height };
 }
@@ -121,12 +109,12 @@ const cards = [
     link: '',
     label: ''
   },
-  { 
-    type: 'youtube', 
-    top: '55%', 
-    left: '60%', 
-    embedId: 'I8hMPj3AD34', 
-    label: "Why Old UI Designs Won't Work with AI" 
+  {
+    type: 'youtube',
+    top: '55%',
+    left: '60%',
+    embedId: 'rRljig2AS0g',
+    label: "Transitioning into the next era of design"
   },
   { 
     type: 'youtube', 
@@ -683,26 +671,7 @@ function initializeMenuAnimations() {
 // Start app
 init();
 
-// Font loading debug for GitHub Pages
-document.fonts.ready.then(() => {
-  console.log('All fonts loaded');
-  document.fonts.forEach(font => {
-    console.log(`Font loaded: ${font.family} ${font.weight} ${font.style}`);
-  });
-});
 
-// Check if MediumLLSub font is available with standard weight values
-document.fonts.load('normal 16px MediumLLSub').then(() => {
-  console.log('MediumLLSub Regular loaded successfully');
-}).catch(err => {
-  console.error('MediumLLSub Regular failed to load:', err);
-});
-
-document.fonts.load('bold 16px MediumLLSub').then(() => {
-  console.log('MediumLLSub Bold loaded successfully');
-}).catch(err => {
-  console.error('MediumLLSub Bold failed to load:', err);
-});
 
 // Force create a test element to trigger font loading
 const testElement = document.createElement('div');

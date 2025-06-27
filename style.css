@@ -656,8 +656,15 @@ body {
     gap: 4px;
 }
 
-/* Mobile responsive styles */
+/* Enhanced touch targets for mobile */
 @media screen and (max-width: 768px) {
+    /* Improve card touch targets */
+    .card {
+        min-height: 60px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+
     /* Byline mobile styles - change from flex to vertical column layout */
     .logo-byline-container {
         display: flex !important;
@@ -685,6 +692,30 @@ body {
 
     /* Hide separators on mobile for cleaner look */
     .logo-byline-container .separator {
+        display: none !important;
+    }
+
+    /* Optimize canvas container for touch */
+    #canvas-container {
+        touch-action: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* Better modal handling on mobile */
+    .modal-content {
+        width: 90vw;
+        max-width: none;
+        left: 5vw;
+        right: 5vw;
+        top: 5vh;
+        bottom: 5vh;
+        border-radius: 16px;
+    }
+
+    /* Hide minimap completely on mobile */
+    #minimap {
         display: none !important;
     }
 }

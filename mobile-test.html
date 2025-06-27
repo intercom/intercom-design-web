@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Navigation Test - Intercom Design</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+        }
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        .viewport-simulator {
+            width: 375px;
+            height: 667px;
+            border: 2px solid #444;
+            border-radius: 20px;
+            margin: 20px auto;
+            overflow: hidden;
+            position: relative;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .instructions {
+            margin: 20px 0;
+            padding: 15px;
+            background: #333;
+            border-radius: 8px;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #444;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .implemented {
+            background: #4CAF50;
+            color: white;
+        }
+        .planned {
+            background: #FF9800;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Mobile Navigation Test</h1>
+        
+        <div class="instructions">
+            <h3>Touch-Friendly Navigation Features:</h3>
+            <ul class="feature-list">
+                <li>Enhanced Touch Gestures <span class="status implemented">✓ Implemented</span></li>
+                <li>Momentum Scrolling <span class="status implemented">✓ Implemented</span></li>
+                <li>Swipe Navigation <span class="status implemented">✓ Implemented</span></li>
+                <li>Mobile Navigation Controls <span class="status implemented">✓ Implemented</span></li>
+                <li>Haptic Feedback <span class="status implemented">✓ Implemented</span></li>
+                <li>Pinch-to-Zoom <span class="status planned">⏳ Planned</span></li>
+                <li>Double-tap Prevention <span class="status implemented">✓ Implemented</span></li>
+                <li>Touch-optimized UI <span class="status implemented">✓ Implemented</span></li>
+            </ul>
+        </div>
+
+        <div class="instructions">
+            <h3>How to Test:</h3>
+            <p>1. Open the main site in a mobile browser or use browser dev tools</p>
+            <p>2. Set viewport to mobile size (≤768px width)</p>
+            <p>3. Look for mobile navigation controls at the bottom</p>
+            <p>4. Test touch gestures:</p>
+            <ul>
+                <li>• Tap and drag to pan the canvas</li>
+                <li>• Swipe for quick navigation</li>
+                <li>• Use center button to recenter canvas</li>
+                <li>• Try zoom buttons (placeholder for now)</li>
+            </ul>
+        </div>
+
+        <div class="viewport-simulator">
+            <iframe src="http://localhost:8001" title="Mobile Navigation Test"></iframe>
+        </div>
+
+        <div class="instructions">
+            <h3>Technical Improvements:</h3>
+            <ul class="feature-list">
+                <li>Touch event handling with velocity tracking</li>
+                <li>Momentum scrolling with GSAP animations</li>
+                <li>Swipe gesture detection</li>
+                <li>Mobile-specific UI controls</li>
+                <li>Responsive canvas scaling</li>
+                <li>Touch action optimizations</li>
+                <li>Haptic feedback integration</li>
+                <li>Improved minimap positioning</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive testing features
+        console.log('Mobile test page loaded');
+        
+        // Detect if we're in a mobile environment
+        const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (isMobile) {
+            document.body.style.background = '#0a4d0a';
+            const status = document.createElement('div');
+            status.innerHTML = '<p style="text-align: center; color: #4CAF50; font-weight: bold;">✓ Mobile Environment Detected</p>';
+            document.querySelector('.test-container').prepend(status);
+        }
+    </script>
+</body>
+</html>

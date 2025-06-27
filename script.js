@@ -299,45 +299,197 @@ function handleWheel(event) {
   });
 }
 
-// Handle touch events for mobile
+// Enhanced touch navigation for mobile
+let touchState = {
+  isActive: false,
+  startX: 0,
+  startY: 0,
+  lastX: 0,
+  lastY: 0,
+  velocityX: 0,
+  velocityY: 0,
+  startTime: 0,
+  lastTime: 0,
+  initialDistance: 0,
+  scale: 1,
+  minScale: 0.5,
+  maxScale: 2,
+  swipeThreshold: 50,
+  swipeTimeout: 300
+};
+
+// Handle touch events for mobile with enhanced gestures
 function handleTouchStart(event) {
+  // Don't handle touch if it's on a card or interactive element
+  if (event.target.closest('.card') || event.target.closest('.modal') || event.target.closest('.minimap')) {
+    return;
+  }
+
   event.preventDefault();
   const touch = event.touches[0];
-  const startX = touch.clientX;
-  const startY = touch.clientY;
-  
-  function handleTouchMove(moveEvent) {
-    moveEvent.preventDefault();
-    const touch = moveEvent.touches[0];
-    const deltaX = startX - touch.clientX;
-    const deltaY = startY - touch.clientY;
-    
-    const { width, height } = calculateCanvasDimensions();
-    const borderLeft = window.innerWidth - width;
-    const borderTop = window.innerHeight - height;
-    
-    scrollTween.x = Math.min(0, Math.max(offsetX + deltaX, borderLeft));
-    scrollTween.y = Math.min(0, Math.max(offsetY + deltaY, borderTop));
-    
-    gsap.to(canvas, {
-      duration: 0.3,
-      ease: 'power2.out',
-      x: scrollTween.x,
-      y: scrollTween.y,
-      onUpdate: () => {
-        offsetX = gsap.getProperty(canvas, 'x');
-        offsetY = gsap.getProperty(canvas, 'y');
-      }
-    });
+  const now = Date.now();
+
+  touchState.isActive = true;
+  touchState.startX = touchState.lastX = touch.clientX;
+  touchState.startY = touchState.lastY = touch.clientY;
+  touchState.startTime = touchState.lastTime = now;
+  touchState.velocityX = touchState.velocityY = 0;
+
+  // Handle pinch-to-zoom for multi-touch
+  if (event.touches.length === 2) {
+    const touch1 = event.touches[0];
+    const touch2 = event.touches[1];
+    touchState.initialDistance = Math.hypot(
+      touch2.clientX - touch1.clientX,
+      touch2.clientY - touch1.clientY
+    );
   }
-  
+
+  // Add visual feedback for touch start
+  canvasContainer.style.cursor = 'grabbing';
+  canvas.style.transition = 'none';
+
+  function handleTouchMove(moveEvent) {
+    if (!touchState.isActive) return;
+    moveEvent.preventDefault();
+
+    const now = Date.now();
+    const timeDelta = now - touchState.lastTime;
+
+    if (moveEvent.touches.length === 2) {
+      // Handle pinch-to-zoom
+      const touch1 = moveEvent.touches[0];
+      const touch2 = moveEvent.touches[1];
+      const currentDistance = Math.hypot(
+        touch2.clientX - touch1.clientX,
+        touch2.clientY - touch1.clientY
+      );
+
+      if (touchState.initialDistance > 0) {
+        const scaleChange = currentDistance / touchState.initialDistance;
+        const newScale = Math.min(touchState.maxScale, Math.max(touchState.minScale, touchState.scale * scaleChange));
+
+        // Apply zoom effect (for future implementation)
+        // For now, we'll focus on pan navigation
+      }
+    } else {
+      // Handle single-touch pan
+      const touch = moveEvent.touches[0];
+      const deltaX = touchState.lastX - touch.clientX;
+      const deltaY = touchState.lastY - touch.clientY;
+
+      // Calculate velocity for momentum scrolling
+      if (timeDelta > 0) {
+        touchState.velocityX = deltaX / timeDelta;
+        touchState.velocityY = deltaY / timeDelta;
+      }
+
+      const { width, height } = calculateCanvasDimensions();
+      const borderLeft = window.innerWidth - width;
+      const borderTop = window.innerHeight - height;
+
+      scrollTween.x = Math.min(0, Math.max(offsetX - deltaX, borderLeft));
+      scrollTween.y = Math.min(0, Math.max(offsetY - deltaY, borderTop));
+
+      // Immediate response for touch
+      gsap.set(canvas, {
+        x: scrollTween.x,
+        y: scrollTween.y
+      });
+
+      offsetX = scrollTween.x;
+      offsetY = scrollTween.y;
+
+      touchState.lastX = touch.clientX;
+      touchState.lastY = touch.clientY;
+      touchState.lastTime = now;
+    }
+  }
+
   function handleTouchEnd() {
+    if (!touchState.isActive) return;
+
+    touchState.isActive = false;
+    canvasContainer.style.cursor = '';
+    canvas.style.transition = '';
+
+    const now = Date.now();
+    const touchDuration = now - touchState.startTime;
+    const deltaX = touchState.startX - touchState.lastX;
+    const deltaY = touchState.startY - touchState.lastY;
+    const distance = Math.hypot(deltaX, deltaY);
+
+    // Detect swipe gestures
+    if (touchDuration < touchState.swipeTimeout && distance > touchState.swipeThreshold) {
+      handleSwipeGesture(deltaX, deltaY);
+    } else {
+      // Apply momentum scrolling based on velocity
+      const velocityThreshold = 0.5;
+      if (Math.abs(touchState.velocityX) > velocityThreshold || Math.abs(touchState.velocityY) > velocityThreshold) {
+        const momentumFactor = 100;
+
+        const { width, height } = calculateCanvasDimensions();
+        const borderLeft = window.innerWidth - width;
+        const borderTop = window.innerHeight - height;
+
+        const targetX = Math.min(0, Math.max(offsetX - (touchState.velocityX * momentumFactor), borderLeft));
+        const targetY = Math.min(0, Math.max(offsetY - (touchState.velocityY * momentumFactor), borderTop));
+
+        gsap.to(canvas, {
+          duration: 1.2,
+          ease: 'power3.out',
+          x: targetX,
+          y: targetY,
+          onUpdate: () => {
+            offsetX = gsap.getProperty(canvas, 'x');
+            offsetY = gsap.getProperty(canvas, 'y');
+          }
+        });
+      }
+    }
+
     document.removeEventListener('touchmove', handleTouchMove);
     document.removeEventListener('touchend', handleTouchEnd);
   }
-  
-  document.addEventListener('touchmove', handleTouchMove);
+
+  document.addEventListener('touchmove', handleTouchMove, { passive: false });
   document.addEventListener('touchend', handleTouchEnd);
+}
+
+// Handle swipe gestures for quick navigation
+function handleSwipeGesture(deltaX, deltaY) {
+  const { width, height } = calculateCanvasDimensions();
+  const borderLeft = window.innerWidth - width;
+  const borderTop = window.innerHeight - height;
+
+  // Determine swipe direction and apply appropriate movement
+  const swipeMultiplier = 200;
+  let targetX = offsetX;
+  let targetY = offsetY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    // Horizontal swipe
+    targetX = Math.min(0, Math.max(offsetX + (deltaX > 0 ? swipeMultiplier : -swipeMultiplier), borderLeft));
+  } else {
+    // Vertical swipe
+    targetY = Math.min(0, Math.max(offsetY + (deltaY > 0 ? swipeMultiplier : -swipeMultiplier), borderTop));
+  }
+
+  gsap.to(canvas, {
+    duration: 0.6,
+    ease: 'power2.out',
+    x: targetX,
+    y: targetY,
+    onUpdate: () => {
+      offsetX = gsap.getProperty(canvas, 'x');
+      offsetY = gsap.getProperty(canvas, 'y');
+    }
+  });
+
+  // Haptic feedback for swipe
+  if ('vibrate' in navigator) {
+    navigator.vibrate(15);
+  }
 }
 
 // Handle drag navigation
@@ -384,7 +536,7 @@ function handleMouseMove(event) {
   });
 }
 
-function handleMouseUp(event) {
+function handleMouseUp() {
   if (!isDragging) return;
   
   isDragging = false;
@@ -428,6 +580,22 @@ function init() {
         offsetY = gsap.getProperty(canvas, 'y');
       }
     });
+
+    // Handle minimap visibility for mobile
+    const isMobile = window.innerWidth <= 768;
+    const minimapElement = document.getElementById('minimap');
+
+    if (minimapElement) {
+      if (isMobile) {
+        minimapElement.style.display = 'none';
+        minimapElement.style.visibility = 'hidden';
+        minimapElement.style.opacity = '0';
+      } else {
+        minimapElement.style.display = '';
+        minimapElement.style.visibility = '';
+        minimapElement.style.opacity = '';
+      }
+    }
   });
 
   /* Grid illumination event listeners
@@ -443,15 +611,8 @@ function init() {
   // Add touch event listeners
   canvasContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
   
-  // Update minimap for mobile
-  if (window.innerWidth <= 600) {
-    const minimapElement = document.querySelector('.minimap');
-    if (minimapElement) {
-      minimapElement.style.transform = 'scale(0.7)';
-      minimapElement.style.right = '10px';
-      minimapElement.style.bottom = '10px';
-    }
-  }
+  // Enhanced mobile setup
+  setupMobileNavigation();
 }
 
 /* Handle cursor movement for grid illumination
@@ -469,6 +630,54 @@ function handleCursorMove(event) {
   canvas.style.setProperty('--cursor-x', `${x}px`);
   canvas.style.setProperty('--cursor-y', `${y}px`);
 }
+
+// Setup mobile-specific navigation and controls
+function setupMobileNavigation() {
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    // Hide minimap completely on mobile
+    const minimapElement = document.getElementById('minimap');
+    if (minimapElement) {
+      minimapElement.style.display = 'none';
+      minimapElement.style.visibility = 'hidden';
+      minimapElement.style.opacity = '0';
+    }
+
+    // Mobile navigation controls removed for cleaner interface
+
+    // Add mobile-specific touch optimizations
+    document.body.style.touchAction = 'none';
+    document.body.style.userSelect = 'none';
+
+    // Prevent zoom on double tap
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+
+    // Add haptic feedback for supported devices
+    if ('vibrate' in navigator) {
+      canvasContainer.addEventListener('touchstart', () => {
+        navigator.vibrate(10); // Short vibration for touch feedback
+      });
+    }
+  } else {
+    // Show minimap on desktop
+    const minimapElement = document.getElementById('minimap');
+    if (minimapElement) {
+      minimapElement.style.display = '';
+      minimapElement.style.visibility = '';
+      minimapElement.style.opacity = '';
+    }
+  }
+}
+
+
 
 function addCornerOverlay(cardElement) {
   const overlay = document.createElement('div');

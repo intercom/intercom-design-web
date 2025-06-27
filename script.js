@@ -112,7 +112,7 @@ const cards = [
   {
     type: 'youtube',
     top: '55%',
-    left: '60%',
+    left: '58%',
     embedId: 'rRljig2AS0g',
     label: "Transitioning into the next era of design"
   },
